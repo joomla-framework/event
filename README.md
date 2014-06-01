@@ -294,7 +294,7 @@ namespace MyApp;
 
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Event\Event;
+use Joomla\Event\NullDispatcher;
 
 class ContentModel implements DispatcherAwareInterface
 {
