@@ -310,11 +310,27 @@ class ContentModel implements DispatcherAwareInterface
 
 	public function save()
 	{
-		$this->dispatcher->triggerEvent(self::ON_BEFORE_SAVE_EVENT);
+		$this->getDispatcher()->triggerEvent(self::ON_BEFORE_SAVE_EVENT);
 
 		// Perform the saving.
 
-		$this->dispatcher->triggerEvent(self::ON_AFTER_SAVE_EVENT);
+		$this->getDispatcher()->triggerEvent(self::ON_AFTER_SAVE_EVENT);
+	}
+
+	/**
+	 * Get the dispatcher.
+	 *
+	 * @return  DispatcherInterface
+	 */
+	public static function getDispatcher()
+	{
+		// If a logger hasn't been set, use NullLogger
+		if (!($this->dispatcher instanceof DispatcherInterface))
+		{
+			$this->dispatcher = new NullDispatcher;
+		}
+
+		return $this->dispatcher;
 	}
 
 	/**
