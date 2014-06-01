@@ -322,7 +322,7 @@ class ContentModel implements DispatcherAwareInterface
 	 *
 	 * @return  DispatcherInterface
 	 */
-	public static function getDispatcher()
+	public function getDispatcher()
 	{
 		// If a logger hasn't been set, use NullLogger
 		if (!($this->dispatcher instanceof DispatcherInterface))
