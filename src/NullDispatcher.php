@@ -9,8 +9,12 @@
 namespace Joomla\Event;
 
 /**
- * Implementation of a DispatcherInterface supporting
- * prioritized listeners.
+ * This dispatcher can be used to avoid conditional dispatcher calls
+ *
+ * Dispatching should always be optional, and if no dispatcher is provided to your
+ * library creating a NullDispatcher instance to have something to trigger events at
+ * is a good way to avoid littering your code with `if ($this->dispatcher) { }`
+ * blocks.
  *
  * @since  1.0
  */
