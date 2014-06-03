@@ -16,7 +16,7 @@ namespace Joomla\Event;
  * is a good way to avoid littering your code with `if ($this->dispatcher) { }`
  * blocks.
  *
- * @since  1.0
+ * @since  1.2
  */
 class NullDispatcher implements DispatcherInterface
 {
@@ -27,7 +27,7 @@ class NullDispatcher implements DispatcherInterface
 	 *
 	 * @return  EventInterface  The event after being passed through all listeners.
 	 *
-	 * @since   1.0
+	 * @since   1.2
 	 */
 	public function triggerEvent($event)
 	{
