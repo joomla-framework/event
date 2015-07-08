@@ -61,30 +61,6 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the setEvent method.
-	 *
-	 * @return  void
-	 *
-	 * @covers  Joomla\Event\Dispatcher::setListenerFilter
-	 * @since   1.0
-	 * @deprecated
-	 */
-	public function testSetListenerFilter()
-	{
-		$listener1 = new FirstListener;
-		$this->instance->addListener($listener1);
-		$this->assertTrue($this->instance->hasListener($listener1, new Event('fooBar')));
-		$this->assertTrue($this->instance->hasListener($listener1, new Event('onSomething')));
-
-		$this->instance->setListenerFilter('^on');
-
-		$listener2 = new SecondListener;
-		$this->instance->addListener($listener2);
-		$this->assertFalse($this->instance->hasListener($listener2, new Event('fooBar')), 'Tests that `fooBar` was filtered out.');
-		$this->assertTrue($this->instance->hasListener($listener2, new Event('onSomething')));
-	}
-
-	/**
 	 * Test the addEvent method.
 	 *
 	 * @return  void

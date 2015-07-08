@@ -12,45 +12,30 @@ use InvalidArgumentException;
 use Closure;
 
 /**
- * Implementation of a DispatcherInterface supporting
- * prioritized listeners.
+ * Implementation of a DispatcherInterface supporting prioritized listeners.
  *
  * @since  1.0
  */
 class Dispatcher implements DispatcherInterface
 {
 	/**
-	 * An array of registered events indexed by
-	 * the event names.
+	 * An array of registered events indexed by the event names.
 	 *
 	 * @var    EventInterface[]
-	 *
 	 * @since  1.0
 	 */
 	protected $events = array();
 
 	/**
-	 * A regular expression that will filter listener method names.
-	 *
-	 * @var    string
-	 * @since  1.0
-	 * @deprecated
-	 */
-	protected $listenerFilter;
-
-	/**
-	 * An array of ListenersPriorityQueue indexed
-	 * by the event names.
+	 * An array of ListenersPriorityQueue indexed by the event names.
 	 *
 	 * @var    ListenersPriorityQueue[]
-	 *
 	 * @since  1.0
 	 */
 	protected $listeners = array();
 
 	/**
-	 * Set an event to the dispatcher.
-	 * It will replace any event with the same name.
+	 * Set an event to the dispatcher. It will replace any event with the same name.
 	 *
 	 * @param   EventInterface  $event  The event.
 	 *
@@ -61,23 +46,6 @@ class Dispatcher implements DispatcherInterface
 	public function setEvent(EventInterface $event)
 	{
 		$this->events[$event->getName()] = $event;
-
-		return $this;
-	}
-
-	/**
-	 * Sets a regular expression to filter the class methods when adding a listener.
-	 *
-	 * @param   string  $regex  A regular expression (for example '^on' will only register methods starting with "on").
-	 *
-	 * @return  Dispatcher  This method is chainable.
-	 *
-	 * @since       1.0
-	 * @deprecated  Incorporate a method in your listener object such as `getEvents` to feed into the `setListener` method.
-	 */
-	public function setListenerFilter($regex)
-	{
-		$this->listenerFilter = $regex;
 
 		return $this;
 	}
@@ -141,8 +109,7 @@ class Dispatcher implements DispatcherInterface
 	}
 
 	/**
-	 * Remove an event from this dispatcher.
-	 * The registered listeners will remain.
+	 * Remove an event from this dispatcher. The registered listeners will remain.
 	 *
 	 * @param   EventInterface|string  $event  The event object or name.
 	 *
@@ -206,6 +173,7 @@ class Dispatcher implements DispatcherInterface
 
 	/**
 	 * Add a listener to this dispatcher, only if not already registered to these events.
+	 *
 	 * If no events are specified, it will be registered to all events matching it's methods name.
 	 * In the case of a closure, you must specify at least one event name.
 	 *
@@ -231,8 +199,7 @@ class Dispatcher implements DispatcherInterface
 		{
 			if (empty($events))
 			{
-				throw new InvalidArgumentException('No event name(s) and priority
-				specified for the Closure listener.');
+				throw new InvalidArgumentException('No event name(s) and priority specified for the Closure listener.');
 			}
 
 			foreach ($events as $name => $priority)
@@ -256,24 +223,16 @@ class Dispatcher implements DispatcherInterface
 			$methods = array_intersect($methods, array_keys($events));
 		}
 
-		// @deprecated
-		$regex = $this->listenerFilter ?: '.*';
-
 		foreach ($methods as $event)
 		{
-			// @deprecated - this outer `if` is deprecated.
-			if (preg_match("#$regex#", $event))
+			if (!isset($this->listeners[$event]))
 			{
-				// Retain this inner code after removal of the outer `if`.
-				if (!isset($this->listeners[$event]))
-				{
-					$this->listeners[$event] = new ListenersPriorityQueue;
-				}
-
-				$priority = isset($events[$event]) ? $events[$event] : Priority::NORMAL;
-
-				$this->listeners[$event]->add($listener, $priority);
+				$this->listeners[$event] = new ListenersPriorityQueue;
 			}
+
+			$priority = isset($events[$event]) ? $events[$event] : Priority::NORMAL;
+
+			$this->listeners[$event]->add($listener, $priority);
 		}
 
 		return $this;
@@ -330,6 +289,7 @@ class Dispatcher implements DispatcherInterface
 
 	/**
 	 * Tell if the given listener has been added.
+	 *
 	 * If an event is specified, it will tell if the listener is registered for that event.
 	 *
 	 * @param   object|Closure         $listener  The listener.
@@ -369,6 +329,7 @@ class Dispatcher implements DispatcherInterface
 
 	/**
 	 * Remove the given listener from this dispatcher.
+	 *
 	 * If no event is specified, it will be removed from all events it is listening to.
 	 *
 	 * @param   object|Closure         $listener  The listener to remove.
@@ -406,6 +367,7 @@ class Dispatcher implements DispatcherInterface
 
 	/**
 	 * Clear the listeners in this dispatcher.
+	 *
 	 * If an event is specified, the listeners will be cleared only for that event.
 	 *
 	 * @param   EventInterface|string  $event  The event object or name.
