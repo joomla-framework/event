@@ -16,13 +16,16 @@ namespace Joomla\Event;
 interface DispatcherInterface
 {
 	/**
-	 * Trigger an event.
+	 * Dispatches an event to all registered listeners.
 	 *
-	 * @param   EventInterface|string  $event  The event object or name.
+	 * @param   string          $name   The name of the event to dispatch.
+	 *                                  The name of the event is the name of the method that is invoked on listeners.
+	 * @param   EventInterface  $event  The event to pass to the event handlers/listeners.
+	 *                                  If not supplied, an empty EventInterface instance is created.
 	 *
-	 * @return  EventInterface  The event after being passed through all listeners.
+	 * @return  EventInterface
 	 *
-	 * @since   1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function triggerEvent($event);
+	public function dispatch($name, EventInterface $event = null);
 }

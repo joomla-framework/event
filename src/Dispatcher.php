@@ -419,27 +419,20 @@ class Dispatcher implements DispatcherInterface
 	}
 
 	/**
-	 * Trigger an event.
+	 * Dispatches an event to all registered listeners.
 	 *
-	 * @param   EventInterface|string  $event  The event object or name.
+	 * @param   string          $name   The name of the event to dispatch.
+	 * @param   EventInterface  $event  The event to pass to the event handlers/listeners.
 	 *
-	 * @return  EventInterface  The event after being passed through all listeners.
+	 * @return  EventInterface
 	 *
-	 * @since   1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function triggerEvent($event)
+	public function dispatch($name, EventInterface $event = null)
 	{
 		if (!($event instanceof EventInterface))
 		{
-			if (isset($this->events[$event]))
-			{
-				$event = $this->events[$event];
-			}
-
-			else
-			{
-				$event = new Event($event);
-			}
+			$event = $this->getDefaultEvent($name);
 		}
 
 		if (isset($this->listeners[$event->getName()]))
@@ -455,7 +448,6 @@ class Dispatcher implements DispatcherInterface
 				{
 					call_user_func($listener, $event);
 				}
-
 				else
 				{
 					call_user_func(array($listener, $event->getName()), $event);
@@ -464,5 +456,44 @@ class Dispatcher implements DispatcherInterface
 		}
 
 		return $event;
+	}
+
+	/**
+	 * Trigger an event.
+	 *
+	 * @param   EventInterface|string  $event  The event object or name.
+	 *
+	 * @return  EventInterface  The event after being passed through all listeners.
+	 *
+	 * @since   1.0
+	 * @deprecated  3.0  Use dispatch() instead.
+	 */
+	public function triggerEvent($event)
+	{
+		if (!($event instanceof EventInterface))
+		{
+			$event = $this->getDefaultEvent($event);
+		}
+
+		return $this->dispatch($event->getName(), $event);
+	}
+
+	/**
+	 * Get an event object for the specified event name
+	 *
+	 * @param   string  $name  The event name to get an EventInterface object for
+	 *
+	 * @return  EventInterface
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function getDefaultEvent($name)
+	{
+		if (isset($this->events[$event]))
+		{
+			return $this->events[$event];
+		}
+
+		return new Event($event);
 	}
 }
