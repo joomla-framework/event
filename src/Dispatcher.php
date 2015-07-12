@@ -268,32 +268,26 @@ class Dispatcher implements DispatcherInterface
 	}
 
 	/**
-	 * Remove the given listener from this dispatcher.
+	 * Removes an event listener from the specified event.
 	 *
 	 * If no event is specified, it will be removed from all events it is listening to.
 	 *
-	 * @param   object|Closure         $listener  The listener to remove.
-	 * @param   EventInterface|string  $event     The event object or name.
+	 * @param   callable  $callback   The listener to remove.
+	 * @param   string    $eventName  The event to remove a listener from.
 	 *
-	 * @return  Dispatcher  This method is chainable.
+	 * @return  void
 	 *
 	 * @since   1.0
 	 */
-	public function removeListener($listener, $event = null)
+	public function removeListener(callable $listener, $eventName = null)
 	{
-		if ($event)
+		if ($eventName)
 		{
-			if ($event instanceof EventInterface)
+			if (isset($this->listeners[$eventName]))
 			{
-				$event = $event->getName();
-			}
-
-			if (isset($this->listeners[$event]))
-			{
-				$this->listeners[$event]->remove($listener);
+				$this->listeners[$eventName]->remove($listener);
 			}
 		}
-
 		else
 		{
 			foreach ($this->listeners as $queue)
@@ -301,8 +295,6 @@ class Dispatcher implements DispatcherInterface
 				$queue->remove($listener);
 			}
 		}
-
-		return $this;
 	}
 
 	/**

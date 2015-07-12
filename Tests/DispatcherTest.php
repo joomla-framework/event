@@ -436,30 +436,21 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testRemoveListeners()
 	{
-		$listener = new SomethingListener;
-		$this->instance->addListener($listener);
+		// Add 3 listeners listening to the same events.
+		$listener1 = new SomethingListener;
+		$listener2 = new SomethingListener;
+		$listener3 = new SomethingListener;
 
-		// Remove the listener from all events.
-		$this->instance->removeListener($listener);
-
-		$this->assertFalse($this->instance->hasListener($listener, 'onBeforeSomething'));
-		$this->assertFalse($this->instance->hasListener($listener, 'onSomething'));
-		$this->assertFalse($this->instance->hasListener($listener, 'onAfterSomething'));
-
-		$this->instance->addListener($listener);
+		$this->instance->addListener('onBeforeSomething', array($listener1, 'onBeforeSomething'))
+			->addListener('onBeforeSomething', array($listener2, 'onBeforeSomething'))
+			->addListener('onBeforeSomething', array($listener3, 'onBeforeSomething'));
 
 		// Remove the listener from a specific event.
-		$this->instance->removeListener($listener, 'onBeforeSomething');
+		$this->instance->removeListener(array($listener1, 'onBeforeSomething'), 'onBeforeSomething');
 
-		$this->assertFalse($this->instance->hasListener($listener, 'onBeforeSomething'));
-		$this->assertTrue($this->instance->hasListener($listener, 'onSomething'));
-		$this->assertTrue($this->instance->hasListener($listener, 'onAfterSomething'));
-
-		// Remove the listener from a specific event by passing an event object.
-		$this->instance->removeListener($listener, new Event('onSomething'));
-
-		$this->assertFalse($this->instance->hasListener($listener, 'onSomething'));
-		$this->assertTrue($this->instance->hasListener($listener, 'onAfterSomething'));
+		$this->assertFalse($this->instance->hasListener(array($listener1, 'onBeforeSomething')));
+		$this->assertTrue($this->instance->hasListener(array($listener2, 'onBeforeSomething')));
+		$this->assertTrue($this->instance->hasListener(array($listener3, 'onBeforeSomething')));
 	}
 
 	/**

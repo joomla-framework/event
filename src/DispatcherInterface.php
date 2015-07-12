@@ -41,4 +41,16 @@ interface DispatcherInterface
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function dispatch($name, EventInterface $event = null);
+
+	/**
+	 * Removes an event listener from the specified event.
+	 *
+	 * If no event is specified, it will be removed from all events it is listening to.
+	 *
+	 * @param   callable  $callback   The listener to remove.
+	 * @param   string    $eventName  The event to remove a listener from.
+	 *
+	 * @return void
+	 */
+	public function removeListener(callable $listener, $eventName = null);
 }

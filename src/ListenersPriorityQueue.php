@@ -60,15 +60,19 @@ class ListenersPriorityQueue extends \SplPriorityQueue
 	{
 		if ($this->has($callback))
 		{
-			$this->storage->detach($listener);
-			$this->storage->rewind();
+			// Clone ourselves to retain the existing queue data
+			$self = clone $this;
+			$self->setExtractFlags(self::EXTR_BOTH);
 
-			$this->queue = new SplPriorityQueue;
+			// And now clear our queue
+			$this->extract();
 
-			foreach ($this->storage as $listener)
+			foreach ($self as $listener)
 			{
-				$priority = $this->storage->getInfo();
-				$this->queue->insert($listener, $priority);
+				if ($listener['data'] !== $callback)
+				{
+					$this->insert($listener['data'], $listener['priority']);
+				}
 			}
 		}
 
