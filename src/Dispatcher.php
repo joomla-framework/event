@@ -8,7 +8,6 @@
 
 namespace Joomla\Event;
 
-use InvalidArgumentException;
 use Closure;
 
 /**
@@ -172,68 +171,24 @@ class Dispatcher implements DispatcherInterface
 	}
 
 	/**
-	 * Add a listener to this dispatcher, only if not already registered to these events.
+	 * Attaches a listener to an event
 	 *
-	 * If no events are specified, it will be registered to all events matching it's methods name.
-	 * In the case of a closure, you must specify at least one event name.
+	 * @param   string    $eventName  The event to listen to.
+	 * @param   callable  $callback   A callable function
+	 * @param   integer   $priority   The priority at which the $callback executed
 	 *
-	 * @param   object|Closure  $listener  The listener
-	 * @param   array           $events    An associative array of event names as keys
-	 *                                     and the corresponding listener priority as values.
-	 *
-	 * @return  Dispatcher  This method is chainable.
-	 *
-	 * @throws  InvalidArgumentException
+	 * @return  boolean
 	 *
 	 * @since   1.0
 	 */
-	public function addListener($listener, array $events = array())
+	public function addListener($eventName, callable $callback, $priority = Priority::NORMAL)
 	{
-		if (!is_object($listener))
+		if (!isset($this->listeners[$eventName]))
 		{
-			throw new InvalidArgumentException('The given listener is not an object.');
+			$this->listeners[$eventName] = new ListenersPriorityQueue;
 		}
 
-		// We deal with a closure.
-		if ($listener instanceof Closure)
-		{
-			if (empty($events))
-			{
-				throw new InvalidArgumentException('No event name(s) and priority specified for the Closure listener.');
-			}
-
-			foreach ($events as $name => $priority)
-			{
-				if (!isset($this->listeners[$name]))
-				{
-					$this->listeners[$name] = new ListenersPriorityQueue;
-				}
-
-				$this->listeners[$name]->add($listener, $priority);
-			}
-
-			return $this;
-		}
-
-		// We deal with a "normal" object.
-		$methods = get_class_methods($listener);
-
-		if (!empty($events))
-		{
-			$methods = array_intersect($methods, array_keys($events));
-		}
-
-		foreach ($methods as $event)
-		{
-			if (!isset($this->listeners[$event]))
-			{
-				$this->listeners[$event] = new ListenersPriorityQueue;
-			}
-
-			$priority = isset($events[$event]) ? $events[$event] : Priority::NORMAL;
-
-			$this->listeners[$event]->add($listener, $priority);
-		}
+		$this->listeners[$eventName]->add($callback, $priority);
 
 		return $this;
 	}
@@ -241,23 +196,18 @@ class Dispatcher implements DispatcherInterface
 	/**
 	 * Get the priority of the given listener for the given event.
 	 *
-	 * @param   object|Closure         $listener  The listener.
-	 * @param   EventInterface|string  $event     The event object or name.
+	 * @param   string    $eventName  The event to listen to.
+	 * @param   callable  $callback   A callable function
 	 *
 	 * @return  mixed  The listener priority or null if the listener doesn't exist.
 	 *
 	 * @since   1.0
 	 */
-	public function getListenerPriority($listener, $event)
+	public function getListenerPriority($eventName, callable $callback)
 	{
-		if ($event instanceof EventInterface)
+		if (isset($this->listeners[$eventName]))
 		{
-			$event = $event->getName();
-		}
-
-		if (isset($this->listeners[$event]))
-		{
-			return $this->listeners[$event]->getPriority($listener);
+			return $this->listeners[$eventName]->getPriority($callback);
 		}
 
 		return null;
@@ -266,7 +216,7 @@ class Dispatcher implements DispatcherInterface
 	/**
 	 * Get the listeners registered to the given event.
 	 *
-	 * @param   EventInterface|string  $event  The event object or name.
+	 * @param   string  $event  The event to fetch listeners for
 	 *
 	 * @return  object[]  An array of registered listeners sorted according to their priorities.
 	 *
@@ -274,11 +224,6 @@ class Dispatcher implements DispatcherInterface
 	 */
 	public function getListeners($event)
 	{
-		if ($event instanceof EventInterface)
-		{
-			$event = $event->getName();
-		}
-
 		if (isset($this->listeners[$event]))
 		{
 			return $this->listeners[$event]->getAll();
@@ -292,32 +237,27 @@ class Dispatcher implements DispatcherInterface
 	 *
 	 * If an event is specified, it will tell if the listener is registered for that event.
 	 *
-	 * @param   object|Closure         $listener  The listener.
-	 * @param   EventInterface|string  $event     The event object or name.
+	 * @param   callable  $callback   The callable to check is listening to the event.
+	 * @param   string    $eventName  The event to check a listener is subscribed to.
 	 *
 	 * @return  boolean  True if the listener is registered, false otherwise.
 	 *
 	 * @since   1.0
 	 */
-	public function hasListener($listener, $event = null)
+	public function hasListener(callable $callback, $eventName = null)
 	{
-		if ($event)
+		if ($eventName)
 		{
-			if ($event instanceof EventInterface)
+			if (isset($this->listeners[$eventName]))
 			{
-				$event = $event->getName();
-			}
-
-			if (isset($this->listeners[$event]))
-			{
-				return $this->listeners[$event]->has($listener);
+				return $this->listeners[$eventName]->has($callback);
 			}
 		}
 		else
 		{
 			foreach ($this->listeners as $queue)
 			{
-				if ($queue->has($listener))
+				if ($queue->has($callback))
 				{
 					return true;
 				}

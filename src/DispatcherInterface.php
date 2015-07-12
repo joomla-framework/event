@@ -16,6 +16,19 @@ namespace Joomla\Event;
 interface DispatcherInterface
 {
 	/**
+	 * Attaches a listener to an event
+	 *
+	 * @param   string    $eventName  The event to listen to.
+	 * @param   callable  $callback   A callable function.
+	 * @param   integer   $priority   The priority at which the $callback executed.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function addListener($eventName, callable $callback, $priority = Priority::NORMAL);
+
+	/**
 	 * Dispatches an event to all registered listeners.
 	 *
 	 * @param   string          $name   The name of the event to dispatch.
