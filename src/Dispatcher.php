@@ -38,7 +38,7 @@ class Dispatcher implements DispatcherInterface
 	 *
 	 * @param   EventInterface  $event  The event.
 	 *
-	 * @return  Dispatcher  This method is chainable.
+	 * @return  $this
 	 *
 	 * @since   1.0
 	 */
@@ -54,7 +54,7 @@ class Dispatcher implements DispatcherInterface
 	 *
 	 * @param   EventInterface  $event  The event.
 	 *
-	 * @return  Dispatcher  This method is chainable.
+	 * @return  $this
 	 *
 	 * @since   1.0
 	 */
@@ -112,7 +112,7 @@ class Dispatcher implements DispatcherInterface
 	 *
 	 * @param   EventInterface|string  $event  The event object or name.
 	 *
-	 * @return  Dispatcher  This method is chainable.
+	 * @return  $this
 	 *
 	 * @since   1.0
 	 */
@@ -302,9 +302,9 @@ class Dispatcher implements DispatcherInterface
 	 *
 	 * If an event is specified, the listeners will be cleared only for that event.
 	 *
-	 * @param   EventInterface|string  $event  The event object or name.
+	 * @param   string  $event  The event name.
 	 *
-	 * @return  Dispatcher  This method is chainable.
+	 * @return  $this
 	 *
 	 * @since   1.0
 	 */
@@ -312,17 +312,11 @@ class Dispatcher implements DispatcherInterface
 	{
 		if ($event)
 		{
-			if ($event instanceof EventInterface)
-			{
-				$event = $event->getName();
-			}
-
 			if (isset($this->listeners[$event]))
 			{
 				unset($this->listeners[$event]);
 			}
 		}
-
 		else
 		{
 			$this->listeners = array();
@@ -334,7 +328,7 @@ class Dispatcher implements DispatcherInterface
 	/**
 	 * Count the number of registered listeners for the given event.
 	 *
-	 * @param   EventInterface|string  $event  The event object or name.
+	 * @param   string  $event  The event name.
 	 *
 	 * @return  integer  The number of registered listeners for the given event.
 	 *
@@ -342,11 +336,6 @@ class Dispatcher implements DispatcherInterface
 	 */
 	public function countListeners($event)
 	{
-		if ($event instanceof EventInterface)
-		{
-			$event = $event->getName();
-		}
-
 		return isset($this->listeners[$event]) ? count($this->listeners[$event]) : 0;
 	}
 
@@ -376,14 +365,7 @@ class Dispatcher implements DispatcherInterface
 					return $event;
 				}
 
-				if ($listener instanceof Closure)
-				{
-					call_user_func($listener, $event);
-				}
-				else
-				{
-					call_user_func(array($listener, $event->getName()), $event);
-				}
+				call_user_func($listener, $event);
 			}
 		}
 
@@ -421,11 +403,11 @@ class Dispatcher implements DispatcherInterface
 	 */
 	private function getDefaultEvent($name)
 	{
-		if (isset($this->events[$event]))
+		if (isset($this->events[$name]))
 		{
-			return $this->events[$event];
+			return $this->events[$name];
 		}
 
-		return new Event($event);
+		return new Event($name);
 	}
 }

@@ -26,7 +26,7 @@ class DelegatingDispatcherTest extends \PHPUnit_Framework_TestCase
 	{
 		$event = 'onTest';
 
-		$mockedDispatcher = $this->getMock('Joomla\Event\DispatcherInterface');
+		$mockedDispatcher = $this->getMock('Joomla\Event\Dispatcher');
 		$mockedDispatcher->expects($this->once())
 			->method('triggerEvent')
 			->with($event);
