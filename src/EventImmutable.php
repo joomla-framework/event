@@ -57,6 +57,28 @@ final class EventImmutable extends AbstractEvent
 	}
 
 	/**
+	 * Add argument to event.
+	 *
+	 * @param   string  $key    Argument name.
+	 * @param   mixed   $value  Value.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  BadMethodCallException
+	 */
+	public function setArgument($name, $value)
+	{
+		throw new BadMethodCallException(
+			sprintf(
+				'Cannot set the argument %s of the immutable event %s.',
+				$name,
+				$this->name
+			)
+		);
+	}
+
+	/**
 	 * Set the value of an event argument.
 	 *
 	 * @param   string  $name   The argument name.
@@ -64,9 +86,8 @@ final class EventImmutable extends AbstractEvent
 	 *
 	 * @return  void
 	 *
-	 * @throws  BadMethodCallException
-	 *
 	 * @since   1.0
+	 * @throws  BadMethodCallException
 	 */
 	public function offsetSet($name, $value)
 	{
