@@ -270,30 +270,18 @@ class Dispatcher implements DispatcherInterface
 	/**
 	 * Removes an event listener from the specified event.
 	 *
-	 * If no event is specified, it will be removed from all events it is listening to.
-	 *
-	 * @param   callable  $callback   The listener to remove.
 	 * @param   string    $eventName  The event to remove a listener from.
+	 * @param   callable  $callback   The listener to remove.
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function removeListener(callable $listener, $eventName = null)
+	public function removeListener($eventName, callable $listener)
 	{
-		if ($eventName)
+		if (isset($this->listeners[$eventName]))
 		{
-			if (isset($this->listeners[$eventName]))
-			{
-				$this->listeners[$eventName]->remove($listener);
-			}
-		}
-		else
-		{
-			foreach ($this->listeners as $queue)
-			{
-				$queue->remove($listener);
-			}
+			$this->listeners[$eventName]->remove($listener);
 		}
 	}
 

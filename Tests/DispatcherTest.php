@@ -425,7 +425,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
 			->addListener('onBeforeSomething', array($listener3, 'onBeforeSomething'));
 
 		// Remove the listener from a specific event.
-		$this->instance->removeListener(array($listener1, 'onBeforeSomething'), 'onBeforeSomething');
+		$this->instance->removeListener('onBeforeSomething', array($listener1, 'onBeforeSomething'));
 
 		$this->assertFalse($this->instance->hasListener(array($listener1, 'onBeforeSomething')));
 		$this->assertTrue($this->instance->hasListener(array($listener2, 'onBeforeSomething')));

@@ -69,18 +69,16 @@ final class DelegatingDispatcher implements DispatcherInterface
 	/**
 	 * Removes an event listener from the specified event.
 	 *
-	 * If no event is specified, it will be removed from all events it is listening to.
-	 *
-	 * @param   callable  $callback   The listener to remove.
 	 * @param   string    $eventName  The event to remove a listener from.
+	 * @param   callable  $callback   The listener to remove.
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function removeListener(callable $listener, $eventName = null)
+	public function removeListener($eventName, callable $listener)
 	{
-		$this->dispatcher->removeListener($listener, $eventName);
+		$this->dispatcher->removeListener($eventName, $listener);
 	}
 
 	/**

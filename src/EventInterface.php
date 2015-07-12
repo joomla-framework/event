@@ -47,18 +47,6 @@ interface EventInterface
 	public function isStopped();
 
 	/**
-	 * Add argument to event.
-	 *
-	 * @param   string  $key    Argument name.
-	 * @param   mixed   $value  Value.
-	 *
-	 * @return  EventInterface
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function setArgument($name, $value);
-
-	/**
 	 * Stops the propagation of the event to further event listeners.
 	 *
 	 * @return  void
