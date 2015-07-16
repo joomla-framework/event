@@ -26,7 +26,7 @@ interface DispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function addListener($eventName, callable $callback, $priority = Priority::NORMAL);
+	public function addListener($eventName, callable $callback, $priority = 0);
 
 	/**
 	 * Dispatches an event to all registered listeners.
