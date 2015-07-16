@@ -181,7 +181,7 @@ class Dispatcher implements DispatcherInterface
 	 *
 	 * @since   1.0
 	 */
-	public function addListener($eventName, callable $callback, $priority = Priority::NORMAL)
+	public function addListener($eventName, callable $callback, $priority = 0)
 	{
 		if (!isset($this->listeners[$eventName]))
 		{

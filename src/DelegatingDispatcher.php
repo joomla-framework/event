@@ -46,7 +46,7 @@ final class DelegatingDispatcher implements DispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function addListener($eventName, callable $callback, $priority = Priority::NORMAL)
+	public function addListener($eventName, callable $callback, $priority = 0)
 	{
 		return $this->dispatcher->addListener($eventName, $callback, $priority);
 	}
