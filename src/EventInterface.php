@@ -10,7 +10,7 @@ namespace Joomla\Event;
 
 /**
  * Interface for events.
- * An event has a name and its propagation can be stopped (if the implementation supports it).
+ * An event has a name and its propagation can be stopped.
  *
  * @since  1.0
  */
