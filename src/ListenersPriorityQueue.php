@@ -27,8 +27,8 @@ class ListenersPriorityQueue extends \SplPriorityQueue
 	/**
 	 * Add a listener with the given priority only if not already present.
 	 *
-	 * @param   callable  $callback   A callable function acting as an event listener.
-	 * @param   integer   $priority   The listener priority.
+	 * @param   callable  $callback  A callable function acting as an event listener.
+	 * @param   integer   $priority  The listener priority.
 	 *
 	 * @return  $this
 	 *

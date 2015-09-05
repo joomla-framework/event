@@ -46,7 +46,7 @@ interface DispatcherInterface
 	 * Removes an event listener from the specified event.
 	 *
 	 * @param   string    $eventName  The event to remove a listener from.
-	 * @param   callable  $callback   The listener to remove.
+	 * @param   callable  $listener   The listener to remove.
 	 *
 	 * @return  void
 	 *
