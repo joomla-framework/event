@@ -36,10 +36,11 @@ class Event extends AbstractEvent
 
 		return $this;
 	}
+
 	/**
 	 * Add argument to event.
 	 *
-	 * @param   string  $key    Argument name.
+	 * @param   string  $name   Argument name.
 	 * @param   mixed   $value  Value.
 	 *
 	 * @return  $this
