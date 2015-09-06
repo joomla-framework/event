@@ -163,11 +163,6 @@ class ListenersPriorityQueue extends \SplPriorityQueue
 		// SplPriorityQueue queue is a heap.
 		$queue = clone $this;
 
-		if (!$queue->isEmpty())
-		{
-			$queue->top();
-		}
-
 		return $queue;
 	}
 }
