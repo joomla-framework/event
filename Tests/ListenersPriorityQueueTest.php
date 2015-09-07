@@ -224,7 +224,8 @@ class ListenersPriorityQueueTest extends \PHPUnit_Framework_TestCase
 			$secondListeners[] = $listener;
 		}
 
-		$this->assertSame($firstListeners, $secondListeners);
+		$this->assertEmpty($secondListeners);
+		$this->assertNotSame($firstListeners, $secondListeners);
 	}
 
 	/**
