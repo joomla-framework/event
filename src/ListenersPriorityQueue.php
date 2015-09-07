@@ -65,7 +65,10 @@ class ListenersPriorityQueue extends \SplPriorityQueue
 			$self->setExtractFlags(self::EXTR_BOTH);
 
 			// And now clear our queue
-			$this->extract();
+			while (!$this->isEmpty())
+			{
+				$this->extract();
+			}
 
 			foreach ($self as $listener)
 			{
