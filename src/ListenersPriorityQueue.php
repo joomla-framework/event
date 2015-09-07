@@ -140,10 +140,7 @@ class ListenersPriorityQueue extends \SplPriorityQueue
 	{
 		$listeners = array();
 
-		// Get a clone of the queue.
-		$queue = $this->getIterator();
-
-		foreach ($queue as $listener)
+		foreach ($this as $listener)
 		{
 			$listeners[] = $listener;
 		}
@@ -160,14 +157,11 @@ class ListenersPriorityQueue extends \SplPriorityQueue
 	 */
 	public function getIterator()
 	{
-		// SplPriorityQueue queue is a heap.
-		$queue = clone $this;
-
-		if (!$queue->isEmpty())
+		if (!$this->isEmpty())
 		{
-			$queue->top();
+			$this->top();
 		}
 
-		return $queue;
+		return $this;
 	}
 }

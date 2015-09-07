@@ -160,6 +160,41 @@ class ListenersPriorityQueueTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test the getAll method multiple times.
+	 * The queue behavior must be correct, items which are get from the
+	 * queue must be removed.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
+	public function testGetAllMultipleTimes()
+	{
+		$this->assertEmpty($this->instance->getAll());
+
+		$listener0 = function() {
+
+		};
+
+		$listener1 = function() {
+			return false;
+		};
+
+		$this->instance->add($listener0, 10);
+		$this->instance->add($listener1, 3);
+
+		$listeners = $this->instance->getAll();
+
+		$this->assertSame($listeners[0], $listener0);
+		$this->assertSame($listeners[1], $listener1);
+
+		$listeners1 = $this->instance->getAll();
+
+		$this->assertEmpty($listeners1);
+		$this->assertNotSame($listeners, $listeners1);
+	}
+
+	/**
 	 * Test the getIterator method.
 	 *
 	 * @return  void
