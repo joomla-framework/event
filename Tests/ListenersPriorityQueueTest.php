@@ -34,29 +34,14 @@ class ListenersPriorityQueueTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testAdd()
 	{
-		$listener1 = new EmptyListener;
-		$listener2 = new EmptyListener;
-		$listener3 = function() {
+		$listener = function() {
 
 		};
-		$listener4 = new EmptyListener;
 
-		$this->instance->add($listener1, 5);
-		$this->instance->add($listener2, 5);
-		$this->instance->add($listener3, 0);
-		$this->instance->add($listener4, -100);
+		$this->instance->add($listener, 0);
 
-		$this->assertTrue($this->instance->has($listener1));
-		$this->assertEquals(5, $this->instance->getPriority($listener1));
-
-		$this->assertTrue($this->instance->has($listener2));
-		$this->assertEquals(5, $this->instance->getPriority($listener2));
-
-		$this->assertTrue($this->instance->has($listener3));
-		$this->assertEquals(0, $this->instance->getPriority($listener3));
-
-		$this->assertTrue($this->instance->has($listener4));
-		$this->assertEquals(-100, $this->instance->getPriority($listener4));
+		$this->assertTrue($this->instance->has($listener));
+		$this->assertEquals(0, $this->instance->getPriority($listener));
 	}
 
 	/**
@@ -68,7 +53,9 @@ class ListenersPriorityQueueTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testAddExisting()
 	{
-		$listener = new EmptyListener;
+		$listener = function() {
+
+		};
 
 		$this->instance->add($listener, 5);
 		$this->instance->add($listener, 0);
@@ -86,7 +73,11 @@ class ListenersPriorityQueueTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testGetPriorityNonExisting()
 	{
-		$this->assertNull($this->instance->getPriority(new EmptyListener));
+		$listener = function() {
+
+		};
+
+		$this->assertNull($this->instance->getPriority($listener));
 
 		$this->assertFalse(
 			$this->instance->getPriority(
@@ -107,36 +98,35 @@ class ListenersPriorityQueueTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testRemove()
 	{
-		$listener1 = new EmptyListener;
-		$listener2 = new EmptyListener;
-		$listener3 = function() {
+		$listener1 = function() {
 
 		};
-		$listener4 = new EmptyListener;
+
+		$listener2 = function() {
+			return false;
+		};
 
 		$this->instance->add($listener1, 0);
-		$this->instance->add($listener2, 0);
-		$this->instance->add($listener3, 0);
 
 		// Removing a non existing listener has no effect.
-		$this->instance->remove($listener4);
+		$this->instance->remove($listener2);
+
+		$this->assertTrue($this->instance->has($listener1));
+
+		$this->instance->add($listener2, 0);
 
 		$this->assertTrue($this->instance->has($listener1));
 		$this->assertTrue($this->instance->has($listener2));
-		$this->assertTrue($this->instance->has($listener3));
 
 		$this->instance->remove($listener1);
 
 		$this->assertFalse($this->instance->has($listener1));
 		$this->assertTrue($this->instance->has($listener2));
-		$this->assertTrue($this->instance->has($listener3));
 
 		$this->instance->remove($listener2);
-		$this->instance->remove($listener3);
 
 		$this->assertFalse($this->instance->has($listener1));
 		$this->assertFalse($this->instance->has($listener2));
-		$this->assertFalse($this->instance->has($listener3));
 	}
 
 	/**
@@ -152,52 +142,55 @@ class ListenersPriorityQueueTest extends \PHPUnit_Framework_TestCase
 	{
 		$this->assertEmpty($this->instance->getAll());
 
-		$listener0 = new EmptyListener;
-		$listener1 = new EmptyListener;
-		$listener2 = new EmptyListener;
-
-		$listener3 = function() {
+		$listener0 = function() {
 
 		};
 
-		$listener4 = new EmptyListener;
-		$listener5 = new EmptyListener;
-
-		$listener6 = function() {
-
+		$listener1 = function() {
+			return false;
 		};
-
-		$listener7 = new EmptyListener;
-
-		$listener8 = function() {
-
-		};
-
-		$listener9 = new EmptyListener;
 
 		$this->instance->add($listener0, 10);
 		$this->instance->add($listener1, 3);
-		$this->instance->add($listener2, 3);
-		$this->instance->add($listener3, 3);
-		$this->instance->add($listener4, 3);
-		$this->instance->add($listener5, 2);
-		$this->instance->add($listener6, 2);
-		$this->instance->add($listener7, 2);
-		$this->instance->add($listener8, 0);
-		$this->instance->add($listener9, -10);
 
 		$listeners = $this->instance->getAll();
 
 		$this->assertSame($listeners[0], $listener0);
 		$this->assertSame($listeners[1], $listener1);
-		$this->assertSame($listeners[2], $listener2);
-		$this->assertSame($listeners[3], $listener3);
-		$this->assertSame($listeners[4], $listener4);
-		$this->assertSame($listeners[5], $listener5);
-		$this->assertSame($listeners[6], $listener6);
-		$this->assertSame($listeners[7], $listener7);
-		$this->assertSame($listeners[8], $listener8);
-		$this->assertSame($listeners[9], $listener9);
+	}
+
+	/**
+	 * Test the getAll method multiple times.
+	 * The second time getting all listeners, the array is empty.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
+	public function testGetAllMultipleTimes()
+	{
+		$this->assertEmpty($this->instance->getAll());
+
+		$listener0 = function() {
+
+		};
+
+		$listener1 = function() {
+			return false;
+		};
+
+		$this->instance->add($listener0, 10);
+		$this->instance->add($listener1, 3);
+
+		$listeners = $this->instance->getAll();
+
+		$this->assertSame($listeners[0], $listener0);
+		$this->assertSame($listeners[1], $listener1);
+
+		$listeners1 = $this->instance->getAll();
+
+		$this->assertEmpty($listeners1);
+		$this->assertNotSame($listeners, $listeners1);
 	}
 
 	/**
@@ -209,39 +202,16 @@ class ListenersPriorityQueueTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testGetIterator()
 	{
-		$listener0 = new EmptyListener;
-		$listener1 = new EmptyListener;
-		$listener2 = new EmptyListener;
-
-		$listener3 = function() {
+		$listener0 = function() {
 
 		};
 
-		$listener4 = new EmptyListener;
-		$listener5 = new EmptyListener;
-
-		$listener6 = function() {
-
+		$listener1 = function() {
+			return false;
 		};
-
-		$listener7 = new EmptyListener;
-
-		$listener8 = function() {
-
-		};
-
-		$listener9 = new EmptyListener;
 
 		$this->instance->add($listener0, 10);
 		$this->instance->add($listener1, 3);
-		$this->instance->add($listener2, 3);
-		$this->instance->add($listener3, 3);
-		$this->instance->add($listener4, 3);
-		$this->instance->add($listener5, 2);
-		$this->instance->add($listener6, 2);
-		$this->instance->add($listener7, 2);
-		$this->instance->add($listener8, 0);
-		$this->instance->add($listener9, -10);
 
 		$listeners = array();
 
@@ -252,14 +222,6 @@ class ListenersPriorityQueueTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertSame($listeners[0], $listener0);
 		$this->assertSame($listeners[1], $listener1);
-		$this->assertSame($listeners[2], $listener2);
-		$this->assertSame($listeners[3], $listener3);
-		$this->assertSame($listeners[4], $listener4);
-		$this->assertSame($listeners[5], $listener5);
-		$this->assertSame($listeners[6], $listener6);
-		$this->assertSame($listeners[7], $listener7);
-		$this->assertSame($listeners[8], $listener8);
-		$this->assertSame($listeners[9], $listener9);
 	}
 
 	/**
@@ -271,13 +233,16 @@ class ListenersPriorityQueueTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testGetIteratorMultipleIterations()
 	{
-		$listener0 = new EmptyListener;
-		$listener1 = new EmptyListener;
-		$listener2 = new EmptyListener;
+		$listener0 = function() {
+
+		};
+
+		$listener1 = function() {
+			return false;
+		};
 
 		$this->instance->add($listener0, 0);
 		$this->instance->add($listener1, 1);
-		$this->instance->add($listener2, 2);
 
 		$firstListeners = array();
 
@@ -293,7 +258,8 @@ class ListenersPriorityQueueTest extends \PHPUnit_Framework_TestCase
 			$secondListeners[] = $listener;
 		}
 
-		$this->assertSame($firstListeners, $secondListeners);
+		$this->assertEmpty($secondListeners);
+		$this->assertNotSame($firstListeners, $secondListeners);
 	}
 
 	/**
@@ -307,8 +273,13 @@ class ListenersPriorityQueueTest extends \PHPUnit_Framework_TestCase
 	{
 		$this->assertCount(0, $this->instance);
 
-		$listener1 = new EmptyListener;
-		$listener2 = new EmptyListener;
+		$listener1 = function() {
+
+		};
+
+		$listener2 = function() {
+			return false;
+		};
 
 		$this->instance->add($listener1, 0);
 		$this->instance->add($listener2, 0);
