@@ -10,19 +10,18 @@ namespace Joomla\Event;
 
 /**
  * A class containing an inner listeners priority queue that can be iterated multiple times.
- * One instance of ListenersPriorityQueue is used per Event in the Dispatcher.
  *
  * @since  1.0
  */
-class ListenersPriorityQueue extends \SplPriorityQueue
+class ListenersPriorityQueue implements \IteratorAggregate, \Countable
 {
 	/**
-	 * A decreasing counter used to compute the internal priority as an array because SplPriorityQueue dequeues elements with the same priority.
+	 * The listeners for an event.
 	 *
-	 * @var    integer
-	 * @since  1.0
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
 	 */
-	private $counter = PHP_INT_MAX;
+	private $listeners = [];
 
 	/**
 	 * Add a listener with the given priority only if not already present.
@@ -36,13 +35,7 @@ class ListenersPriorityQueue extends \SplPriorityQueue
 	 */
 	public function add(callable $callback, $priority)
 	{
-		if (!$this->has($callback))
-		{
-			// Compute the internal priority as an array.
-			$priority = array($priority, $this->counter--);
-
-			$this->insert($callback, $priority);
-		}
+		$this->listeners[$priority][] = $callback;
 
 		return $this;
 	}
@@ -58,21 +51,11 @@ class ListenersPriorityQueue extends \SplPriorityQueue
 	 */
 	public function remove(callable $callback)
 	{
-		if ($this->has($callback))
+		foreach ($this->listeners as $priority => $listeners)
 		{
-			// Clone ourselves to retain the existing queue data
-			$self = clone $this;
-			$self->setExtractFlags(self::EXTR_BOTH);
-
-			// And now clear our queue
-			$this->extract();
-
-			foreach ($self as $listener)
+			if (($key = array_search($callback, $listeners, true)) !== false)
 			{
-				if ($listener['data'] !== $callback)
-				{
-					$this->insert($listener['data'], $listener['priority']);
-				}
+				unset($this->listeners[$priority][$key]);
 			}
 		}
 
@@ -90,11 +73,9 @@ class ListenersPriorityQueue extends \SplPriorityQueue
 	 */
 	public function has(callable $callback)
 	{
-		$self = clone $this;
-
-		foreach ($self as $item)
+		foreach ($this->listeners as $priority => $listeners)
 		{
-			if ($item === $callback)
+			if (($key = array_search($callback, $listeners, true)) !== false)
 			{
 				return true;
 			}
@@ -115,14 +96,11 @@ class ListenersPriorityQueue extends \SplPriorityQueue
 	 */
 	public function getPriority(callable $callback, $default = null)
 	{
-		$self = clone $this;
-		$self->setExtractFlags(self::EXTR_BOTH);
-
-		foreach ($self as $item)
+		foreach ($this->listeners as $priority => $listeners)
 		{
-			if ($item['data'] === $callback)
+			if (($key = array_search($callback, $listeners, true)) !== false)
 			{
-				return $item['priority'][0];
+				return $priority;
 			}
 		}
 
@@ -138,36 +116,48 @@ class ListenersPriorityQueue extends \SplPriorityQueue
 	 */
 	public function getAll()
 	{
-		$listeners = array();
-
-		// Get a clone of the queue.
-		$queue = $this->getIterator();
-
-		foreach ($queue as $listener)
+		if (empty($this->listeners))
 		{
-			$listeners[] = $listener;
+			return [];
 		}
 
-		return $listeners;
+		$sorted = [];
+
+		krsort($this->listeners);
+
+		$sorted = call_user_func_array('array_merge', $this->listeners);
+
+		return $sorted;
 	}
 
 	/**
-	 * Get the priority queue with its cursor on top of the heap.
+	 * Get the priority queue.
 	 *
-	 * @return  $this
+	 * @return  \ArrayIterator
 	 *
 	 * @since   1.0
 	 */
 	public function getIterator()
 	{
-		// SplPriorityQueue queue is a heap.
-		$queue = clone $this;
+		return new \ArrayIterator($this->getAll());
+	}
 
-		if (!$queue->isEmpty())
+	/**
+	 * Count the number of listeners in the queue.
+	 *
+	 * @return  integer  The number of listeners in the queue.
+	 *
+	 * @since   1.0
+	 */
+	public function count()
+	{
+		$count = 0;
+
+		foreach ($this->listeners as $priority)
 		{
-			$queue->top();
+			$count += count($priority);
 		}
 
-		return $queue;
+		return $count;
 	}
 }
