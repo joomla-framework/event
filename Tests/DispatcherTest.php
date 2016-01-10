@@ -680,6 +680,51 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test the addSubscriber method.
+	 *
+	 * @return  void
+	 *
+	 * @covers  Joomla\Event\Dispatcher::addSubscriber
+	 */
+	public function testAddSubscriber()
+	{
+		$listener = new SomethingListener;
+
+		// Add our event subscriber
+		$this->instance->addSubscriber($listener);
+
+		$this->assertTrue($this->instance->hasListener([$listener, 'onBeforeSomething']));
+		$this->assertTrue($this->instance->hasListener([$listener, 'onSomething']));
+		$this->assertTrue($this->instance->hasListener([$listener, 'onAfterSomething']));
+
+		$this->assertEquals(Priority::NORMAL, $this->instance->getListenerPriority('onBeforeSomething', [$listener, 'onBeforeSomething']));
+		$this->assertEquals(Priority::NORMAL, $this->instance->getListenerPriority('onSomething', [$listener, 'onSomething']));
+		$this->assertEquals(Priority::HIGH, $this->instance->getListenerPriority('onAfterSomething', [$listener, 'onAfterSomething']));
+	}
+
+	/**
+	 * Test the removeSubscriber method.
+	 *
+	 * @return  void
+	 *
+	 * @covers  Joomla\Event\Dispatcher::removeSubscriber
+	 */
+	public function testRemoveSubscriber()
+	{
+		$listener = new SomethingListener;
+
+		// Add our event subscriber
+		$this->instance->addSubscriber($listener);
+
+		// And now remove it
+		$this->instance->removeSubscriber($listener);
+
+		$this->assertFalse($this->instance->hasListener([$listener, 'onBeforeSomething']));
+		$this->assertFalse($this->instance->hasListener([$listener, 'onSomething']));
+		$this->assertFalse($this->instance->hasListener([$listener, 'onAfterSomething']));
+	}
+
+	/**
 	 * Sets up the fixture.
 	 *
 	 * This method is called before a test is executed.

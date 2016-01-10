@@ -8,8 +8,6 @@
 
 namespace Joomla\Event;
 
-use Closure;
-
 /**
  * Implementation of a DispatcherInterface supporting prioritized listeners.
  *
@@ -23,7 +21,7 @@ class Dispatcher implements DispatcherInterface
 	 * @var    EventInterface[]
 	 * @since  1.0
 	 */
-	protected $events = array();
+	protected $events = [];
 
 	/**
 	 * An array of ListenersPriorityQueue indexed by the event names.
@@ -31,7 +29,7 @@ class Dispatcher implements DispatcherInterface
 	 * @var    ListenersPriorityQueue[]
 	 * @since  1.0
 	 */
-	protected $listeners = array();
+	protected $listeners = [];
 
 	/**
 	 * Set an event to the dispatcher. It will replace any event with the same name.
@@ -153,7 +151,7 @@ class Dispatcher implements DispatcherInterface
 	public function clearEvents()
 	{
 		$events = $this->events;
-		$this->events = array();
+		$this->events = [];
 
 		return $events;
 	}
@@ -229,7 +227,7 @@ class Dispatcher implements DispatcherInterface
 			return $this->listeners[$event]->getAll();
 		}
 
-		return array();
+		return [];
 	}
 
 	/**
@@ -307,7 +305,7 @@ class Dispatcher implements DispatcherInterface
 		}
 		else
 		{
-			$this->listeners = array();
+			$this->listeners = [];
 		}
 
 		return $this;
@@ -325,6 +323,54 @@ class Dispatcher implements DispatcherInterface
 	public function countListeners($event)
 	{
 		return isset($this->listeners[$event]) ? count($this->listeners[$event]) : 0;
+	}
+
+	/**
+	 * Adds an event subscriber.
+	 *
+	 * @param   SubscriberInterface  $subscriber  The subscriber.
+	 *
+	 * @return  $this
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function addSubscriber(SubscriberInterface $subscriber)
+	{
+		foreach ($subscriber->getSubscribedEvents() as $eventName => $params)
+		{
+			if (is_array($params))
+			{
+				$this->addListener($eventName, [$subscriber, $params[0]], isset($params[1]) ? $params[1] : Priority::NORMAL);
+			}
+			else
+			{
+				$this->addListener($eventName, [$subscriber, $params]);
+			}
+		}
+	}
+
+	/**
+	 * Removes an event subscriber.
+	 *
+	 * @param   SubscriberInterface  $subscriber  The subscriber.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function removeSubscriber(SubscriberInterface $subscriber)
+	{
+		foreach ($subscriber->getSubscribedEvents() as $eventName => $params)
+		{
+			if (is_array($params))
+			{
+				$this->removeListener($eventName, [$subscriber, $params[0]]);
+			}
+			else
+			{
+				$this->removeListener($eventName, [$subscriber, $params]);
+			}
+		}
 	}
 
 	/**
