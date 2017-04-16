@@ -294,7 +294,7 @@ namespace MyApp;
 
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Event\Event;
+use Joomla\Event\NullDispatcher;
 
 class ContentModel implements DispatcherAwareInterface
 {
@@ -310,11 +310,27 @@ class ContentModel implements DispatcherAwareInterface
 
 	public function save()
 	{
-		$this->dispatcher->triggerEvent(self::ON_BEFORE_SAVE_EVENT);
+		$this->getDispatcher()->triggerEvent(self::ON_BEFORE_SAVE_EVENT);
 
 		// Perform the saving.
 
-		$this->dispatcher->triggerEvent(self::ON_AFTER_SAVE_EVENT);
+		$this->getDispatcher()->triggerEvent(self::ON_AFTER_SAVE_EVENT);
+	}
+
+	/**
+	 * Get the dispatcher.
+	 *
+	 * @return  DispatcherInterface
+	 */
+	public function getDispatcher()
+	{
+		// If a logger hasn't been set, use NullLogger
+		if (!($this->dispatcher instanceof DispatcherInterface))
+		{
+			$this->dispatcher = new NullDispatcher;
+		}
+
+		return $this->dispatcher;
 	}
 
 	/**
