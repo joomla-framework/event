@@ -26,7 +26,7 @@ interface EventInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getArgument(string $name, $default = null);
+	public function getArgument($name, $default = null);
 
 	/**
 	 * Get the event name.
