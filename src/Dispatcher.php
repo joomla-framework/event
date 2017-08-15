@@ -340,7 +340,7 @@ class Dispatcher implements DispatcherInterface
 		{
 			if (is_array($params))
 			{
-				$this->addListener($eventName, [$subscriber, $params[0]], isset($params[1]) ? $params[1] : Priority::NORMAL);
+				$this->addListener($eventName, [$subscriber, $params[0]], $params[1] ?? Priority::NORMAL);
 			}
 			else
 			{
