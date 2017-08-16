@@ -73,7 +73,7 @@ class SomethingListener implements SubscriberInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function getSubscribedEvents()
+	public static function getSubscribedEvents(): array
 	{
 		return [
 			'onBeforeSomething' => 'onBeforeSomething',
