@@ -8,6 +8,9 @@
 
 namespace Joomla\Event;
 
+use Psr\Log\LoggerAwareTrait;
+use Psr\Log\NullLogger;
+
 /**
  * Implementation of a DispatcherInterface supporting prioritized listeners.
  *
@@ -31,6 +34,16 @@ class Dispatcher implements DispatcherInterface
 	 */
 	protected $listeners = [];
 
+	use LoggerAwareTrait;
+
+	/**
+	 * Dispatcher constructor.
+	 */
+	public function __construct()
+	{
+		$this->setLogger(new NullLogger);
+	}
+
 	/**
 	 * Set an event to the dispatcher. It will replace any event with the same name.
 	 *
@@ -43,6 +56,8 @@ class Dispatcher implements DispatcherInterface
 	public function setEvent(EventInterface $event)
 	{
 		$this->events[$event->getName()] = $event;
+
+		$this->logger->debug('Set event ' . $event->getName(), ['Dispatcher']);
 
 		return $this;
 	}
@@ -60,8 +75,10 @@ class Dispatcher implements DispatcherInterface
 	{
 		if (!isset($this->events[$event->getName()]))
 		{
-			$this->events[$event->getName()] = $event;
+			return $this->setEvent($event);
 		}
+
+		$this->logger->debug('Event ' . $event->getName() . ' is already set; ignoring', ['Dispatcher']);
 
 		return $this;
 	}
@@ -124,6 +141,8 @@ class Dispatcher implements DispatcherInterface
 		if (isset($this->events[$event]))
 		{
 			unset($this->events[$event]);
+
+			$this->logger->debug('Removed event ' . $event, ['Dispatcher']);
 		}
 
 		return $this;
@@ -152,6 +171,8 @@ class Dispatcher implements DispatcherInterface
 	{
 		$events = $this->events;
 		$this->events = [];
+
+		$this->logger->debug('Removed all events', ['Dispatcher']);
 
 		return $events;
 	}
@@ -187,6 +208,8 @@ class Dispatcher implements DispatcherInterface
 		}
 
 		$this->listeners[$eventName]->add($callback, $priority);
+
+		$this->logger->debug('Added listener for event ' . $eventName, ['Dispatcher']);
 
 		return true;
 	}
@@ -280,6 +303,8 @@ class Dispatcher implements DispatcherInterface
 		if (isset($this->listeners[$eventName]))
 		{
 			$this->listeners[$eventName]->remove($listener);
+
+			$this->logger->debug('Removed listener for event ' . $eventName, ['Dispatcher']);
 		}
 	}
 
@@ -302,10 +327,14 @@ class Dispatcher implements DispatcherInterface
 			{
 				unset($this->listeners[$event]);
 			}
+
+			$this->logger->debug('Removed listeners for event ' . $event, ['Dispatcher']);
 		}
 		else
 		{
 			$this->listeners = [];
+
+			$this->logger->debug('Removed all listeners', ['Dispatcher']);
 		}
 
 		return $this;
@@ -347,6 +376,8 @@ class Dispatcher implements DispatcherInterface
 				$this->addListener($eventName, [$subscriber, $params]);
 			}
 		}
+
+		return $this;
 	}
 
 	/**
@@ -403,6 +434,8 @@ class Dispatcher implements DispatcherInterface
 			}
 		}
 
+		$this->logger->debug('Dispatched event ' . $name, ['Dispatcher']);
+
 		return $event;
 	}
 
@@ -422,6 +455,8 @@ class Dispatcher implements DispatcherInterface
 		{
 			$event = $this->getDefaultEvent($event);
 		}
+
+		$this->logger->warning(__METHOD__ . ' is deprecated. Use dispatch() instead.', ['Dispatcher']);
 
 		return $this->dispatch($event->getName(), $event);
 	}
