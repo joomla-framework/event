@@ -155,7 +155,7 @@ class ListenersPriorityQueue implements \IteratorAggregate, \Countable
 
 		foreach ($this->listeners as $priority)
 		{
-			$count += count($priority);
+			$count += \count($priority);
 		}
 
 		return $count;

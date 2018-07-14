@@ -148,7 +148,7 @@ abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializabl
 	 */
 	public function count()
 	{
-		return count($this->arguments);
+		return \count($this->arguments);
 	}
 
 	/**

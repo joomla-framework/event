@@ -165,7 +165,7 @@ class Dispatcher implements DispatcherInterface
 	 */
 	public function countEvents()
 	{
-		return count($this->events);
+		return \count($this->events);
 	}
 
 	/**
@@ -322,7 +322,7 @@ class Dispatcher implements DispatcherInterface
 	 */
 	public function countListeners($event)
 	{
-		return isset($this->listeners[$event]) ? count($this->listeners[$event]) : 0;
+		return isset($this->listeners[$event]) ? \count($this->listeners[$event]) : 0;
 	}
 
 	/**
@@ -399,7 +399,7 @@ class Dispatcher implements DispatcherInterface
 					return $event;
 				}
 
-				call_user_func($listener, $event);
+				\call_user_func($listener, $event);
 			}
 		}
 
