@@ -13,7 +13,7 @@ namespace Joomla\Event;
  *
  * @since  1.0
  */
-class ListenersPriorityQueue implements \IteratorAggregate, \Countable
+final class ListenersPriorityQueue implements \IteratorAggregate, \Countable
 {
 	/**
 	 * The listeners for an event.
