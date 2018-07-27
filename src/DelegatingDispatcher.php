@@ -148,9 +148,38 @@ class DelegatingDispatcher implements DispatcherInterface
 	 * @return  EventInterface  The event after being passed through all listeners.
 	 *
 	 * @since   1.0
+	 * @deprecated  3.0  Use dispatch() instead.
 	 */
 	public function triggerEvent($event)
 	{
-		return $this->dispatcher->triggerEvent($event);
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated and will be removed in 3.0, use %2$s::dispatch() instead.',
+				__METHOD__,
+				DispatcherInterface::class
+			),
+			E_USER_DEPRECATED
+		);
+
+		// Try to use triggerEvent if available
+		if (method_exists($this->dispatcher, 'triggerEvent'))
+		{
+			return $this->dispatcher->triggerEvent($event);
+		}
+
+		// If given an event object, we can proxy through to the dispatch method
+		if ($event instanceof EventInterface)
+		{
+			return $this->dispatch($event->getName(), $event);
+		}
+
+		// Can't process this unfortunately
+		throw new \RuntimeException(
+			sprintf(
+				'"%1$s" must decorate a dispatcher with the deprecated `triggerEvent` method or receive a "%2$s" instance.',
+				static::class,
+				EventInterface::class
+			)
+		);
 	}
 }
