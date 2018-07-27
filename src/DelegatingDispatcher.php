@@ -13,7 +13,7 @@ namespace Joomla\Event;
  *
  * @since  1.0
  */
-final class DelegatingDispatcher implements DispatcherInterface
+class DelegatingDispatcher implements DispatcherInterface
 {
 	/**
 	 * The delegated dispatcher.
