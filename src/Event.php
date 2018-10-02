@@ -126,7 +126,7 @@ class Event extends AbstractEvent
 	 */
 	public function offsetSet($name, $value)
 	{
-		if (\is_null($name))
+		if ($name === null)
 		{
 			throw new InvalidArgumentException('The argument name cannot be null.');
 		}

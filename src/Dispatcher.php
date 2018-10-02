@@ -150,7 +150,7 @@ class Dispatcher implements DispatcherInterface
 	 */
 	public function clearEvents()
 	{
-		$events = $this->events;
+		$events       = $this->events;
 		$this->events = [];
 
 		return $events;
@@ -207,8 +207,6 @@ class Dispatcher implements DispatcherInterface
 		{
 			return $this->listeners[$eventName]->getPriority($callback);
 		}
-
-		return null;
 	}
 
 	/**
