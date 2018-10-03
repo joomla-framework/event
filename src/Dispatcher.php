@@ -336,7 +336,7 @@ class Dispatcher implements DispatcherInterface
 	{
 		foreach ($subscriber->getSubscribedEvents() as $eventName => $params)
 		{
-			if (is_array($params))
+			if (\is_array($params))
 			{
 				$this->addListener($eventName, [$subscriber, $params[0]], $params[1] ?? Priority::NORMAL);
 			}
@@ -360,7 +360,7 @@ class Dispatcher implements DispatcherInterface
 	{
 		foreach ($subscriber->getSubscribedEvents() as $eventName => $params)
 		{
-			if (is_array($params))
+			if (\is_array($params))
 			{
 				$this->removeListener($eventName, [$subscriber, $params[0]]);
 			}
