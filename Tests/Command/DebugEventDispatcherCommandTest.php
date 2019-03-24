@@ -114,6 +114,6 @@ class DebugEventDispatcherCommandTest extends TestCase
 
 		$screenOutput = $output->fetch();
 
-		$this->assertContains('The event "onAfterSomethingElse" does not have any registered listeners.', $screenOutput);
+		$this->assertContains('The event "onAfterSomethingElse" does not have any', $screenOutput);
 	}
 }
