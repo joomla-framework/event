@@ -45,13 +45,13 @@ interface DispatcherInterface
 	/**
 	 * Get the listeners registered to the given event.
 	 *
-	 * @param   string  $event  The event to fetch listeners for
+	 * @param   string|null  $event  The event to fetch listeners for or null to fetch all listeners
 	 *
 	 * @return  callable[]  An array of registered listeners sorted according to their priorities.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getListeners($event);
+	public function getListeners($event = null);
 
 	/**
 	 * Tell if the given listener has been added.

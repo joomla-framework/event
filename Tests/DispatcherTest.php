@@ -372,23 +372,30 @@ class DispatcherTest extends TestCase
 		$this->instance->addListener('onSomething', array($listener3, 'onSomething'));
 		$this->instance->addListener('onAfterSomething', array($listener3, 'onAfterSomething'));
 
+		$allListeners = array(
+			'onBeforeSomething' => array(
+				array($listener1, 'onBeforeSomething'),
+				array($listener2, 'onBeforeSomething'),
+				array($listener3, 'onBeforeSomething'),
+			),
+			'onSomething' => array(
+				array($listener1, 'onSomething'),
+				array($listener2, 'onSomething'),
+				array($listener3, 'onSomething'),
+			),
+			'onAfterSomething' => array(
+				array($listener1, 'onAfterSomething'),
+				array($listener2, 'onAfterSomething'),
+				array($listener3, 'onAfterSomething'),
+			),
+		);
+
 		$onBeforeSomethingListeners = $this->instance->getListeners('onBeforeSomething');
 
-		$this->assertSame(array($listener1, 'onBeforeSomething'), $onBeforeSomethingListeners[0]);
-		$this->assertSame(array($listener2, 'onBeforeSomething'), $onBeforeSomethingListeners[1]);
-		$this->assertSame(array($listener3, 'onBeforeSomething'), $onBeforeSomethingListeners[2]);
-
-		$onSomethingListeners = $this->instance->getListeners('onSomething');
-
-		$this->assertSame(array($listener1, 'onSomething'), $onSomethingListeners[0]);
-		$this->assertSame(array($listener2, 'onSomething'), $onSomethingListeners[1]);
-		$this->assertSame(array($listener3, 'onSomething'), $onSomethingListeners[2]);
-
-		$onAfterSomethingListeners = $this->instance->getListeners('onAfterSomething');
-
-		$this->assertSame(array($listener1, 'onAfterSomething'), $onAfterSomethingListeners[0]);
-		$this->assertSame(array($listener2, 'onAfterSomething'), $onAfterSomethingListeners[1]);
-		$this->assertSame(array($listener3, 'onAfterSomething'), $onAfterSomethingListeners[2]);
+		$this->assertSame($allListeners['onBeforeSomething'], $this->instance->getListeners('onBeforeSomething'));
+		$this->assertSame($allListeners['onSomething'], $this->instance->getListeners('onSomething'));
+		$this->assertSame($allListeners['onAfterSomething'], $this->instance->getListeners('onAfterSomething'));
+		$this->assertSame($allListeners, $this->instance->getListeners());
 	}
 
 	/**

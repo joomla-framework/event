@@ -212,20 +212,32 @@ class Dispatcher implements DispatcherInterface
 	/**
 	 * Get the listeners registered to the given event.
 	 *
-	 * @param   string  $event  The event to fetch listeners for
+	 * @param   string|null  $event  The event to fetch listeners for or null to fetch all listeners
 	 *
 	 * @return  callable[]  An array of registered listeners sorted according to their priorities.
 	 *
 	 * @since   1.0
 	 */
-	public function getListeners($event)
+	public function getListeners($event = null)
 	{
-		if (isset($this->listeners[$event]))
+		if ($event !== null)
 		{
-			return $this->listeners[$event]->getAll();
+			if (isset($this->listeners[$event]))
+			{
+				return $this->listeners[$event]->getAll();
+			}
+
+			return [];
 		}
 
-		return [];
+		$dispatcherListeners = [];
+
+		foreach ($this->listeners as $registeredEvent => $listeners)
+		{
+			$dispatcherListeners[$registeredEvent] = $listeners->getAll();
+		}
+
+		return $dispatcherListeners;
 	}
 
 	/**
