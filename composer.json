@@ -10,7 +10,11 @@
     },
     "require-dev": {
         "joomla/coding-standards": "~2.0@alpha",
+        "joomla/console": "~2.0",
         "phpunit/phpunit": "~6.3"
+    },
+    "suggest": {
+        "joomla/console": "If you want to use the DebugEventDispatcherCommand class, please install joomla/console:~2.0"
     },
     "autoload": {
         "psr-4": {
