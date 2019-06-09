@@ -33,7 +33,7 @@ final class ListenersPriorityQueue implements \IteratorAggregate, \Countable
 	 *
 	 * @since   1.0
 	 */
-	public function add(callable $callback, $priority)
+	public function add(callable $callback, int $priority): self
 	{
 		$this->listeners[$priority][] = $callback;
 
@@ -49,7 +49,7 @@ final class ListenersPriorityQueue implements \IteratorAggregate, \Countable
 	 *
 	 * @since   1.0
 	 */
-	public function remove(callable $callback)
+	public function remove(callable $callback): self
 	{
 		foreach ($this->listeners as $priority => $listeners)
 		{
@@ -71,7 +71,7 @@ final class ListenersPriorityQueue implements \IteratorAggregate, \Countable
 	 *
 	 * @since   1.0
 	 */
-	public function has(callable $callback)
+	public function has(callable $callback): bool
 	{
 		foreach ($this->listeners as $priority => $listeners)
 		{
@@ -114,7 +114,7 @@ final class ListenersPriorityQueue implements \IteratorAggregate, \Countable
 	 *
 	 * @since   1.0
 	 */
-	public function getAll()
+	public function getAll(): array
 	{
 		if (empty($this->listeners))
 		{
