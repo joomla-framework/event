@@ -15,13 +15,61 @@ namespace Joomla\Event;
  */
 final class Priority
 {
-	const MIN          = -3;
-	const LOW          = -2;
+	/**
+	 * Indicates the event listener should have a minimum priority.
+	 *
+	 * @var    integer
+	 * @since  1.0
+	 */
+	const MIN = -3;
+
+	/**
+	 * Indicates the event listener should have a low priority.
+	 *
+	 * @var    integer
+	 * @since  1.0
+	 */
+	const LOW = -2;
+
+	/**
+	 * Indicates the event listener should have a below normal priority.
+	 *
+	 * @var    integer
+	 * @since  1.0
+	 */
 	const BELOW_NORMAL = -1;
-	const NORMAL       = 0;
+
+	/**
+	 * Indicates the event listener should have a normal priority. This is the default priority.
+	 *
+	 * @var    integer
+	 * @since  1.0
+	 */
+	const NORMAL = 0;
+
+	/**
+	 * Indicates the event listener should have a above normal priority.
+	 *
+	 * @var    integer
+	 * @since  1.0
+	 */
 	const ABOVE_NORMAL = 1;
-	const HIGH         = 2;
-	const MAX          = 3;
+
+	/**
+	 * Indicates the event listener should have a high priority.
+	 *
+	 * @var    integer
+	 * @since  1.0
+	 */
+	const HIGH = 2;
+
+	/**
+	 * Indicates the event listener should have a maximum priority.
+	 *
+	 * @var    integer
+	 * @since  1.0
+	 */
+	const MAX = 3;
 
 	/**
 	 * Disallow instantiation of this class
