@@ -70,6 +70,8 @@ class DelegatingDispatcher implements DispatcherInterface
 	 *
 	 * @param   string          $name   The name of the event to dispatch.
 	 * @param   EventInterface  $event  The event to pass to the event handlers/listeners.
+	 *                                  If not supplied, an empty EventInterface instance is created.
+	 *                                  Note, not passing an event is deprecated and will be required as of 3.0.
 	 *
 	 * @return  EventInterface  The event after being passed through all listeners.
 	 *

@@ -20,6 +20,7 @@ class Dispatcher implements DispatcherInterface
 	 *
 	 * @var    EventInterface[]
 	 * @since  1.0
+	 * @deprecated  3.0  Default event objects will no longer be supported
 	 */
 	protected $events = [];
 
@@ -39,6 +40,7 @@ class Dispatcher implements DispatcherInterface
 	 * @return  $this
 	 *
 	 * @since   1.0
+	 * @deprecated  3.0  Default event objects will no longer be supported
 	 */
 	public function setEvent(EventInterface $event)
 	{
@@ -55,6 +57,7 @@ class Dispatcher implements DispatcherInterface
 	 * @return  $this
 	 *
 	 * @since   1.0
+	 * @deprecated  3.0  Default event objects will no longer be supported
 	 */
 	public function addEvent(EventInterface $event)
 	{
@@ -74,6 +77,7 @@ class Dispatcher implements DispatcherInterface
 	 * @return  boolean  True if the listener has the given event, false otherwise.
 	 *
 	 * @since   1.0
+	 * @deprecated  3.0  Default event objects will no longer be supported
 	 */
 	public function hasEvent($event)
 	{
@@ -94,6 +98,7 @@ class Dispatcher implements DispatcherInterface
 	 * @return  EventInterface|mixed  The event of the default value.
 	 *
 	 * @since   1.0
+	 * @deprecated  3.0  Default event objects will no longer be supported
 	 */
 	public function getEvent($name, $default = null)
 	{
@@ -113,6 +118,7 @@ class Dispatcher implements DispatcherInterface
 	 * @return  $this
 	 *
 	 * @since   1.0
+	 * @deprecated  3.0  Default event objects will no longer be supported
 	 */
 	public function removeEvent($event)
 	{
@@ -135,6 +141,7 @@ class Dispatcher implements DispatcherInterface
 	 * @return  EventInterface[]  The registered event.
 	 *
 	 * @since   1.0
+	 * @deprecated  3.0  Default event objects will no longer be supported
 	 */
 	public function getEvents()
 	{
@@ -147,6 +154,7 @@ class Dispatcher implements DispatcherInterface
 	 * @return  EventInterface[]  The old events.
 	 *
 	 * @since   1.0
+	 * @deprecated  3.0  Default event objects will no longer be supported
 	 */
 	public function clearEvents()
 	{
@@ -162,6 +170,7 @@ class Dispatcher implements DispatcherInterface
 	 * @return  integer  The numer of registered events.
 	 *
 	 * @since   1.0
+	 * @deprecated  3.0  Default event objects will no longer be supported
 	 */
 	public function countEvents()
 	{
@@ -388,6 +397,8 @@ class Dispatcher implements DispatcherInterface
 	 *
 	 * @param   string          $name   The name of the event to dispatch.
 	 * @param   EventInterface  $event  The event to pass to the event handlers/listeners.
+	 *                                  If not supplied, an empty EventInterface instance is created.
+	 *                                  Note, not passing an event is deprecated and will be required as of 3.0.
 	 *
 	 * @return  EventInterface
 	 *
@@ -397,6 +408,14 @@ class Dispatcher implements DispatcherInterface
 	{
 		if (!($event instanceof EventInterface))
 		{
+			@trigger_error(
+				sprintf(
+					'Not passing an event object to %s() is deprecated, as of 3.0 the $event argument will be required.',
+					__METHOD__
+				),
+				E_USER_DEPRECATED
+			);
+
 			$event = $this->getDefaultEvent($name);
 		}
 
@@ -453,6 +472,7 @@ class Dispatcher implements DispatcherInterface
 	 * @return  EventInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
+	 * @deprecated  3.0  Default event objects will no longer be supported
 	 */
 	private function getDefaultEvent(string $name): EventInterface
 	{
