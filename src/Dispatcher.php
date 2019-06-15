@@ -44,6 +44,14 @@ class Dispatcher implements DispatcherInterface
 	 */
 	public function setEvent(EventInterface $event)
 	{
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated without replacement and will be removed in 3.0.',
+				__METHOD__
+			),
+			E_USER_DEPRECATED
+		);
+
 		$this->events[$event->getName()] = $event;
 
 		return $this;
@@ -61,6 +69,14 @@ class Dispatcher implements DispatcherInterface
 	 */
 	public function addEvent(EventInterface $event)
 	{
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated without replacement and will be removed in 3.0.',
+				__METHOD__
+			),
+			E_USER_DEPRECATED
+		);
+
 		if (!isset($this->events[$event->getName()]))
 		{
 			$this->events[$event->getName()] = $event;
@@ -81,6 +97,14 @@ class Dispatcher implements DispatcherInterface
 	 */
 	public function hasEvent($event)
 	{
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated without replacement and will be removed in 3.0.',
+				__METHOD__
+			),
+			E_USER_DEPRECATED
+		);
+
 		if ($event instanceof EventInterface)
 		{
 			$event = $event->getName();
@@ -102,6 +126,14 @@ class Dispatcher implements DispatcherInterface
 	 */
 	public function getEvent($name, $default = null)
 	{
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated without replacement and will be removed in 3.0.',
+				__METHOD__
+			),
+			E_USER_DEPRECATED
+		);
+
 		if (isset($this->events[$name]))
 		{
 			return $this->events[$name];
@@ -122,6 +154,14 @@ class Dispatcher implements DispatcherInterface
 	 */
 	public function removeEvent($event)
 	{
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated without replacement and will be removed in 3.0.',
+				__METHOD__
+			),
+			E_USER_DEPRECATED
+		);
+
 		if ($event instanceof EventInterface)
 		{
 			$event = $event->getName();
@@ -145,6 +185,14 @@ class Dispatcher implements DispatcherInterface
 	 */
 	public function getEvents()
 	{
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated without replacement and will be removed in 3.0.',
+				__METHOD__
+			),
+			E_USER_DEPRECATED
+		);
+
 		return $this->events;
 	}
 
@@ -158,6 +206,14 @@ class Dispatcher implements DispatcherInterface
 	 */
 	public function clearEvents()
 	{
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated without replacement and will be removed in 3.0.',
+				__METHOD__
+			),
+			E_USER_DEPRECATED
+		);
+
 		$events       = $this->events;
 		$this->events = [];
 
@@ -174,6 +230,14 @@ class Dispatcher implements DispatcherInterface
 	 */
 	public function countEvents()
 	{
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated without replacement and will be removed in 3.0.',
+				__METHOD__
+			),
+			E_USER_DEPRECATED
+		);
+
 		return \count($this->events);
 	}
 
