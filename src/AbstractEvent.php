@@ -134,7 +134,7 @@ abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializabl
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function stopPropagation()
+	public function stopPropagation(): void
 	{
 		$this->stopped = true;
 	}

@@ -358,7 +358,7 @@ class Dispatcher implements DispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function removeListener(string $eventName, callable $listener)
+	public function removeListener(string $eventName, callable $listener): void
 	{
 		if (isset($this->listeners[$eventName]))
 		{
@@ -417,7 +417,7 @@ class Dispatcher implements DispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function addSubscriber(SubscriberInterface $subscriber)
+	public function addSubscriber(SubscriberInterface $subscriber): void
 	{
 		foreach ($subscriber->getSubscribedEvents() as $eventName => $params)
 		{
@@ -441,7 +441,7 @@ class Dispatcher implements DispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function removeSubscriber(SubscriberInterface $subscriber)
+	public function removeSubscriber(SubscriberInterface $subscriber): void
 	{
 		foreach ($subscriber->getSubscribedEvents() as $eventName => $params)
 		{
@@ -468,7 +468,7 @@ class Dispatcher implements DispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function dispatch(string $name, EventInterface $event = null): EventInterface
+	public function dispatch(string $name, ?EventInterface $event = null): EventInterface
 	{
 		if (!($event instanceof EventInterface))
 		{

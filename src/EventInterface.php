@@ -53,5 +53,5 @@ interface EventInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function stopPropagation();
+	public function stopPropagation(): void;
 }

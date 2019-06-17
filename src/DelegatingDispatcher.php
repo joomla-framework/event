@@ -77,7 +77,7 @@ class DelegatingDispatcher implements DispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function dispatch(string $name, EventInterface $event = null): EventInterface
+	public function dispatch(string $name, ?EventInterface $event = null): EventInterface
 	{
 		return $this->dispatcher->dispatch($name, $event);
 	}

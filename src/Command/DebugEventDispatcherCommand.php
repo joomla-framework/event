@@ -55,7 +55,7 @@ class DebugEventDispatcherCommand extends AbstractCommand implements DispatcherA
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function configure()
+	protected function configure(): void
 	{
 		$this->setDescription("Displays information about the application's event dispatcher");
 		$this->addArgument('event', InputArgument::OPTIONAL, 'Show the listeners for a specific event');
@@ -189,7 +189,7 @@ EOF
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function renderEventListenerTable(array $eventListeners, SymfonyStyle $io)
+	private function renderEventListenerTable(array $eventListeners, SymfonyStyle $io): void
 	{
 		$tableHeaders = ['Order', 'Callable'];
 		$tableRows    = [];

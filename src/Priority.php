@@ -21,7 +21,7 @@ final class Priority
 	 * @var    integer
 	 * @since  1.0
 	 */
-	const MIN = -3;
+	public const MIN = -3;
 
 	/**
 	 * Indicates the event listener should have a low priority.
@@ -29,7 +29,7 @@ final class Priority
 	 * @var    integer
 	 * @since  1.0
 	 */
-	const LOW = -2;
+	public const LOW = -2;
 
 	/**
 	 * Indicates the event listener should have a below normal priority.
@@ -37,7 +37,7 @@ final class Priority
 	 * @var    integer
 	 * @since  1.0
 	 */
-	const BELOW_NORMAL = -1;
+	public const BELOW_NORMAL = -1;
 
 	/**
 	 * Indicates the event listener should have a normal priority. This is the default priority.
@@ -45,7 +45,7 @@ final class Priority
 	 * @var    integer
 	 * @since  1.0
 	 */
-	const NORMAL = 0;
+	public const NORMAL = 0;
 
 	/**
 	 * Indicates the event listener should have a above normal priority.
@@ -53,7 +53,7 @@ final class Priority
 	 * @var    integer
 	 * @since  1.0
 	 */
-	const ABOVE_NORMAL = 1;
+	public const ABOVE_NORMAL = 1;
 
 	/**
 	 * Indicates the event listener should have a high priority.
@@ -61,7 +61,7 @@ final class Priority
 	 * @var    integer
 	 * @since  1.0
 	 */
-	const HIGH = 2;
+	public const HIGH = 2;
 
 	/**
 	 * Indicates the event listener should have a maximum priority.
@@ -69,7 +69,7 @@ final class Priority
 	 * @var    integer
 	 * @since  1.0
 	 */
-	const MAX = 3;
+	public const MAX = 3;
 
 	/**
 	 * Disallow instantiation of this class

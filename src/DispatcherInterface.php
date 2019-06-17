@@ -27,7 +27,7 @@ interface DispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function dispatch(string $name, EventInterface $event = null): EventInterface;
+	public function dispatch(string $name, ?EventInterface $event = null): EventInterface;
 
 	/**
 	 * Attaches a listener to an event
@@ -77,7 +77,7 @@ interface DispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function removeListener(string $eventName, callable $listener);
+	public function removeListener(string $eventName, callable $listener): void;
 
 	/**
 	 * Adds an event subscriber.
@@ -88,7 +88,7 @@ interface DispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function addSubscriber(SubscriberInterface $subscriber);
+	public function addSubscriber(SubscriberInterface $subscriber): void;
 
 	/**
 	 * Removes an event subscriber.
@@ -99,5 +99,5 @@ interface DispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function removeSubscriber(SubscriberInterface $subscriber);
+	public function removeSubscriber(SubscriberInterface $subscriber): void;
 }
