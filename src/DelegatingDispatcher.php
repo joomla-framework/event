@@ -123,7 +123,7 @@ class DelegatingDispatcher implements DispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function removeListener(string $eventName, callable $listener)
+	public function removeListener(string $eventName, callable $listener): void
 	{
 		$this->dispatcher->removeListener($eventName, $listener);
 	}
