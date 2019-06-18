@@ -60,7 +60,7 @@ class DelegatingDispatcher implements DispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function addSubscriber(SubscriberInterface $subscriber)
+	public function addSubscriber(SubscriberInterface $subscriber): void
 	{
 		$this->dispatcher->addSubscriber($subscriber);
 	}
@@ -137,7 +137,7 @@ class DelegatingDispatcher implements DispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function removeSubscriber(SubscriberInterface $subscriber)
+	public function removeSubscriber(SubscriberInterface $subscriber): void
 	{
 		$this->dispatcher->removeSubscriber($subscriber);
 	}
