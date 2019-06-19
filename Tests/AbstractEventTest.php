@@ -246,7 +246,7 @@ class AbstractEventTest extends TestCase
 	 *
 	 * @since   1.0
 	 */
-	protected function setUp()
+	protected function setUp(): void
 	{
 		$this->instance = $this->getMockForAbstractClass('Joomla\Event\AbstractEvent', array('test'));
 	}

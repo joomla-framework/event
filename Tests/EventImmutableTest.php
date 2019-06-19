@@ -45,21 +45,19 @@ class EventImmutableTest extends TestCase
 	 * Test the constructor exception when calling it
 	 * on an already constructed object.
 	 *
-	 * @expectedException  \BadMethodCallException
-	 *
 	 * @return  void
 	 *
 	 * @since   1.0
 	 */
 	public function test__constructException()
 	{
+		$this->expectException(\BadMethodCallException::class);
+
 		$this->instance->__construct('foo');
 	}
 
 	/**
 	 * Test the offsetSet method.
-	 *
-	 * @expectedException  \BadMethodCallException
 	 *
 	 * @return  void
 	 *
@@ -67,13 +65,13 @@ class EventImmutableTest extends TestCase
 	 */
 	public function testOffsetSet()
 	{
+		$this->expectException(\BadMethodCallException::class);
+
 		$this->instance['foo'] = 'bar';
 	}
 
 	/**
 	 * Test the offsetUnset method.
-	 *
-	 * @expectedException  \BadMethodCallException
 	 *
 	 * @return  void
 	 *
@@ -81,6 +79,8 @@ class EventImmutableTest extends TestCase
 	 */
 	public function testOffsetUnSet()
 	{
+		$this->expectException(\BadMethodCallException::class);
+
 		unset($this->instance['foo']);
 	}
 
@@ -93,7 +93,7 @@ class EventImmutableTest extends TestCase
 	 *
 	 * @since   1.0
 	 */
-	protected function setUp()
+	protected function setUp(): void
 	{
 		$this->instance = new EventImmutable('test');
 	}

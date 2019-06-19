@@ -38,7 +38,7 @@ class DebugEventDispatcherCommandTest extends TestCase
 		$this->assertSame(0, $command->execute($input, $output));
 
 		$screenOutput = $output->fetch();
-		$this->assertContains('There are no listeners registered to the event dispatcher.', $screenOutput);
+		$this->assertStringContainsString('There are no listeners registered to the event dispatcher.', $screenOutput);
 	}
 
 	public function testTheCommandIsExecutedWithAConfiguredDispatcher()
@@ -62,8 +62,8 @@ class DebugEventDispatcherCommandTest extends TestCase
 
 		$screenOutput = $output->fetch();
 
-		$this->assertContains('Registered Listeners Grouped By Event', $screenOutput);
-		$this->assertContains('#1      Joomla\Event\Tests\Stubs\SomethingListener::onAfterSomething()', $screenOutput);
+		$this->assertStringContainsString('Registered Listeners Grouped By Event', $screenOutput);
+		$this->assertStringContainsString('#1      Joomla\Event\Tests\Stubs\SomethingListener::onAfterSomething()', $screenOutput);
 	}
 
 	public function testTheCommandIsExecutedWithAConfiguredDispatcherForASingleEventWithListeners()
@@ -88,8 +88,8 @@ class DebugEventDispatcherCommandTest extends TestCase
 
 		$screenOutput = $output->fetch();
 
-		$this->assertContains('Registered Listeners for "onAfterSomething" Event', $screenOutput);
-		$this->assertContains('#1      Joomla\Event\Tests\Stubs\SomethingListener::onAfterSomething()', $screenOutput);
+		$this->assertStringContainsString('Registered Listeners for "onAfterSomething" Event', $screenOutput);
+		$this->assertStringContainsString('#1      Joomla\Event\Tests\Stubs\SomethingListener::onAfterSomething()', $screenOutput);
 	}
 
 	public function testTheCommandIsExecutedWithAConfiguredDispatcherForASingleEventWithoutListeners()
@@ -114,6 +114,6 @@ class DebugEventDispatcherCommandTest extends TestCase
 
 		$screenOutput = $output->fetch();
 
-		$this->assertContains('The event "onAfterSomethingElse" does not have any', $screenOutput);
+		$this->assertStringContainsString('The event "onAfterSomethingElse" does not have any', $screenOutput);
 	}
 }
