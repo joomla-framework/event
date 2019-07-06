@@ -196,7 +196,7 @@ abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializabl
 	/**
 	 * Unserialize the event.
 	 *
-	 * @param   string  $serialized  The serialized event.
+	 * @param   array  $data  The serialized event.
 	 *
 	 * @return  void
 	 *
