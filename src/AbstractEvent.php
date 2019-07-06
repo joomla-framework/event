@@ -160,7 +160,23 @@ abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializabl
 	 */
 	public function serialize()
 	{
-		return serialize([$this->name, $this->arguments, $this->stopped]);
+		return serialize($this->__serialize());
+	}
+
+	/**
+	 * Serialize the event.
+	 *
+	 * @return  array  The data to be serialized
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __serialize()
+	{
+		return [
+			'name'      => $this->name,
+			'arguments' => $this->arguments,
+			'stopped'   => $this->stopped,
+		];
 	}
 
 	/**
@@ -174,7 +190,23 @@ abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializabl
 	 */
 	public function unserialize($serialized)
 	{
-		list($this->name, $this->arguments, $this->stopped) = unserialize($serialized);
+		$this->__unserialize(unserialize($serialized));
+	}
+
+	/**
+	 * Unserialize the event.
+	 *
+	 * @param   string  $serialized  The serialized event.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __unserialize(array $data)
+	{
+		$this->name      = $data['name'];
+		$this->arguments = $data['arguments'];
+		$this->stopped   = $data['stopped'];
 	}
 
 	/**
