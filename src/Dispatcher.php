@@ -492,7 +492,7 @@ class Dispatcher implements DispatcherInterface
 					return $event;
 				}
 
-				\call_user_func($listener, $event);
+				$listener($event);
 			}
 		}
 
