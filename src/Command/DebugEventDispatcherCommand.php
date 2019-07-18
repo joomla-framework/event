@@ -163,7 +163,7 @@ EOF
 				return 'Closure()';
 			}
 
-			if ($class = $r->getClosureScopeClass())
+			if (null !== $class = $r->getClosureScopeClass())
 			{
 				return sprintf('%s::%s()', $class->name, $r->name);
 			}
