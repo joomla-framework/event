@@ -370,3 +370,55 @@ $delegatingDispatcher = new DelegatingDispatcher($dispatcher);
 ```
 
 This is useful when you want to make sure that 3rd party applications, won't register or remove listeners from the Dispatcher.
+
+### Lazy event listeners
+
+Sometimes, you may have an event listener class which cannot be instantiated before the listener is registered with the Dispatcher (i.e. a circular dependency in your application). For scenarios such as this, the `Joomla\Event\LazyServiceEventListener` class is available which serves as a decorator around this service and loads it from a [PSR-11](http://www.php-fig.org/psr/psr-11/) compatible container.
+
+**NOTE** This feature is only available for single event listeners, it cannot be used to lazily load a subscriber implementing `Joomla\Event\SubscriberInterface`.
+
+```php
+use Joomla\DI\Container;
+use Joomla\Event\Dispatcher;
+use Joomla\Event\EventInterface;
+use Joomla\Event\LazyServiceEventListener;
+
+// This can be any PSR-11 compatible container
+$container = new Container;
+$container->set(
+    'lazy.service.listener',
+    function ()
+    {
+        // Instantiate your complex service, for brevity we will create a simple class which can be invoked
+        return new class
+        {
+            public function __invoke(EventInterface $event)
+            {
+                // Handle the event
+            }
+        };
+    }
+);
+$container->set(
+    'lazy.service.listener_with_method_name',
+    function ()
+    {
+        // Instantiate your complex service, for brevity we will create a simple class
+        return new class
+        {
+            public function onSomeEvent(EventInterface $event)
+            {
+                // Handle the event
+            }
+        };
+    }
+);
+
+$dispatcher = new Dispatcher;
+
+// The lazy listener can be created without specifying a method to be called if the class has an `__invoke()` method
+$dispatcher->addListener('some.event', new LazyServiceEventListener($container, 'lazy.service.listener'));
+
+// Or, the lazy listener can be used to trigger a specific method on a class
+$dispatcher->addListener('some.event', new LazyServiceEventListener($container, 'lazy.service.listener_with_method_name', 'onSomeEvent'));
+```
