@@ -104,13 +104,45 @@ final class DebugDispatcher implements DispatcherInterface
 	}
 
 	/**
+	 * Clear the listeners in this dispatcher.
+	 *
+	 * If an event is specified, the listeners will be cleared only for that event.
+	 *
+	 * @param   string  $event  The event name.
+	 *
+	 * @return  $this
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function clearListeners($event = null)
+	{
+		$this->dispatcher->clearListeners($event);
+
+		return $this;
+	}
+
+	/**
+	 * Count the number of registered listeners for the given event.
+	 *
+	 * @param   string  $event  The event name.
+	 *
+	 * @return  integer
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function countListeners($event)
+	{
+		return $this->dispatcher->countListeners($event);
+	}
+
+	/**
 	 * Get the listeners registered to the given event.
 	 *
-	 * @param   string  $event  The event to fetch listeners for
+	 * @param   string|null  $event  The event to fetch listeners for or null to fetch all listeners
 	 *
 	 * @return  callable[]  An array of registered listeners sorted according to their priorities.
 	 */
-	public function getListeners($event = null)
+	public function getListeners(?string $event = null)
 	{
 		return $this->dispatcher->getListeners($event);
 	}
@@ -120,12 +152,12 @@ final class DebugDispatcher implements DispatcherInterface
 	 *
 	 * If an event is specified, it will tell if the listener is registered for that event.
 	 *
-	 * @param   callable  $callback   The callable to check is listening to the event.
-	 * @param   string    $eventName  The event to check a listener is subscribed to.
+	 * @param   callable     $callback   The callable to check is listening to the event.
+	 * @param   string|null  $eventName  An optional event name to check a listener is subscribed to.
 	 *
 	 * @return  boolean  True if the listener is registered, false otherwise.
 	 */
-	public function hasListener(callable $callback, $eventName = null)
+	public function hasListener(callable $callback, ?string $eventName = null)
 	{
 		return $this->dispatcher->hasListener($callback, $eventName);
 	}
