@@ -51,21 +51,21 @@ interface DispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getListeners($event = null);
+	public function getListeners(?string $event = null);
 
 	/**
 	 * Tell if the given listener has been added.
 	 *
 	 * If an event is specified, it will tell if the listener is registered for that event.
 	 *
-	 * @param   callable  $callback   The callable to check is listening to the event.
-	 * @param   string    $eventName  The event to check a listener is subscribed to.
+	 * @param   callable     $callback   The callable to check is listening to the event.
+	 * @param   string|null  $eventName  An optional event name to check a listener is subscribed to.
 	 *
 	 * @return  boolean  True if the listener is registered, false otherwise.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function hasListener(callable $callback, $eventName = null);
+	public function hasListener(callable $callback, ?string $eventName = null);
 
 	/**
 	 * Removes an event listener from the specified event.

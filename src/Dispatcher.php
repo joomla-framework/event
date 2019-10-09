@@ -291,7 +291,7 @@ class Dispatcher implements DispatcherInterface
 	 *
 	 * @since   1.0
 	 */
-	public function getListeners($event = null)
+	public function getListeners(?string $event = null)
 	{
 		if ($event !== null)
 		{
@@ -319,13 +319,13 @@ class Dispatcher implements DispatcherInterface
 	 * If an event is specified, it will tell if the listener is registered for that event.
 	 *
 	 * @param   callable  $callback   The callable to check is listening to the event.
-	 * @param   string    $eventName  The event to check a listener is subscribed to.
+	 * @param   string    $eventName  An optional event name to check a listener is subscribed to.
 	 *
 	 * @return  boolean  True if the listener is registered, false otherwise.
 	 *
 	 * @since   1.0
 	 */
-	public function hasListener(callable $callback, $eventName = null)
+	public function hasListener(callable $callback, ?string $eventName = null)
 	{
 		if ($eventName)
 		{
