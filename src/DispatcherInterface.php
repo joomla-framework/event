@@ -43,6 +43,30 @@ interface DispatcherInterface
 	public function addListener(string $eventName, callable $callback, int $priority = 0): bool;
 
 	/**
+	 * Clear the listeners in this dispatcher.
+	 *
+	 * If an event is specified, the listeners will be cleared only for that event.
+	 *
+	 * @param   string  $event  The event name.
+	 *
+	 * @return  $this
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function clearListeners($event = null);
+
+	/**
+	 * Count the number of registered listeners for the given event.
+	 *
+	 * @param   string  $event  The event name.
+	 *
+	 * @return  integer
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function countListeners($event);
+
+	/**
 	 * Get the listeners registered to the given event.
 	 *
 	 * @param   string|null  $event  The event to fetch listeners for or null to fetch all listeners

@@ -399,7 +399,7 @@ class Dispatcher implements DispatcherInterface
 	 *
 	 * @param   string  $event  The event name.
 	 *
-	 * @return  integer  The number of registered listeners for the given event.
+	 * @return  integer
 	 *
 	 * @since   1.0
 	 */
