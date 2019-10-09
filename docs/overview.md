@@ -43,7 +43,7 @@ use Joomla\Event\EventInterface;
 
 $listener = function (EventInterface $event)
 {
-    // Do something with the event, you might want to inspect its arguments.
+	// Do something with the event, you might want to inspect its arguments.
 };
 ```
 
@@ -71,12 +71,12 @@ class ContentSubscriber implements SubscriberInterface
 	 * Returns an array of events this subscriber will listen to.
 	 */
 	public static function getSubscribedEvents(): array
-    {
-        return [
-            'onAfterContentSave'  => 'afterContentSave',
-            'onBeforeContentSave' => 'beforeContentSave',
-        ];
-    }
+	{
+		return [
+			'onAfterContentSave'  => 'afterContentSave',
+			'onBeforeContentSave' => 'beforeContentSave',
+		];
+	}
 
 	/**
 	 * Listens to the onBeforeContentSave event.
@@ -114,7 +114,7 @@ use Joomla\Event\Priority;
 
 function handle_event(EventInterface $event)
 {
-    // Do something with the event, you might want to inspect its arguments.
+	// Do something with the event, you might want to inspect its arguments.
 }
 
 // This is the subscriber class from the above example
@@ -124,24 +124,24 @@ $dispatcher = new Dispatcher;
 
 // Registering a method from a class instance
 $dispatcher->addListener(
-    'onAfterContentSave',
+	'onAfterContentSave',
 	[$subscriber, 'afterContentSave']
 );
 
 // Registering a function, you can also customise the priority to indicate if a listener should run sooner or later
 $dispatcher->addListener(
-    'onAfterContentSave',
+	'onAfterContentSave',
 	'App\handle_event',
-    Priority::HIGH
+	Priority::HIGH
 );
 
 // Registering a Closure
 $dispatcher->addListener(
-    'onAfterContentSave',
+	'onAfterContentSave',
 	function (EventInterface $event)
-    {
-        // Do something with the event, you might want to inspect its arguments.
-    }
+	{
+		// Do something with the event, you might want to inspect its arguments.
+	}
 );
 ```
 
@@ -176,15 +176,15 @@ $subscriber = new ContentSubscriber;
 $dispatcher = new Dispatcher;
 
 $dispatcher->addListener(
-    'onBeforeContentSave',
+	'onBeforeContentSave',
 	[$subscriber, 'beforeContentSave'],
-    Priority::HIGH
+	Priority::HIGH
 );
 
 $dispatcher->addListener(
-    'onAfterContentSave',
+	'onAfterContentSave',
 	[$subscriber, 'afterContentSave'],
-    Priority::ABOVE_NORMAL
+	Priority::ABOVE_NORMAL
 );
 ```
 
@@ -209,20 +209,20 @@ $subscriber = new ContentSubscriber;
 $dispatcher = new Dispatcher;
 
 $dispatcher->addListener(
-    'onBeforeContentSave',
+	'onBeforeContentSave',
 	[$subscriber, 'beforeContentSave'],
-    Priority::HIGH
+	Priority::HIGH
 );
 
 $dispatcher->addListener(
-    'onAfterContentSave',
+	'onAfterContentSave',
 	[$subscriber, 'afterContentSave'],
-    Priority::ABOVE_NORMAL
+	Priority::ABOVE_NORMAL
 );
 
 // Changed our mind, we don't want the onAfterContentSave event processed
 $dispatcher->removeListener(
-    'onAfterContentSave',
+	'onAfterContentSave',
 	[$subscriber, 'afterContentSave']
 );
 ```
@@ -245,7 +245,6 @@ $dispatcher = new Dispatcher;
 $dispatcher->addSubscriber(new ContentSubscriber);
 $dispatcher->removeSubscriber(new ContentSubscriber);
 ```
-
 
 #### Registering Custom Events
 
@@ -341,7 +340,7 @@ use Joomla\Event\DispatcherAwareTrait;
 
 class ContentModel implements DispatcherAwareInterface
 {
-    use DispatcherAwareTrait;
+	use DispatcherAwareTrait;
 
 	private const ON_BEFORE_SAVE_EVENT = 'onBeforeSaveEvent';
 	private const ON_AFTER_SAVE_EVENT = 'onAfterSaveEvent';
@@ -389,32 +388,32 @@ use Joomla\Event\LazyServiceEventListener;
 // This can be any PSR-11 compatible container
 $container = new Container;
 $container->set(
-    'lazy.service.listener',
-    function ()
-    {
-        // Instantiate your complex service, for brevity we will create a simple class which can be invoked
-        return new class
-        {
-            public function __invoke(EventInterface $event)
-            {
-                // Handle the event
-            }
-        };
-    }
+	'lazy.service.listener',
+	function ()
+	{
+		// Instantiate your complex service, for brevity we will create a simple class which can be invoked
+		return new class
+		{
+			public function __invoke(EventInterface $event)
+			{
+				// Handle the event
+			}
+		};
+	}
 );
 $container->set(
-    'lazy.service.listener_with_method_name',
-    function ()
-    {
-        // Instantiate your complex service, for brevity we will create a simple class
-        return new class
-        {
-            public function onSomeEvent(EventInterface $event)
-            {
-                // Handle the event
-            }
-        };
-    }
+	'lazy.service.listener_with_method_name',
+	function ()
+	{
+		// Instantiate your complex service, for brevity we will create a simple class
+		return new class
+		{
+			public function onSomeEvent(EventInterface $event)
+			{
+				// Handle the event
+			}
+		};
+	}
 );
 
 $dispatcher = new Dispatcher;
