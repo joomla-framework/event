@@ -12,6 +12,7 @@ namespace Joomla\Event;
  * A class containing an inner listeners priority queue that can be iterated multiple times.
  *
  * @since  1.0
+ * @internal
  */
 final class ListenersPriorityQueue implements \IteratorAggregate, \Countable
 {
