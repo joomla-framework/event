@@ -9,13 +9,13 @@
         "php": "^7.2.5"
     },
     "require-dev": {
-        "joomla/coding-standards": "~2.0@alpha",
-        "joomla/console": "~2.0",
-        "phpunit/phpunit": "~8.2",
-        "psr/container": "~1.0"
+        "joomla/coding-standards": "^2.0@alpha",
+        "joomla/console": "^2.0",
+        "phpunit/phpunit": "^8.5|^9.0",
+        "psr/container": "^1.0"
     },
     "suggest": {
-        "joomla/console": "If you want to use the DebugEventDispatcherCommand class, please install joomla/console:~2.0",
+        "joomla/console": "If you want to use the DebugEventDispatcherCommand class, please install joomla/console",
         "psr/container-implementation": "If you want to use the LazyServiceEventListener class, please install a PSR-11 container"
     },
     "autoload": {
