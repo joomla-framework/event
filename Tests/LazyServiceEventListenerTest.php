@@ -18,6 +18,10 @@ use Psr\Container\NotFoundExceptionInterface;
 class LazyServiceEventListenerTest extends TestCase
 {
 	/**
+	 * @testdox  The listener can be instantiated without a method name
+	 *
+	 * @covers   Joomla\Event\LazyServiceEventListener
+	 *
 	 * @doesNotPerformAssertions
 	 */
 	public function testListenerCanBeInstantiatedWithoutMethod()
@@ -27,7 +31,7 @@ class LazyServiceEventListenerTest extends TestCase
 		$container = $this->buildStubContainer();
 		$container->set(
 			$serviceId,
-			function (ContainerInterface $container)
+			static function (ContainerInterface $container)
 			{
 				return new \stdClass;
 			}
@@ -36,6 +40,11 @@ class LazyServiceEventListenerTest extends TestCase
 		new LazyServiceEventListener($container, $serviceId);
 	}
 
+	/**
+	 * @testdox  The listener cannot be instantiated without a service ID
+	 *
+	 * @covers   Joomla\Event\LazyServiceEventListener
+	 */
 	public function testListenerCannotBeInstantiatedWithoutAServiceId()
 	{
 		$this->expectException(\InvalidArgumentException::class);
@@ -49,7 +58,7 @@ class LazyServiceEventListenerTest extends TestCase
 		$container = $this->buildStubContainer();
 		$container->set(
 			'lazy.object',
-			function (ContainerInterface $container)
+			static function (ContainerInterface $container)
 			{
 				return new \stdClass;
 			}
@@ -58,6 +67,11 @@ class LazyServiceEventListenerTest extends TestCase
 		new LazyServiceEventListener($container, '');
 	}
 
+	/**
+	 * @testdox  The listener forwards a call to an invokable object
+	 *
+	 * @covers   Joomla\Event\LazyServiceEventListener
+	 */
 	public function testListenerTriggersAnInvokableClass()
 	{
 		$serviceId = 'lazy.object';
@@ -80,7 +94,7 @@ class LazyServiceEventListenerTest extends TestCase
 		$container = $this->buildStubContainer();
 		$container->set(
 			$serviceId,
-			function () use ($service)
+			static function () use ($service)
 			{
 				return $service;
 			}
@@ -94,6 +108,11 @@ class LazyServiceEventListenerTest extends TestCase
 		$this->assertTrue($service->isTriggered());
 	}
 
+	/**
+	 * @testdox  The listener forwards a call to a named method on a class
+	 *
+	 * @covers   Joomla\Event\LazyServiceEventListener
+	 */
 	public function testListenerTriggersAMethodOnAClass()
 	{
 		$serviceId = 'lazy.object';
@@ -116,7 +135,7 @@ class LazyServiceEventListenerTest extends TestCase
 		$container = $this->buildStubContainer();
 		$container->set(
 			$serviceId,
-			function () use ($service)
+			static function () use ($service)
 			{
 				return $service;
 			}
@@ -130,6 +149,11 @@ class LazyServiceEventListenerTest extends TestCase
 		$this->assertTrue($service->isTriggered());
 	}
 
+	/**
+	 * @testdox  The listener cannot forward a call to an unknown service
+	 *
+	 * @covers   Joomla\Event\LazyServiceEventListener
+	 */
 	public function testListenerCannotTriggerAnUnknownService()
 	{
 		$this->expectException(\RuntimeException::class);
@@ -143,6 +167,11 @@ class LazyServiceEventListenerTest extends TestCase
 		$listener($event);
 	}
 
+	/**
+	 * @testdox  The listener cannot forward a call to an object when no method name is provided and the object is not invokable
+	 *
+	 * @covers   Joomla\Event\LazyServiceEventListener
+	 */
 	public function testListenerCannotTriggerAMethodWhenMethodNameNotGivenAndClassNotInvokable()
 	{
 		$this->expectException(\InvalidArgumentException::class);
@@ -158,7 +187,7 @@ class LazyServiceEventListenerTest extends TestCase
 		$container = $this->buildStubContainer();
 		$container->set(
 			$serviceId,
-			function ()
+			static function ()
 			{
 				return new class
 				{
@@ -178,6 +207,11 @@ class LazyServiceEventListenerTest extends TestCase
 		$listener($event);
 	}
 
+	/**
+	 * @testdox  The listener cannot forward a call to an object when the given method does not exist
+	 *
+	 * @covers   Joomla\Event\LazyServiceEventListener
+	 */
 	public function testListenerCannotTriggerAMethodWhenTheGivenMethodNameDoesNotExist()
 	{
 		$service = new class
@@ -204,7 +238,7 @@ class LazyServiceEventListenerTest extends TestCase
 		$container = $this->buildStubContainer();
 		$container->set(
 			$serviceId,
-			function () use ($service)
+			static function () use ($service)
 			{
 				return $service;
 			}
@@ -241,7 +275,7 @@ class LazyServiceEventListenerTest extends TestCase
 			{
 				if (!is_callable($value))
 				{
-					$value = function () use ($value) {
+					$value = static function () use ($value) {
 						return $value;
 					};
 				}

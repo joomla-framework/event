@@ -19,6 +19,12 @@ use Symfony\Component\Console\Output\BufferedOutput;
  */
 class DebugEventDispatcherCommandTest extends TestCase
 {
+	/**
+	 * @testdox  The dispatcher can be described when empty
+	 *
+	 * @covers   Joomla\Event\Command\DebugEventDispatcherCommand
+	 * @uses     Joomla\Event\Dispatcher
+	 */
 	public function testTheCommandIsExecutedWithAnEmptyDispatcher()
 	{
 		$dispatcher = new Dispatcher;
@@ -41,6 +47,13 @@ class DebugEventDispatcherCommandTest extends TestCase
 		$this->assertStringContainsString('There are no listeners registered to the event dispatcher.', $screenOutput);
 	}
 
+	/**
+	 * @testdox  The dispatcher can be described when it contains listeners
+	 *
+	 * @covers   Joomla\Event\Command\DebugEventDispatcherCommand
+	 * @uses     Joomla\Event\Dispatcher
+	 * @uses     Joomla\Event\ListenersPriorityQueue
+	 */
 	public function testTheCommandIsExecutedWithAConfiguredDispatcher()
 	{
 		$dispatcher = new Dispatcher;
@@ -66,6 +79,13 @@ class DebugEventDispatcherCommandTest extends TestCase
 		$this->assertStringContainsString('#1      Joomla\Event\Tests\Stubs\SomethingListener::onAfterSomething()', $screenOutput);
 	}
 
+	/**
+	 * @testdox  The dispatcher can be described when it contains listeners for a single event
+	 *
+	 * @covers   Joomla\Event\Command\DebugEventDispatcherCommand
+	 * @uses     Joomla\Event\Dispatcher
+	 * @uses     Joomla\Event\ListenersPriorityQueue
+	 */
 	public function testTheCommandIsExecutedWithAConfiguredDispatcherForASingleEventWithListeners()
 	{
 		$dispatcher = new Dispatcher;
@@ -92,6 +112,13 @@ class DebugEventDispatcherCommandTest extends TestCase
 		$this->assertStringContainsString('#1      Joomla\Event\Tests\Stubs\SomethingListener::onAfterSomething()', $screenOutput);
 	}
 
+	/**
+	 * @testdox  The dispatcher can be described when it contains listeners and no listeners match a single event
+	 *
+	 * @covers   Joomla\Event\Command\DebugEventDispatcherCommand
+	 * @uses     Joomla\Event\Dispatcher
+	 * @uses     Joomla\Event\ListenersPriorityQueue
+	 */
 	public function testTheCommandIsExecutedWithAConfiguredDispatcherForASingleEventWithoutListeners()
 	{
 		$dispatcher = new Dispatcher;

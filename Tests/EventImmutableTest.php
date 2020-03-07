@@ -11,90 +11,55 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Tests for the EventImmutable class.
- *
- * @since  1.0
  */
 class EventImmutableTest extends TestCase
 {
 	/**
-	 * Object under tests.
+	 * @testdox  The constructor cannot be triggered multiple times
 	 *
-	 * @var    EventImmutable
-	 *
-	 * @since  1.0
+	 * @covers   Joomla\Event\EventImmutable
+	 * @uses     Joomla\Event\AbstractEvent
 	 */
-	private $instance;
-
-	/**
-	 * Test the constructor.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.0
-	 */
-	public function test__construct()
-	{
-		$arguments = array('foo' => 'bar');
-		$event = new EventImmutable('test', $arguments);
-
-		$this->assertEquals('test', $event->getName());
-		$this->assertEquals($arguments, $event->getArguments());
-	}
-
-	/**
-	 * Test the constructor exception when calling it
-	 * on an already constructed object.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.0
-	 */
-	public function test__constructException()
+	public function testCannotBeConstructedMultipleTimes()
 	{
 		$this->expectException(\BadMethodCallException::class);
 
-		$this->instance->__construct('foo');
+		$this->createEventWithoutArguments()->__construct('foo');
 	}
 
 	/**
-	 * Test the offsetSet method.
+	 * @testdox  An argument cannot be set on the event after it is instantiated
 	 *
-	 * @return  void
-	 *
-	 * @since   1.0
+	 * @covers   Joomla\Event\EventImmutable
+	 * @uses     Joomla\Event\AbstractEvent
 	 */
 	public function testOffsetSet()
 	{
 		$this->expectException(\BadMethodCallException::class);
 
-		$this->instance['foo'] = 'bar';
+		$this->createEventWithoutArguments()['foo'] = 'bar';
 	}
 
 	/**
-	 * Test the offsetUnset method.
+	 * @testdox  An argument cannot be removed from the event after it is instantiated
 	 *
-	 * @return  void
-	 *
-	 * @since   1.0
+	 * @covers   Joomla\Event\EventImmutable
+	 * @uses     Joomla\Event\AbstractEvent
 	 */
 	public function testOffsetUnSet()
 	{
 		$this->expectException(\BadMethodCallException::class);
 
-		unset($this->instance['foo']);
+		unset($this->createEventWithoutArguments()['foo']);
 	}
 
 	/**
-	 * Sets up the fixture.
+	 * Creates an event without any arguments
 	 *
-	 * This method is called before a test is executed.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.0
+	 * @return  EventImmutable
 	 */
-	protected function setUp(): void
+	private function createEventWithoutArguments(): EventImmutable
 	{
-		$this->instance = new EventImmutable('test');
+		return new EventImmutable('test');
 	}
 }
