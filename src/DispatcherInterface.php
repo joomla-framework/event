@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Event Package
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -25,7 +25,7 @@ interface DispatcherInterface
 	 *
 	 * @return  EventInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.0-beta
 	 */
 	public function dispatch(string $name, ?EventInterface $event = null): EventInterface;
 
@@ -38,7 +38,7 @@ interface DispatcherInterface
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.0-beta
 	 */
 	public function addListener(string $eventName, callable $callback, int $priority = 0): bool;
 
@@ -51,7 +51,7 @@ interface DispatcherInterface
 	 *
 	 * @return  $this
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.0-beta
 	 */
 	public function clearListeners($event = null);
 
@@ -62,7 +62,7 @@ interface DispatcherInterface
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.0-beta
 	 */
 	public function countListeners($event);
 
@@ -73,7 +73,7 @@ interface DispatcherInterface
 	 *
 	 * @return  callable[]  An array of registered listeners sorted according to their priorities.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.0-beta
 	 */
 	public function getListeners(?string $event = null);
 
@@ -87,7 +87,7 @@ interface DispatcherInterface
 	 *
 	 * @return  boolean  True if the listener is registered, false otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.0-beta
 	 */
 	public function hasListener(callable $callback, ?string $eventName = null);
 
@@ -99,7 +99,7 @@ interface DispatcherInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.0-beta
 	 */
 	public function removeListener(string $eventName, callable $listener): void;
 
@@ -110,7 +110,7 @@ interface DispatcherInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.0-beta
 	 */
 	public function addSubscriber(SubscriberInterface $subscriber): void;
 
@@ -121,7 +121,7 @@ interface DispatcherInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.0-beta
 	 */
 	public function removeSubscriber(SubscriberInterface $subscriber): void;
 }

@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Event Package
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -356,7 +356,7 @@ class Dispatcher implements DispatcherInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.0-beta
 	 */
 	public function removeListener(string $eventName, callable $listener): void
 	{
@@ -415,7 +415,7 @@ class Dispatcher implements DispatcherInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.0-beta
 	 */
 	public function addSubscriber(SubscriberInterface $subscriber): void
 	{
@@ -439,7 +439,7 @@ class Dispatcher implements DispatcherInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.0-beta
 	 */
 	public function removeSubscriber(SubscriberInterface $subscriber): void
 	{
@@ -466,7 +466,7 @@ class Dispatcher implements DispatcherInterface
 	 *
 	 * @return  EventInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.0-beta
 	 */
 	public function dispatch(string $name, ?EventInterface $event = null): EventInterface
 	{
@@ -535,7 +535,7 @@ class Dispatcher implements DispatcherInterface
 	 *
 	 * @return  EventInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   2.0.0-beta
 	 * @deprecated  3.0  Default event objects will no longer be supported
 	 */
 	private function getDefaultEvent(string $name): EventInterface
