@@ -20,7 +20,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * Command listing information about the application's event dispatcher.
  *
- * @since  2.0.0-beta
+ * @since  2.0.0
  */
 class DebugEventDispatcherCommand extends AbstractCommand implements DispatcherAwareInterface
 {
@@ -30,7 +30,7 @@ class DebugEventDispatcherCommand extends AbstractCommand implements DispatcherA
 	 * The default command name
 	 *
 	 * @var    string
-	 * @since  2.0.0-beta
+	 * @since  2.0.0
 	 */
 	protected static $defaultName = 'debug:event-dispatcher';
 
@@ -39,7 +39,7 @@ class DebugEventDispatcherCommand extends AbstractCommand implements DispatcherA
 	 *
 	 * @param   DispatcherInterface  $dispatcher  The application event dispatcher.
 	 *
-	 * @since   2.0.0-beta
+	 * @since   2.0.0
 	 */
 	public function __construct(DispatcherInterface $dispatcher)
 	{
@@ -53,7 +53,7 @@ class DebugEventDispatcherCommand extends AbstractCommand implements DispatcherA
 	 *
 	 * @return  void
 	 *
-	 * @since   2.0.0-beta
+	 * @since   2.0.0
 	 */
 	protected function configure(): void
 	{
@@ -79,7 +79,7 @@ EOF
 	 *
 	 * @return  integer  The command exit code
 	 *
-	 * @since   2.0.0-beta
+	 * @since   2.0.0
 	 */
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{
@@ -133,7 +133,7 @@ EOF
 	 *
 	 * @return  string
 	 *
-	 * @since   2.0.0-beta
+	 * @since   2.0.0
 	 * @throws  \ReflectionException
 	 * @note    This method is based on \Symfony\Bundle\FrameworkBundle\Console\Descriptor\TextDescriptor::formatCallable()
 	 */
@@ -187,7 +187,7 @@ EOF
 	 *
 	 * @return  void
 	 *
-	 * @since   2.0.0-beta
+	 * @since   2.0.0
 	 */
 	private function renderEventListenerTable(array $eventListeners, SymfonyStyle $io): void
 	{

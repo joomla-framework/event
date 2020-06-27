@@ -348,7 +348,7 @@ class Dispatcher implements DispatcherInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   2.0.0-beta
+	 * @since   2.0.0
 	 */
 	public function removeListener(string $eventName, callable $listener): void
 	{
@@ -407,7 +407,7 @@ class Dispatcher implements DispatcherInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   2.0.0-beta
+	 * @since   2.0.0
 	 */
 	public function addSubscriber(SubscriberInterface $subscriber): void
 	{
@@ -431,7 +431,7 @@ class Dispatcher implements DispatcherInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   2.0.0-beta
+	 * @since   2.0.0
 	 */
 	public function removeSubscriber(SubscriberInterface $subscriber): void
 	{
@@ -458,7 +458,7 @@ class Dispatcher implements DispatcherInterface
 	 *
 	 * @return  EventInterface
 	 *
-	 * @since   2.0.0-beta
+	 * @since   2.0.0
 	 */
 	public function dispatch(string $name, ?EventInterface $event = null): EventInterface
 	{
@@ -525,7 +525,7 @@ class Dispatcher implements DispatcherInterface
 	 *
 	 * @return  EventInterface
 	 *
-	 * @since   2.0.0-beta
+	 * @since   2.0.0
 	 * @deprecated  3.0  Default event objects will no longer be supported
 	 */
 	private function getDefaultEvent(string $name): EventInterface

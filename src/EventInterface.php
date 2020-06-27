@@ -24,7 +24,7 @@ interface EventInterface
 	 *
 	 * @return  mixed  The argument value or the default value.
 	 *
-	 * @since   2.0.0-beta
+	 * @since   2.0.0
 	 */
 	public function getArgument($name, $default = null);
 
@@ -51,7 +51,7 @@ interface EventInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   2.0.0-beta
+	 * @since   2.0.0
 	 */
 	public function stopPropagation(): void;
 }

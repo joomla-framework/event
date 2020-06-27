@@ -20,7 +20,7 @@ final class ListenersPriorityQueue implements \IteratorAggregate, \Countable
 	 * The listeners for an event.
 	 *
 	 * @var    array
-	 * @since  2.0.0-beta
+	 * @since  2.0.0
 	 */
 	private $listeners = [];
 

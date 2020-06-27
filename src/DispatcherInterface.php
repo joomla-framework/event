@@ -25,7 +25,7 @@ interface DispatcherInterface
 	 *
 	 * @return  EventInterface
 	 *
-	 * @since   2.0.0-beta
+	 * @since   2.0.0
 	 */
 	public function dispatch(string $name, ?EventInterface $event = null): EventInterface;
 
@@ -38,7 +38,7 @@ interface DispatcherInterface
 	 *
 	 * @return  boolean
 	 *
-	 * @since   2.0.0-beta
+	 * @since   2.0.0
 	 */
 	public function addListener(string $eventName, callable $callback, int $priority = 0): bool;
 
@@ -51,7 +51,7 @@ interface DispatcherInterface
 	 *
 	 * @return  $this
 	 *
-	 * @since   2.0.0-beta
+	 * @since   2.0.0
 	 */
 	public function clearListeners($event = null);
 
@@ -62,7 +62,7 @@ interface DispatcherInterface
 	 *
 	 * @return  integer
 	 *
-	 * @since   2.0.0-beta
+	 * @since   2.0.0
 	 */
 	public function countListeners($event);
 
@@ -73,7 +73,7 @@ interface DispatcherInterface
 	 *
 	 * @return  callable[]  An array of registered listeners sorted according to their priorities.
 	 *
-	 * @since   2.0.0-beta
+	 * @since   2.0.0
 	 */
 	public function getListeners(?string $event = null);
 
@@ -87,7 +87,7 @@ interface DispatcherInterface
 	 *
 	 * @return  boolean  True if the listener is registered, false otherwise.
 	 *
-	 * @since   2.0.0-beta
+	 * @since   2.0.0
 	 */
 	public function hasListener(callable $callback, ?string $eventName = null);
 
@@ -99,7 +99,7 @@ interface DispatcherInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   2.0.0-beta
+	 * @since   2.0.0
 	 */
 	public function removeListener(string $eventName, callable $listener): void;
 
@@ -110,7 +110,7 @@ interface DispatcherInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   2.0.0-beta
+	 * @since   2.0.0
 	 */
 	public function addSubscriber(SubscriberInterface $subscriber): void;
 
@@ -121,7 +121,7 @@ interface DispatcherInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   2.0.0-beta
+	 * @since   2.0.0
 	 */
 	public function removeSubscriber(SubscriberInterface $subscriber): void;
 }
