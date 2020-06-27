@@ -44,12 +44,11 @@ class Dispatcher implements DispatcherInterface
 	 */
 	public function setEvent(EventInterface $event)
 	{
-		@trigger_error(
-			sprintf(
-				'%1$s() is deprecated without replacement and will be removed in 3.0.',
-				__METHOD__
-			),
-			E_USER_DEPRECATED
+		trigger_deprecation(
+			'joomla/event',
+			'2.0.0',
+			'%s() is deprecated and will be removed in 3.0.',
+			__METHOD__
 		);
 
 		$this->events[$event->getName()] = $event;
@@ -69,12 +68,11 @@ class Dispatcher implements DispatcherInterface
 	 */
 	public function addEvent(EventInterface $event)
 	{
-		@trigger_error(
-			sprintf(
-				'%1$s() is deprecated without replacement and will be removed in 3.0.',
-				__METHOD__
-			),
-			E_USER_DEPRECATED
+		trigger_deprecation(
+			'joomla/event',
+			'2.0.0',
+			'%s() is deprecated and will be removed in 3.0.',
+			__METHOD__
 		);
 
 		if (!isset($this->events[$event->getName()]))
@@ -97,12 +95,11 @@ class Dispatcher implements DispatcherInterface
 	 */
 	public function hasEvent($event)
 	{
-		@trigger_error(
-			sprintf(
-				'%1$s() is deprecated without replacement and will be removed in 3.0.',
-				__METHOD__
-			),
-			E_USER_DEPRECATED
+		trigger_deprecation(
+			'joomla/event',
+			'2.0.0',
+			'%s() is deprecated and will be removed in 3.0.',
+			__METHOD__
 		);
 
 		if ($event instanceof EventInterface)
@@ -126,12 +123,11 @@ class Dispatcher implements DispatcherInterface
 	 */
 	public function getEvent($name, $default = null)
 	{
-		@trigger_error(
-			sprintf(
-				'%1$s() is deprecated without replacement and will be removed in 3.0.',
-				__METHOD__
-			),
-			E_USER_DEPRECATED
+		trigger_deprecation(
+			'joomla/event',
+			'2.0.0',
+			'%s() is deprecated and will be removed in 3.0.',
+			__METHOD__
 		);
 
 		if (isset($this->events[$name]))
@@ -154,12 +150,11 @@ class Dispatcher implements DispatcherInterface
 	 */
 	public function removeEvent($event)
 	{
-		@trigger_error(
-			sprintf(
-				'%1$s() is deprecated without replacement and will be removed in 3.0.',
-				__METHOD__
-			),
-			E_USER_DEPRECATED
+		trigger_deprecation(
+			'joomla/event',
+			'2.0.0',
+			'%s() is deprecated and will be removed in 3.0.',
+			__METHOD__
 		);
 
 		if ($event instanceof EventInterface)
@@ -185,12 +180,11 @@ class Dispatcher implements DispatcherInterface
 	 */
 	public function getEvents()
 	{
-		@trigger_error(
-			sprintf(
-				'%1$s() is deprecated without replacement and will be removed in 3.0.',
-				__METHOD__
-			),
-			E_USER_DEPRECATED
+		trigger_deprecation(
+			'joomla/event',
+			'2.0.0',
+			'%s() is deprecated and will be removed in 3.0.',
+			__METHOD__
 		);
 
 		return $this->events;
@@ -206,12 +200,11 @@ class Dispatcher implements DispatcherInterface
 	 */
 	public function clearEvents()
 	{
-		@trigger_error(
-			sprintf(
-				'%1$s() is deprecated without replacement and will be removed in 3.0.',
-				__METHOD__
-			),
-			E_USER_DEPRECATED
+		trigger_deprecation(
+			'joomla/event',
+			'2.0.0',
+			'%s() is deprecated and will be removed in 3.0.',
+			__METHOD__
 		);
 
 		$events       = $this->events;
@@ -230,12 +223,11 @@ class Dispatcher implements DispatcherInterface
 	 */
 	public function countEvents()
 	{
-		@trigger_error(
-			sprintf(
-				'%1$s() is deprecated without replacement and will be removed in 3.0.',
-				__METHOD__
-			),
-			E_USER_DEPRECATED
+		trigger_deprecation(
+			'joomla/event',
+			'2.0.0',
+			'%s() is deprecated and will be removed in 3.0.',
+			__METHOD__
 		);
 
 		return \count($this->events);
@@ -472,12 +464,11 @@ class Dispatcher implements DispatcherInterface
 	{
 		if (!($event instanceof EventInterface))
 		{
-			@trigger_error(
-				sprintf(
-					'Not passing an event object to %s() is deprecated, as of 3.0 the $event argument will be required.',
-					__METHOD__
-				),
-				E_USER_DEPRECATED
+			trigger_deprecation(
+				'joomla/event',
+				'2.0.0',
+				'Not passing an event object to %s() is deprecated, as of 3.0 the $event argument will be required.',
+				__METHOD__
 			);
 
 			$event = $this->getDefaultEvent($name);
@@ -511,13 +502,12 @@ class Dispatcher implements DispatcherInterface
 	 */
 	public function triggerEvent($event)
 	{
-		@trigger_error(
-			sprintf(
-				'%1$s() is deprecated and will be removed in 3.0, use %2$s::dispatch() instead.',
-				__METHOD__,
-				DispatcherInterface::class
-			),
-			E_USER_DEPRECATED
+		trigger_deprecation(
+			'joomla/event',
+			'2.0.0',
+			'%s() is deprecated and will be removed in 3.0, use %s::dispatch() instead.',
+			__METHOD__,
+			DispatcherInterface::class
 		);
 
 		if (!($event instanceof EventInterface))

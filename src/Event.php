@@ -101,13 +101,12 @@ class Event extends AbstractEvent
 	 */
 	public function stop()
 	{
-		@trigger_error(
-			sprintf(
-				'%1$s() is deprecated and will be removed in 3.0, use %2$s::stopPropagation() instead.',
-				__METHOD__,
-				EventInterface::class
-			),
-			E_USER_DEPRECATED
+		trigger_deprecation(
+			'joomla/event',
+			'2.0.0',
+			'%s() is deprecated and will be removed in 3.0, use %s::stopPropagation() instead.',
+			__METHOD__,
+			EventInterface::class
 		);
 
 		$this->stopPropagation();
