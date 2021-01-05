@@ -11,10 +11,32 @@ The Joomla! **Event** package provides foundations to build event systems and an
 
 * PHP 7.2 or later
 
-## Installation
+## Installation via Composer
 
-To install the package, you can run the following from the command line:
-           
+Add `"joomla/event": "~1.0"` to the require block in your composer.json and then run `composer install`.
+
+```json
+{
+	"require": {
+		"joomla/event": "2.0.*@dev"
+	}
+}
+```
+
+Alternatively, you can simply run the following from the command line:
+
 ```sh
-composer require joomla/event
+composer require joomla/event "2.0.*@dev"
+```
+
+If you want to include the test sources and docs, use
+
+```sh
+composer require --prefer-source joomla/event "2.0.*@dev"
+```
+
+If you want to include the test sources and docs, use
+
+```sh
+composer require --prefer-source joomla/event "~1.0"
 ```
