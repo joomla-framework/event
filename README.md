@@ -13,12 +13,12 @@ The Joomla! **Event** package provides foundations to build event systems and an
 
 ## Installation via Composer
 
-Add `"joomla/event": "~1.0"` to the require block in your composer.json and then run `composer install`.
+Add `"joomla/event": "~2.0"` to the require block in your composer.json and then run `composer install`.
 
 ```json
 {
 	"require": {
-		"joomla/event": "2.0.*@dev"
+		"joomla/event": "~2.0"
 	}
 }
 ```
@@ -26,17 +26,17 @@ Add `"joomla/event": "~1.0"` to the require block in your composer.json and then
 Alternatively, you can simply run the following from the command line:
 
 ```sh
-composer require joomla/event "2.0.*@dev"
+composer require joomla/event "~2.0"
 ```
 
 If you want to include the test sources and docs, use
 
 ```sh
-composer require --prefer-source joomla/event "2.0.*@dev"
+composer require --prefer-source joomla/event "~2.0"
 ```
 
 If you want to include the test sources and docs, use
 
 ```sh
-composer require --prefer-source joomla/event "~1.0"
+composer require --prefer-source joomla/event "~2.0"
 ```
