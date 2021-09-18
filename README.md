@@ -34,9 +34,3 @@ If you want to include the test sources and docs, use
 ```sh
 composer require --prefer-source joomla/event "~2.0"
 ```
-
-If you want to include the test sources and docs, use
-
-```sh
-composer require --prefer-source joomla/event "~2.0"
-```
