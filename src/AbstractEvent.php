@@ -146,6 +146,7 @@ abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializabl
 	 *
 	 * @since   1.0
 	 */
+	#[\ReturnTypeWillChange]
 	public function count()
 	{
 		return \count($this->arguments);
@@ -218,6 +219,7 @@ abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializabl
 	 *
 	 * @since   1.0
 	 */
+	#[\ReturnTypeWillChange]
 	public function offsetExists($name)
 	{
 		return $this->hasArgument($name);
@@ -232,6 +234,7 @@ abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializabl
 	 *
 	 * @since   1.0
 	 */
+	#[\ReturnTypeWillChange]
 	public function offsetGet($name)
 	{
 		return $this->getArgument($name);

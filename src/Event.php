@@ -123,6 +123,7 @@ class Event extends AbstractEvent
 	 * @since   1.0
 	 * @throws  InvalidArgumentException  If the argument name is null.
 	 */
+	#[\ReturnTypeWillChange]
 	public function offsetSet($name, $value)
 	{
 		if ($name === null)
@@ -142,6 +143,7 @@ class Event extends AbstractEvent
 	 *
 	 * @since   1.0
 	 */
+	#[\ReturnTypeWillChange]
 	public function offsetUnset($name)
 	{
 		$this->removeArgument($name);

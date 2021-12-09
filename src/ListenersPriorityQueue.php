@@ -134,6 +134,7 @@ final class ListenersPriorityQueue implements \IteratorAggregate, \Countable
 	 *
 	 * @since   1.0
 	 */
+	#[\ReturnTypeWillChange]
 	public function getIterator()
 	{
 		return new \ArrayIterator($this->getAll());
@@ -146,6 +147,7 @@ final class ListenersPriorityQueue implements \IteratorAggregate, \Countable
 	 *
 	 * @since   1.0
 	 */
+	#[\ReturnTypeWillChange]
 	public function count()
 	{
 		$count = 0;
