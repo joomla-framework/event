@@ -311,7 +311,7 @@ class Dispatcher implements DispatcherInterface
 	 * If an event is specified, it will tell if the listener is registered for that event.
 	 *
 	 * @param   callable  $callback   The callable to check is listening to the event.
-	 * @param   string    $eventName  An optional event name to check a listener is subscribed to.
+	 * @param   ?string   $eventName  An optional event name to check a listener is subscribed to.
 	 *
 	 * @return  boolean  True if the listener is registered, false otherwise.
 	 *
@@ -451,10 +451,10 @@ class Dispatcher implements DispatcherInterface
 	/**
 	 * Dispatches an event to all registered listeners.
 	 *
-	 * @param   string          $name   The name of the event to dispatch.
-	 * @param   EventInterface  $event  The event to pass to the event handlers/listeners.
-	 *                                  If not supplied, an empty EventInterface instance is created.
-	 *                                  Note, not passing an event is deprecated and will be required as of 3.0.
+	 * @param   string           $name   The name of the event to dispatch.
+	 * @param   ?EventInterface  $event  The event to pass to the event handlers/listeners.
+	 *                                   If not supplied, an empty EventInterface instance is created.
+	 *                                   Note, not passing an event is deprecated and will be required as of 3.0.
 	 *
 	 * @return  EventInterface
 	 *

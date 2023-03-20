@@ -20,7 +20,7 @@ final class LazyServiceEventListener
 	/**
 	 * The service container to load the service from
 	 *
-	 * @var    string
+	 * @var    ContainerInterface
 	 * @since  2.0.0
 	 */
 	private $container;
