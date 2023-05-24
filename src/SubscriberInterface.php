@@ -17,6 +17,8 @@ interface SubscriberInterface
 {
 	/**
 	 * Returns an array of events this subscriber will listen to.
+	 * The code must not depend on runtime state. 
+	 * All logic depending on runtime state must be put into the individual methods handling the events.
 	 *
 	 * The array keys are event names and the value can be:
 	 *
