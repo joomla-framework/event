@@ -96,7 +96,7 @@ class Event extends AbstractEvent
      * @return  void
      *
      * @since   1.0
-     * @deprecated  3.0  Use stopPropogation instead
+     * @deprecated  3.0  Use stopPropagation instead
      */
     public function stop()
     {

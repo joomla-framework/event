@@ -68,11 +68,11 @@ class LazyServiceEventListenerTest extends TestCase
 	}
 
 	/**
-	 * @testdox  The listener forwards a call to an invokable object
+	 * @testdox  The listener forwards a call to an invocable object
 	 *
 	 * @covers   Joomla\Event\LazyServiceEventListener
 	 */
-	public function testListenerTriggersAnInvokableClass()
+	public function testListenerTriggersAnInvocableClass()
 	{
 		$serviceId = 'lazy.object';
 
@@ -168,11 +168,11 @@ class LazyServiceEventListenerTest extends TestCase
 	}
 
 	/**
-	 * @testdox  The listener cannot forward a call to an object when no method name is provided and the object is not invokable
+	 * @testdox  The listener cannot forward a call to an object when no method name is provided and the object is not invocable
 	 *
 	 * @covers   Joomla\Event\LazyServiceEventListener
 	 */
-	public function testListenerCannotTriggerAMethodWhenMethodNameNotGivenAndClassNotInvokable()
+	public function testListenerCannotTriggerAMethodWhenMethodNameNotGivenAndClassNotInvocable()
 	{
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage(
