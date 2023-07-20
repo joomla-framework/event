@@ -10,8 +10,8 @@ namespace Joomla\Event;
 
 /**
  * Interface for error resistible events.
- * Event does not crash dispatching when exception happened,
- * the exception is collected, and dispatching continuous.
+ * Event do not crash the dispatching process when an exception happening,
+ * the exception is collected, and the dispatching process is continued.
  *
  * @since  __DEPLOY_VERSION__
  */
