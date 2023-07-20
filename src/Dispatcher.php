@@ -474,10 +474,13 @@ class Dispatcher implements DispatcherInterface
 			$event = $this->getDefaultEvent($name);
 		}
 
-		if (isset($this->listeners[$event->getName()]))
+		if (!isset($this->listeners[$event->getName()]))
 		{
-			$errorResistible = $event instanceof ErrorResistibleEventInterface;
+			return $event;
+		}
 
+		if ($event instanceof ErrorResistibleEventInterface)
+		{
 			foreach ($this->listeners[$event->getName()] as $listener)
 			{
 				if ($event->isStopped())
@@ -485,21 +488,26 @@ class Dispatcher implements DispatcherInterface
 					return $event;
 				}
 
-				if (!$errorResistible)
+				try
 				{
 					$listener($event);
 				}
-				else
+				catch (\Throwable $e)
 				{
-					try
-					{
-						$listener($event);
-					}
-					catch (\Throwable $e)
-					{
-						$event->addError($e);
-					}
+					$event->addError($e);
 				}
+			}
+		}
+		else
+		{
+			foreach ($this->listeners[$event->getName()] as $listener)
+			{
+				if ($event->isStopped())
+				{
+					return $event;
+				}
+
+				$listener($event);
 			}
 		}
 

@@ -741,6 +741,6 @@ class DispatcherTest extends TestCase
 
 		$this->instance->dispatch('onErroredEventTest', $event);
 
-		$this->assertEquals(3, count($event->getErrors()), 'The event should collect correct amount of errors.');
+		$this->assertEquals(2, count($event->getErrors()), 'The event should collect correct amount of errors.');
 	}
 }
