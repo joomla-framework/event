@@ -11,6 +11,7 @@ use Joomla\Event\Event;
 use Joomla\Event\EventInterface;
 use Joomla\Event\EventImmutable;
 use Joomla\Event\Priority;
+use Joomla\Event\Tests\Stubs\ErrorResistibleEvent;
 use Joomla\Event\Tests\Stubs\FirstListener;
 use Joomla\Event\Tests\Stubs\SecondListener;
 use Joomla\Event\Tests\Stubs\SomethingListener;
@@ -716,5 +717,30 @@ class DispatcherTest extends TestCase
 		$this->assertFalse($this->instance->hasListener([$listener, 'onBeforeSomething']));
 		$this->assertFalse($this->instance->hasListener([$listener, 'onSomething']));
 		$this->assertFalse($this->instance->hasListener([$listener, 'onAfterSomething']));
+	}
+
+	/**
+	 * @testdox  An error resistible event works as expected the dispatcher
+	 *
+	 * @covers   \Joomla\Event\Dispatcher
+	 * @uses     \Joomla\Event\ErrorResistibleEventInterface
+	 */
+	public function testErrorResistibleEvent()
+	{
+		$this->instance->addListener('onErroredEventTest', function () {
+			throw new \Exception('Event error 1');
+		});
+		$this->instance->addListener('onErroredEventTest', function () {
+			// No error
+		});
+		$this->instance->addListener('onErroredEventTest', function () {
+			throw new \Exception('Event error 2');
+		});
+
+		$event = new ErrorResistibleEvent('onErroredEventTest');
+
+		$this->instance->dispatch('onErroredEventTest', $event);
+
+		$this->assertEquals(3, count($event->getErrors()), 'The event should collect correct amount of errors.');
 	}
 }
