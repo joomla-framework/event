@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Part of the Joomla Framework Event Package
  *
@@ -12,7 +13,7 @@ use BadMethodCallException;
 
 /**
  * Implementation of an immutable Event.
- * An immutable event cannot be modified after instanciation :
+ * An immutable event cannot be modified after instantiation :
  *
  * - its propagation cannot be stopped
  * - its arguments cannot be modified
@@ -24,79 +25,78 @@ use BadMethodCallException;
  */
 final class EventImmutable extends AbstractEvent
 {
-	/**
-	 * A flag to see if the constructor has been
-	 * already called.
-	 *
-	 * @var  boolean
-	 */
-	private $constructed = false;
+    /**
+     * A flag to see if the constructor has been
+     * already called.
+     *
+     * @var  boolean
+     */
+    private $constructed = false;
 
-	/**
-	 * Constructor.
-	 *
-	 * @param   string  $name       The event name.
-	 * @param   array   $arguments  The event arguments.
-	 *
-	 * @throws  BadMethodCallException
-	 *
-	 * @since   1.0
-	 */
-	public function __construct($name, array $arguments = [])
-	{
-		if ($this->constructed)
-		{
-			throw new BadMethodCallException(
-				sprintf('Cannot reconstruct the EventImmutable %s.', $this->name)
-			);
-		}
+    /**
+     * Constructor.
+     *
+     * @param   string  $name       The event name.
+     * @param   array   $arguments  The event arguments.
+     *
+     * @throws  BadMethodCallException
+     *
+     * @since   1.0
+     */
+    public function __construct($name, array $arguments = [])
+    {
+        if ($this->constructed) {
+            throw new BadMethodCallException(
+                sprintf('Cannot reconstruct the EventImmutable %s.', $this->name)
+            );
+        }
 
-		$this->constructed = true;
+        $this->constructed = true;
 
-		parent::__construct($name, $arguments);
-	}
+        parent::__construct($name, $arguments);
+    }
 
-	/**
-	 * Set the value of an event argument.
-	 *
-	 * @param   string  $name   The argument name.
-	 * @param   mixed   $value  The argument value.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.0
-	 * @throws  BadMethodCallException
-	 */
-	public function offsetSet($name, $value)
-	{
-		throw new BadMethodCallException(
-			sprintf(
-				'Cannot set the argument %s of the immutable event %s.',
-				$name,
-				$this->name
-			)
-		);
-	}
+    /**
+     * Set the value of an event argument.
+     *
+     * @param   string  $name   The argument name.
+     * @param   mixed   $value  The argument value.
+     *
+     * @return  void
+     *
+     * @since   1.0
+     * @throws  BadMethodCallException
+     */
+    public function offsetSet($name, $value)
+    {
+        throw new BadMethodCallException(
+            sprintf(
+                'Cannot set the argument %s of the immutable event %s.',
+                $name,
+                $this->name
+            )
+        );
+    }
 
-	/**
-	 * Remove an event argument.
-	 *
-	 * @param   string  $name  The argument name.
-	 *
-	 * @return  void
-	 *
-	 * @throws  BadMethodCallException
-	 *
-	 * @since   1.0
-	 */
-	public function offsetUnset($name)
-	{
-		throw new BadMethodCallException(
-			sprintf(
-				'Cannot remove the argument %s of the immutable event %s.',
-				$name,
-				$this->name
-			)
-		);
-	}
+    /**
+     * Remove an event argument.
+     *
+     * @param   string  $name  The argument name.
+     *
+     * @return  void
+     *
+     * @throws  BadMethodCallException
+     *
+     * @since   1.0
+     */
+    public function offsetUnset($name)
+    {
+        throw new BadMethodCallException(
+            sprintf(
+                'Cannot remove the argument %s of the immutable event %s.',
+                $name,
+                $this->name
+            )
+        );
+    }
 }
