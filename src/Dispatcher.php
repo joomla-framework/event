@@ -450,8 +450,7 @@ class Dispatcher implements DispatcherInterface
         }
 
         if ($event instanceof ErrorResistibleEventInterface) {
-            foreach ($this->listeners[$event->getName()] as $listener)
-            {
+            foreach ($this->listeners[$event->getName()] as $listener) {
                 if ($event->isStopped()) {
                     return $event;
                 }
@@ -463,8 +462,7 @@ class Dispatcher implements DispatcherInterface
                 }
             }
         } else {
-            foreach ($this->listeners[$event->getName()] as $listener)
-            {
+            foreach ($this->listeners[$event->getName()] as $listener) {
                 if ($event->isStopped()) {
                     return $event;
                 }
