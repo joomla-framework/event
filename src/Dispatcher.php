@@ -445,36 +445,27 @@ class Dispatcher implements DispatcherInterface
             $event = $this->getDefaultEvent($name);
         }
 
-        if (!isset($this->listeners[$event->getName()]))
-        {
+        if (!isset($this->listeners[$event->getName()])) {
             return $event;
         }
 
-        if ($event instanceof ErrorResistibleEventInterface)
-        {
+        if ($event instanceof ErrorResistibleEventInterface) {
             foreach ($this->listeners[$event->getName()] as $listener)
             {
-                if ($event->isStopped())
-                {
+                if ($event->isStopped()) {
                     return $event;
                 }
 
-                try
-                {
+                try {
                     $listener($event);
-                }
-                catch (\Throwable $e)
-                {
+                } catch (\Throwable $e) {
                     $event->addError($e);
                 }
             }
-        }
-        else
-        {
+        } else {
             foreach ($this->listeners[$event->getName()] as $listener)
             {
-                if ($event->isStopped())
-                {
+                if ($event->isStopped()) {
                     return $event;
                 }
 
