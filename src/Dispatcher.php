@@ -458,7 +458,7 @@ class Dispatcher implements DispatcherInterface
                 try {
                     $listener($event);
                 } catch (\Throwable $e) {
-                    $event->addError($e);
+                    $event->handleError($e);
                 }
             }
         } else {

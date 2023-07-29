@@ -737,10 +737,32 @@ class DispatcherTest extends TestCase
 			throw new \Exception('Event error 2');
 		});
 
-		$event = new ErrorResistibleEvent('onErroredEventTest');
+		$errors = [];
+		$event  = new ErrorResistibleEvent('onErroredEventTest', [], function (\Throwable $e) use (&$errors) {
+			$errors[] = $e->getMessage();
+		});
 
 		$this->instance->dispatch('onErroredEventTest', $event);
 
-		$this->assertEquals(2, count($event->getErrors()), 'The event should collect correct amount of errors.');
+		$this->assertEquals(2, count($errors), 'The error handler of the event should collect correct amount of errors.');
+	}
+
+    /**
+	 * @testdox  An error resistible event throws an TypeError when error handler not set
+	 *
+	 * @covers   \Joomla\Event\Dispatcher
+	 * @uses     \Joomla\Event\ErrorResistibleEventInterface
+	 */
+	public function testErrorResistibleEventIncorectlyImplemented()
+	{
+		$this->instance->addListener('onErroredEventTest', function () {
+			throw new \Exception('Event error 1');
+		});
+
+		$event = new ErrorResistibleEvent('onErroredEventTest');
+
+		$this->expectException(\TypeError::class);
+
+		$this->instance->dispatch('onErroredEventTest', $event);
 	}
 }

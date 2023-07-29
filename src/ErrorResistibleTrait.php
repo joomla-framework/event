@@ -10,13 +10,21 @@
 namespace Joomla\Event;
 
 /**
- * Interface for error resistible events.
- * Event implementing this interface allows to handle errors of the event listener.
+ * Trait with base method for ErrorResistibleEventInterface
  *
  * @since  __DEPLOY_VERSION__
  */
-interface ErrorResistibleEventInterface
+trait ErrorResistibleTrait
 {
+    /**
+     * Error handler.
+     *
+     * @return callable
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    private $errorHandler;
+
     /**
      * Retrieve error handler for the event.
      *
@@ -24,7 +32,10 @@ interface ErrorResistibleEventInterface
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function getErrorHandler(): callable;
+    public function getErrorHandler(): callable
+    {
+        return $this->errorHandler;
+    }
 
     /**
      * Handle the error.
@@ -33,5 +44,9 @@ interface ErrorResistibleEventInterface
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function handleError(\Throwable $error): void;
+    public function handleError(\Throwable $error): void
+    {
+        $handler = $this->getErrorHandler();
+        $handler($error);
+    }
 }

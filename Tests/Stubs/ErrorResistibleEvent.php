@@ -7,6 +7,7 @@
 namespace Joomla\Event\Tests\Stubs;
 
 use Joomla\Event\ErrorResistibleEventInterface;
+use Joomla\Event\ErrorResistibleTrait;
 use Joomla\Event\Event;
 
 /**
@@ -16,36 +17,21 @@ use Joomla\Event\Event;
  */
 class ErrorResistibleEvent extends Event implements ErrorResistibleEventInterface
 {
-	/**
-	 * @var array
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $errors = [];
+    use ErrorResistibleTrait;
 
-	/**
-	 * Add an error that happened during dispatching of the event.
-	 *
-	 * @param   \Throwable   $error  The error instance
-	 *
-	 * @return void
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function addError(\Throwable $error): void
-	{
-		$this->errors[] = $error;
-	}
+    /**
+     * Constructor.
+     *
+     * @param   string      $name          The event name.
+     * @param   array       $arguments     The event arguments.
+     * @param   ?callable   $errorHandler  The event arguments.
+     *
+     * @since   @since  __DEPLOY_VERSION__
+     */
+    public function __construct($name, array $arguments = [], callable $errorHandler = null)
+    {
+        parent::__construct($name, $arguments);
 
-	/**
-	 * Get list of errors that happened during dispatching of the event.
-	 *
-	 * @return array
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function getErrors(): array
-	{
-		return $this->errors;
-	}
+        $this->errorHandler = $errorHandler;
+    }
 }
