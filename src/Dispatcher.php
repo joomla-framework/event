@@ -14,7 +14,7 @@ namespace Joomla\Event;
  *
  * @since  1.0
  */
-class Dispatcher implements DispatcherInterface
+class Dispatcher implements DispatcherInterface, DispatcherWithErrorHandlerInterface
 {
     /**
      * An array of registered events indexed by the event names.
@@ -32,6 +32,15 @@ class Dispatcher implements DispatcherInterface
      * @since  1.0
      */
     protected $listeners = [];
+
+    /**
+     * Error handler.
+     *
+     * @return callable
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $errorHandler;
 
     /**
      * Set an event to the dispatcher. It will replace any event with the same name.
@@ -451,7 +460,11 @@ class Dispatcher implements DispatcherInterface
                     return $event;
                 }
 
-                $listener($event);
+                try {
+                    $listener($event);
+                } catch (\Throwable $e) {
+                    $this->handleError($e, $event);
+                }
             }
         }
 
@@ -502,5 +515,42 @@ class Dispatcher implements DispatcherInterface
         }
 
         return new Event($name);
+    }
+
+    /**
+     * Set error handler for the dispatcher to handler errors in an event listeners.
+     *
+     * @param   ?callable   $handler  The error handler
+     *
+     * @return ?callable  Previous error handler
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function setErrorHandler(?callable $handler): ?callable
+    {
+        $previous = $this->errorHandler;
+
+        $this->errorHandler = $handler;
+
+        return $previous;
+    }
+
+    /**
+     * Handle the error. Or throw it when no handler were set.
+     *
+     * @param   \Throwable       $error  The error instance
+     * @param   EventInterface   $event  The event which were dispatched
+     *
+     * @since  __DEPLOY_VERSION__
+     *
+     * @throws \Throwable
+     */
+    protected function handleError(\Throwable $error, EventInterface $event): void
+    {
+        if (!$this->errorHandler) {
+            throw $error;
+        }
+
+        call_user_func($this->errorHandler, $error, $event);
     }
 }
