@@ -717,4 +717,69 @@ class DispatcherTest extends TestCase
 		$this->assertFalse($this->instance->hasListener([$listener, 'onSomething']));
 		$this->assertFalse($this->instance->hasListener([$listener, 'onAfterSomething']));
 	}
+
+	/**
+	 * @testdox  The dispatcher should throw an error when error handler not set
+	 *
+	 * @covers   Joomla\Event\Dispatcher
+	 * @uses     Joomla\Event\DispatcherWithErrorHandlerInterface
+	 */
+	public function testDispatcherWithErrorHandlerNotSet()
+	{
+		$event = new Event('onErroredEventTest');
+
+		$this->instance->addListener('onErroredEventTest', function () {
+			throw new \RuntimeException('Event error 1');
+		});
+
+		$this->expectException(\RuntimeException::class);
+
+		$this->instance->dispatch('onErroredEventTest', $event);
+	}
+
+	/**
+	 * @testdox  The dispatchers error handler should handle an errors
+	 *
+	 * @covers   Joomla\Event\Dispatcher
+	 * @uses     Joomla\Event\DispatcherWithErrorHandlerInterface
+	 */
+	public function testDispatcherWithErrorHandlerAreSet()
+	{
+		$event  = new Event('onErroredEventTest');
+		$errors = [];
+
+		$this->instance->addListener('onErroredEventTest', function () {
+			throw new \Exception('Event error 1');
+		});
+		$this->instance->addListener('onErroredEventTest', function () {
+			// No error
+		});
+		$this->instance->addListener('onErroredEventTest', function () {
+			throw new \Exception('Event error 2');
+		});
+
+		$this->instance->setErrorHandler(function (\Throwable $e) use (&$errors) {
+			$errors[] = $e;
+		});
+
+		$this->instance->dispatch('onErroredEventTest', $event);
+
+		$this->assertEquals(2, count($errors), 'The error handler should collect correct amount of errors.');
+	}
+
+	/**
+	 * @testdox  The dispatcher should return previous Error handler when new is set
+	 *
+	 * @covers   Joomla\Event\Dispatcher
+	 * @uses     Joomla\Event\DispatcherWithErrorHandlerInterface
+	 */
+	public function testDispatcherWithErrorHandlerReturnPrevious()
+	{
+		$prev1 = $this->instance->setErrorHandler('var_dump');
+		$prev2 = $this->instance->setErrorHandler('print_r');
+		$prev3 = $this->instance->setErrorHandler(null);
+
+		$this->assertEquals([null, 'var_dump', 'print_r'], [$prev1, $prev2, $prev3], 'The dispatcher should return previous Error handler');
+	}
+
 }
