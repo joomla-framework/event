@@ -14,7 +14,7 @@ namespace Joomla\Event;
  *
  * @since  1.0
  */
-class Dispatcher implements DispatcherInterface
+class Dispatcher implements DispatcherInterface, DispatcherDynamicSubscriberInterface
 {
     /**
      * An array of registered events indexed by the event names.
@@ -416,6 +416,50 @@ class Dispatcher implements DispatcherInterface
                 $this->removeListener($eventName, [$subscriber, $params[0]]);
             } else {
                 $this->removeListener($eventName, [$subscriber, $params]);
+            }
+        }
+    }
+
+    /**
+     * Adds an event dynamic subscriber.
+     *
+     * @param   DynamicSubscriberInterface  $subscriber  The subscriber.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function addDynamicSubscriber(DynamicSubscriberInterface $subscriber): void
+    {
+        foreach ($subscriber->getSubscribedEvents() as $eventName => $params) {
+            if (\is_array($params)) {
+                $callback = !\is_string($params[0]) && \is_callable($params[0]) ? $params[0] : [$subscriber, $params[0]];
+                $this->addListener($eventName, $callback, $params[1] ?? Priority::NORMAL);
+            } else {
+                $callback = !\is_string($params) && \is_callable($params) ? $params : [$subscriber, $params];
+                $this->addListener($eventName, $callback);
+            }
+        }
+    }
+
+    /**
+     * Removes an event dynamic subscriber.
+     *
+     * @param   DynamicSubscriberInterface  $subscriber  The subscriber.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function removeDynamicSubscriber(DynamicSubscriberInterface $subscriber): void
+    {
+        foreach ($subscriber->getSubscribedEvents() as $eventName => $params) {
+            if (\is_array($params)) {
+                $callback = !\is_string($params[0]) && \is_callable($params[0]) ? $params[0] : [$subscriber, $params[0]];
+                $this->removeListener($eventName, $callback);
+            } else {
+                $callback = !\is_string($params) && \is_callable($params) ? $params : [$subscriber, $params];
+                $this->removeListener($eventName, $callback);
             }
         }
     }
