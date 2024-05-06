@@ -13,6 +13,7 @@ use Joomla\Event\EventImmutable;
 use Joomla\Event\Priority;
 use Joomla\Event\Tests\Stubs\FirstListener;
 use Joomla\Event\Tests\Stubs\SecondListener;
+use Joomla\Event\Tests\Stubs\SomethingDynamicListener;
 use Joomla\Event\Tests\Stubs\SomethingListener;
 use Joomla\Event\Tests\Stubs\ThirdListener;
 use PHPUnit\Framework\TestCase;
@@ -715,6 +716,51 @@ class DispatcherTest extends TestCase
 
 		$this->assertFalse($this->instance->hasListener([$listener, 'onBeforeSomething']));
 		$this->assertFalse($this->instance->hasListener([$listener, 'onSomething']));
+		$this->assertFalse($this->instance->hasListener([$listener, 'onAfterSomething']));
+	}
+
+	/**
+	 * @testdox  An event dynamic subscriber is registered to the dispatcher
+	 *
+	 * @covers   Joomla\Event\Dispatcher
+	 * @uses     Joomla\Event\ListenersPriorityQueue
+	 */
+	public function testAddDynamicSubscriber()
+	{
+		$listener  = new SomethingDynamicListener;
+		$callbacks = $listener->getSubscribedEvents();
+
+		// Add our event subscriber
+		$this->instance->addDynamicSubscriber($listener);
+
+		$this->assertTrue($this->instance->hasListener([$listener, 'onBeforeSomething']));
+		$this->assertTrue($this->instance->hasListener($callbacks['onSomething']));
+		$this->assertTrue($this->instance->hasListener([$listener, 'onAfterSomething']));
+
+		$this->assertEquals(Priority::NORMAL, $this->instance->getListenerPriority('onBeforeSomething', [$listener, 'onBeforeSomething']));
+		$this->assertEquals(Priority::NORMAL, $this->instance->getListenerPriority('onSomething', $callbacks['onSomething']));
+		$this->assertEquals(Priority::HIGH, $this->instance->getListenerPriority('onAfterSomething', [$listener, 'onAfterSomething']));
+	}
+
+	/**
+	 * @testdox  An event dynamic subscriber is removed from the dispatcher
+	 *
+	 * @covers   Joomla\Event\Dispatcher
+	 * @uses     Joomla\Event\ListenersPriorityQueue
+	 */
+	public function testRemoveDynamicSubscriber()
+	{
+		$listener = new SomethingDynamicListener;
+		$callbacks = $listener->getSubscribedEvents();
+
+		// Add our event subscriber
+		$this->instance->addDynamicSubscriber($listener);
+
+		// And now remove it
+		$this->instance->removeDynamicSubscriber($listener);
+
+		$this->assertFalse($this->instance->hasListener([$listener, 'onBeforeSomething']));
+		$this->assertFalse($this->instance->hasListener($callbacks['onSomething']));
 		$this->assertFalse($this->instance->hasListener([$listener, 'onAfterSomething']));
 	}
 }
