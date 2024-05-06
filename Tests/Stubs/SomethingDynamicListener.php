@@ -27,6 +27,15 @@ class SomethingDynamicListener implements DynamicSubscriberInterface
 	private $onSomethingCallback;
 
 	/**
+	 * Callback for onSomething2.
+	 *
+	 * @var   callable
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private $onSomething2Callback;
+
+	/**
 	 * Listen to onBeforeSomething.
 	 *
 	 * @param   Event  $event  The event.
@@ -74,10 +83,14 @@ class SomethingDynamicListener implements DynamicSubscriberInterface
 		$this->onSomethingCallback = $this->onSomethingCallback ?? function (Event $event) {
 		};
 
+		$this->onSomething2Callback = $this->onSomething2Callback ?? function (Event $event) {
+		};
+
 		return [
 			'onBeforeSomething' => 'onBeforeSomething',
 			'onSomething'       => $this->onSomethingCallback,
-			'onAfterSomething'  => ['onAfterSomething', Priority::HIGH]
+			'onAfterSomething'  => ['onAfterSomething', Priority::HIGH],
+			'onSomething2'      => [$this->onSomething2Callback, Priority::LOW],
 		];
 	}
 }

@@ -736,10 +736,12 @@ class DispatcherTest extends TestCase
 		$this->assertTrue($this->instance->hasListener([$listener, 'onBeforeSomething']));
 		$this->assertTrue($this->instance->hasListener($callbacks['onSomething']));
 		$this->assertTrue($this->instance->hasListener([$listener, 'onAfterSomething']));
+		$this->assertTrue($this->instance->hasListener($callbacks['onSomething2'][0]));
 
 		$this->assertEquals(Priority::NORMAL, $this->instance->getListenerPriority('onBeforeSomething', [$listener, 'onBeforeSomething']));
 		$this->assertEquals(Priority::NORMAL, $this->instance->getListenerPriority('onSomething', $callbacks['onSomething']));
 		$this->assertEquals(Priority::HIGH, $this->instance->getListenerPriority('onAfterSomething', [$listener, 'onAfterSomething']));
+		$this->assertEquals(Priority::LOW, $this->instance->getListenerPriority('onSomething2', $callbacks['onSomething2'][0]));
 	}
 
 	/**
@@ -762,5 +764,6 @@ class DispatcherTest extends TestCase
 		$this->assertFalse($this->instance->hasListener([$listener, 'onBeforeSomething']));
 		$this->assertFalse($this->instance->hasListener($callbacks['onSomething']));
 		$this->assertFalse($this->instance->hasListener([$listener, 'onAfterSomething']));
+		$this->assertFalse($this->instance->hasListener($callbacks['onSomething2'][0]));
 	}
 }
