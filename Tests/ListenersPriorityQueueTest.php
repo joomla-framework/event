@@ -7,7 +7,6 @@
 namespace Joomla\Event\Tests;
 
 use Joomla\Event\ListenersPriorityQueue;
-use Joomla\Event\Tests\Stubs\EmptyListener;
 use PHPUnit\Framework\TestCase;
 
 /**
