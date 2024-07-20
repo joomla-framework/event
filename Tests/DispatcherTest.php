@@ -8,8 +8,8 @@ namespace Joomla\Event\Tests;
 
 use Joomla\Event\Dispatcher;
 use Joomla\Event\Event;
-use Joomla\Event\EventInterface;
 use Joomla\Event\EventImmutable;
+use Joomla\Event\EventInterface;
 use Joomla\Event\Priority;
 use Joomla\Event\Tests\Stubs\FirstListener;
 use Joomla\Event\Tests\Stubs\SecondListener;
