@@ -29,7 +29,7 @@ class ListenersPriorityQueueTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->instance = new ListenersPriorityQueue;
+        $this->instance = new ListenersPriorityQueue();
     }
 
     /**

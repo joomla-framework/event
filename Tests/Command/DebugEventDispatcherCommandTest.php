@@ -27,14 +27,14 @@ class DebugEventDispatcherCommandTest extends TestCase
      */
     public function testTheCommandIsExecutedWithAnEmptyDispatcher()
     {
-        $dispatcher = new Dispatcher;
+        $dispatcher = new Dispatcher();
 
         $input  = new ArrayInput(
             [
                 'command' => 'debug:event-dispatcher',
             ]
         );
-        $output = new BufferedOutput;
+        $output = new BufferedOutput();
 
         $application = new Application($input, $output);
 
@@ -56,15 +56,15 @@ class DebugEventDispatcherCommandTest extends TestCase
      */
     public function testTheCommandIsExecutedWithAConfiguredDispatcher()
     {
-        $dispatcher = new Dispatcher;
-        $dispatcher->addSubscriber(new SomethingListener);
+        $dispatcher = new Dispatcher();
+        $dispatcher->addSubscriber(new SomethingListener());
 
         $input  = new ArrayInput(
             [
                 'command' => 'debug:event-dispatcher',
             ]
         );
-        $output = new BufferedOutput;
+        $output = new BufferedOutput();
 
         $application = new Application($input, $output);
 
@@ -88,8 +88,8 @@ class DebugEventDispatcherCommandTest extends TestCase
      */
     public function testTheCommandIsExecutedWithAConfiguredDispatcherForASingleEventWithListeners()
     {
-        $dispatcher = new Dispatcher;
-        $dispatcher->addSubscriber(new SomethingListener);
+        $dispatcher = new Dispatcher();
+        $dispatcher->addSubscriber(new SomethingListener());
 
         $input  = new ArrayInput(
             [
@@ -97,7 +97,7 @@ class DebugEventDispatcherCommandTest extends TestCase
                 'event'   => 'onAfterSomething',
             ]
         );
-        $output = new BufferedOutput;
+        $output = new BufferedOutput();
 
         $application = new Application($input, $output);
 
@@ -121,8 +121,8 @@ class DebugEventDispatcherCommandTest extends TestCase
      */
     public function testTheCommandIsExecutedWithAConfiguredDispatcherForASingleEventWithoutListeners()
     {
-        $dispatcher = new Dispatcher;
-        $dispatcher->addSubscriber(new SomethingListener);
+        $dispatcher = new Dispatcher();
+        $dispatcher->addSubscriber(new SomethingListener());
 
         $input  = new ArrayInput(
             [
@@ -130,7 +130,7 @@ class DebugEventDispatcherCommandTest extends TestCase
                 'event'   => 'onAfterSomethingElse',
             ]
         );
-        $output = new BufferedOutput;
+        $output = new BufferedOutput();
 
         $application = new Application($input, $output);
 

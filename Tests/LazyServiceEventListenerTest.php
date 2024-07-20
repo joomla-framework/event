@@ -31,9 +31,8 @@ class LazyServiceEventListenerTest extends TestCase
         $container = $this->buildStubContainer();
         $container->set(
             $serviceId,
-            static function (ContainerInterface $container)
-            {
-                return new \stdClass;
+            static function (ContainerInterface $container) {
+                return new \stdClass();
             }
         );
 
@@ -58,9 +57,8 @@ class LazyServiceEventListenerTest extends TestCase
         $container = $this->buildStubContainer();
         $container->set(
             'lazy.object',
-            static function (ContainerInterface $container)
-            {
-                return new \stdClass;
+            static function (ContainerInterface $container) {
+                return new \stdClass();
             }
         );
 
@@ -76,8 +74,7 @@ class LazyServiceEventListenerTest extends TestCase
     {
         $serviceId = 'lazy.object';
 
-        $service = new class
-        {
+        $service = new class () {
             private $triggered = false;
 
             public function __invoke(): void
@@ -94,8 +91,7 @@ class LazyServiceEventListenerTest extends TestCase
         $container = $this->buildStubContainer();
         $container->set(
             $serviceId,
-            static function () use ($service)
-            {
+            static function () use ($service) {
                 return $service;
             }
         );
@@ -117,8 +113,7 @@ class LazyServiceEventListenerTest extends TestCase
     {
         $serviceId = 'lazy.object';
 
-        $service = new class
-        {
+        $service = new class () {
             private $triggered = false;
 
             public function isTriggered(): bool
@@ -135,8 +130,7 @@ class LazyServiceEventListenerTest extends TestCase
         $container = $this->buildStubContainer();
         $container->set(
             $serviceId,
-            static function () use ($service)
-            {
+            static function () use ($service) {
                 return $service;
             }
         );
@@ -187,10 +181,8 @@ class LazyServiceEventListenerTest extends TestCase
         $container = $this->buildStubContainer();
         $container->set(
             $serviceId,
-            static function ()
-            {
-                return new class
-                {
+            static function () {
+                return new class () {
                     private $triggered = false;
 
                     public function trigger(): void
@@ -214,8 +206,7 @@ class LazyServiceEventListenerTest extends TestCase
      */
     public function testListenerCannotTriggerAMethodWhenTheGivenMethodNameDoesNotExist()
     {
-        $service = new class
-        {
+        $service = new class () {
             private $triggered = false;
 
             public function trigger(): void
@@ -238,8 +229,7 @@ class LazyServiceEventListenerTest extends TestCase
         $container = $this->buildStubContainer();
         $container->set(
             $serviceId,
-            static function () use ($service)
-            {
+            static function () use ($service) {
                 return $service;
             }
         );
@@ -252,15 +242,13 @@ class LazyServiceEventListenerTest extends TestCase
 
     private function buildStubContainer(): ContainerInterface
     {
-        return new class implements ContainerInterface
-        {
+        return new class () implements ContainerInterface {
             private $services = [];
 
             public function get($id)
             {
-                if (!$this->has($id))
-                {
-                    throw new class extends \InvalidArgumentException implements NotFoundExceptionInterface {};
+                if (!$this->has($id)) {
+                    throw new class () extends \InvalidArgumentException implements NotFoundExceptionInterface {};
                 }
 
                 return $this->services[$id]($this);
@@ -273,8 +261,7 @@ class LazyServiceEventListenerTest extends TestCase
 
             public function set($id, $value)
             {
-                if (!is_callable($value))
-                {
+                if (!is_callable($value)) {
                     $value = static function () use ($value) {
                         return $value;
                     };

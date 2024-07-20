@@ -162,7 +162,7 @@ class AbstractEventTest extends TestCase
                 'test',
                 [
                     'string' => 'bar',
-                    'object' => new \stdClass,
+                    'object' => new \stdClass(),
                     'array'  => [
                         'foo'  => 'bar',
                         'test' => [

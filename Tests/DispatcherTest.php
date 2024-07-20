@@ -36,7 +36,7 @@ class DispatcherTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->instance = new Dispatcher;
+        $this->instance = new Dispatcher();
     }
 
     /**
@@ -234,9 +234,9 @@ class DispatcherTest extends TestCase
     public function testAddListener()
     {
         // Add 3 listeners listening to the same events.
-        $listener1 = new SomethingListener;
-        $listener2 = new SomethingListener;
-        $listener3 = new SomethingListener;
+        $listener1 = new SomethingListener();
+        $listener2 = new SomethingListener();
+        $listener3 = new SomethingListener();
 
         $this->instance->addListener('onBeforeSomething', [$listener1, 'onBeforeSomething']);
         $this->instance->addListener('onSomething', [$listener1, 'onSomething']);
@@ -281,7 +281,7 @@ class DispatcherTest extends TestCase
      */
     public function testAddListenerSpecifiedPriorities()
     {
-        $listener = new SomethingListener;
+        $listener = new SomethingListener();
 
         $this->instance->addListener('onBeforeSomething', [$listener, 'onBeforeSomething'], Priority::MIN);
         $this->instance->addListener('onSomething', [$listener, 'onSomething'], Priority::ABOVE_NORMAL);
@@ -326,7 +326,7 @@ class DispatcherTest extends TestCase
      */
     public function testGetListenerPriority()
     {
-        $listener = new SomethingListener;
+        $listener = new SomethingListener();
         $this->instance->addListener('onSomething', [$listener, 'onSomething']);
 
         $this->assertEquals(
@@ -349,9 +349,9 @@ class DispatcherTest extends TestCase
         $this->assertEmpty($this->instance->getListeners('onSomething'));
 
         // Add 3 listeners listening to the same events.
-        $listener1 = new SomethingListener;
-        $listener2 = new SomethingListener;
-        $listener3 = new SomethingListener;
+        $listener1 = new SomethingListener();
+        $listener2 = new SomethingListener();
+        $listener3 = new SomethingListener();
 
         $this->instance->addListener('onBeforeSomething', [$listener1, 'onBeforeSomething']);
         $this->instance->addListener('onSomething', [$listener1, 'onSomething']);
@@ -397,7 +397,7 @@ class DispatcherTest extends TestCase
      */
     public function testHasListener()
     {
-        $listener = new SomethingListener;
+        $listener = new SomethingListener();
         $this->instance->addListener('onSomething', [$listener, 'onSomething']);
         $this->assertTrue($this->instance->hasListener([$listener, 'onSomething'], 'onSomething'));
     }
@@ -411,9 +411,9 @@ class DispatcherTest extends TestCase
     public function testRemoveListeners()
     {
         // Add 3 listeners listening to the same events.
-        $listener1 = new SomethingListener;
-        $listener2 = new SomethingListener;
-        $listener3 = new SomethingListener;
+        $listener1 = new SomethingListener();
+        $listener2 = new SomethingListener();
+        $listener3 = new SomethingListener();
 
         $this->instance->addListener('onBeforeSomething', [$listener1, 'onBeforeSomething']);
         $this->instance->addListener('onBeforeSomething', [$listener2, 'onBeforeSomething']);
@@ -436,9 +436,9 @@ class DispatcherTest extends TestCase
     public function testClearListeners()
     {
         // Add 3 listeners listening to the same events.
-        $listener1 = new SomethingListener;
-        $listener2 = new SomethingListener;
-        $listener3 = new SomethingListener;
+        $listener1 = new SomethingListener();
+        $listener2 = new SomethingListener();
+        $listener3 = new SomethingListener();
 
         $this->instance->addListener('onBeforeSomething', [$listener1, 'onBeforeSomething']);
         $this->instance->addListener('onSomething', [$listener1, 'onSomething']);
@@ -490,9 +490,9 @@ class DispatcherTest extends TestCase
         $this->assertEquals(0, $this->instance->countListeners('onTest'));
 
         // Add 3 listeners listening to the same events.
-        $listener1 = new SomethingListener;
-        $listener2 = new SomethingListener;
-        $listener3 = new SomethingListener;
+        $listener1 = new SomethingListener();
+        $listener2 = new SomethingListener();
+        $listener3 = new SomethingListener();
 
         $this->instance->addListener('onBeforeSomething', [$listener1, 'onBeforeSomething']);
         $this->instance->addListener('onSomething', [$listener1, 'onSomething']);
@@ -533,9 +533,9 @@ class DispatcherTest extends TestCase
      */
     public function testTriggerEventSamePriority()
     {
-        $first  = new FirstListener;
-        $second = new SecondListener;
-        $third  = new ThirdListener;
+        $first  = new FirstListener();
+        $second = new SecondListener();
+        $third  = new ThirdListener();
 
         $fourth = static function (Event $event) {
             $listeners   = $event->getArgument('listeners');
@@ -577,9 +577,9 @@ class DispatcherTest extends TestCase
      */
     public function testTriggerEventDifferentPriorities()
     {
-        $first  = new FirstListener;
-        $second = new SecondListener;
-        $third  = new ThirdListener;
+        $first  = new FirstListener();
+        $second = new SecondListener();
+        $third  = new ThirdListener();
 
         $fourth = static function (Event $event) {
             $listeners   = $event->getArgument('listeners');
@@ -621,9 +621,9 @@ class DispatcherTest extends TestCase
      */
     public function testTriggerEventStopped()
     {
-        $first  = new FirstListener;
-        $second = new SecondListener;
-        $third  = new ThirdListener;
+        $first  = new FirstListener();
+        $second = new SecondListener();
+        $third  = new ThirdListener();
 
         $stopper = static function (Event $event) {
             $event->stop();
@@ -658,8 +658,7 @@ class DispatcherTest extends TestCase
     {
         $event = new Event('onSomething');
 
-        $listener = new class
-        {
+        $listener = new class () {
             public $triggered = false;
 
             public function onSomething(Event $event): void
@@ -683,7 +682,7 @@ class DispatcherTest extends TestCase
      */
     public function testAddSubscriber()
     {
-        $listener = new SomethingListener;
+        $listener = new SomethingListener();
 
         // Add our event subscriber
         $this->instance->addSubscriber($listener);
@@ -705,7 +704,7 @@ class DispatcherTest extends TestCase
      */
     public function testRemoveSubscriber()
     {
-        $listener = new SomethingListener;
+        $listener = new SomethingListener();
 
         // Add our event subscriber
         $this->instance->addSubscriber($listener);
