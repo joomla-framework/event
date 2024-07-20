@@ -78,7 +78,7 @@ class SomethingListener implements SubscriberInterface
         return [
             'onBeforeSomething' => 'onBeforeSomething',
             'onSomething'       => 'onSomething',
-            'onAfterSomething'  => ['onAfterSomething', Priority::HIGH]
+            'onAfterSomething'  => ['onAfterSomething', Priority::HIGH],
         ];
     }
 }
