@@ -17,68 +17,68 @@ use Joomla\Event\SubscriberInterface;
  */
 class SomethingListener implements SubscriberInterface
 {
-	/**
-	 * Listen to onBeforeSomething.
-	 *
-	 * @param   Event  $event  The event.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.0
-	 */
-	public function onBeforeSomething(Event $event)
-	{
-	}
+    /**
+     * Listen to onBeforeSomething.
+     *
+     * @param   Event  $event  The event.
+     *
+     * @return  void
+     *
+     * @since   1.0
+     */
+    public function onBeforeSomething(Event $event)
+    {
+    }
 
-	/**
-	 * Listen to onSomething.
-	 *
-	 * @param   Event  $event  The event.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.0
-	 */
-	public function onSomething(Event $event)
-	{
-	}
+    /**
+     * Listen to onSomething.
+     *
+     * @param   Event  $event  The event.
+     *
+     * @return  void
+     *
+     * @since   1.0
+     */
+    public function onSomething(Event $event)
+    {
+    }
 
-	/**
-	 * Listen to onAfterSomething.
-	 *
-	 * @param   Event  $event  The event.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.0
-	 */
-	public function onAfterSomething(Event $event)
-	{
-	}
+    /**
+     * Listen to onAfterSomething.
+     *
+     * @param   Event  $event  The event.
+     *
+     * @return  void
+     *
+     * @since   1.0
+     */
+    public function onAfterSomething(Event $event)
+    {
+    }
 
-	/**
-	 * Returns an array of events this subscriber will listen to.
-	 *
-	 * The array keys are event names and the value can be:
-	 *
-	 *  - The method name to call (priority defaults to 0)
-	 *  - An array composed of the method name to call and the priority
-	 *
-	 * For instance:
-	 *
-	 *  * array('eventName' => 'methodName')
-	 *  * array('eventName' => array('methodName', $priority))
-	 *
-	 * @return  array
-	 *
-	 * @since   2.0.0-beta
-	 */
-	public static function getSubscribedEvents(): array
-	{
-		return [
-			'onBeforeSomething' => 'onBeforeSomething',
-			'onSomething'       => 'onSomething',
-			'onAfterSomething'  => ['onAfterSomething', Priority::HIGH]
-		];
-	}
+    /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * The array keys are event names and the value can be:
+     *
+     *  - The method name to call (priority defaults to 0)
+     *  - An array composed of the method name to call and the priority
+     *
+     * For instance:
+     *
+     *  * array('eventName' => 'methodName')
+     *  * array('eventName' => array('methodName', $priority))
+     *
+     * @return  array
+     *
+     * @since   2.0.0-beta
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onBeforeSomething' => 'onBeforeSomething',
+            'onSomething'       => 'onSomething',
+            'onAfterSomething'  => ['onAfterSomething', Priority::HIGH]
+        ];
+    }
 }

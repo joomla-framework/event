@@ -16,30 +16,30 @@ use Joomla\Event\Event;
  */
 class FirstListener
 {
-	/**
-	 * Listen to `fooBar`.
-	 *
-	 * @param   Event  $event  The event.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.0
-	 */
-	public function fooBar(Event $event)
-	{
-	}
+    /**
+     * Listen to `fooBar`.
+     *
+     * @param   Event  $event  The event.
+     *
+     * @return  void
+     *
+     * @since   1.0
+     */
+    public function fooBar(Event $event)
+    {
+    }
 
-	/**
-	 * Listen to onSomething.
-	 *
-	 * @param   Event  $event  The event.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.0
-	 */
-	public function onSomething(Event $event)
-	{
-		$event->setArgument('listeners', array('first'));
-	}
+    /**
+     * Listen to onSomething.
+     *
+     * @param   Event  $event  The event.
+     *
+     * @return  void
+     *
+     * @since   1.0
+     */
+    public function onSomething(Event $event)
+    {
+        $event->setArgument('listeners', array('first'));
+    }
 }
