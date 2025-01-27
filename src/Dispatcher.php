@@ -247,7 +247,7 @@ class Dispatcher implements DispatcherInterface
         }
 
         // Basic Profiling for Plugins
-        if (constant('JDEBUG')) {
+        if (JDEBUG) {
             $classObj = '';
             $plgName = '';
 
