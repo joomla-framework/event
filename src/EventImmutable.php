@@ -67,7 +67,7 @@ final class EventImmutable extends AbstractEvent
      * @since   1.0
      * @throws  BadMethodCallException
      */
-    public function offsetSet($name, $value)
+    public function offsetSet($name, $value): void
     {
         throw new BadMethodCallException(
             sprintf(
@@ -89,7 +89,7 @@ final class EventImmutable extends AbstractEvent
      *
      * @since   1.0
      */
-    public function offsetUnset($name)
+    public function offsetUnset($name): void
     {
         throw new BadMethodCallException(
             sprintf(

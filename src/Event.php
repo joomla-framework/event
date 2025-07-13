@@ -101,10 +101,9 @@ class Event extends AbstractEvent
      * @since   1.0
      * @throws  InvalidArgumentException  If the argument name is null.
      */
-    #[\ReturnTypeWillChange]
-    public function offsetSet($name, $value)
+    public function offsetSet($name, $value): void
     {
-        if ($name === null) {
+        if ($name == null) {
             throw new InvalidArgumentException('The argument name cannot be null.');
         }
 
@@ -120,8 +119,7 @@ class Event extends AbstractEvent
      *
      * @since   1.0
      */
-    #[\ReturnTypeWillChange]
-    public function offsetUnset($name)
+    public function offsetUnset($name): void
     {
         $this->removeArgument($name);
     }
