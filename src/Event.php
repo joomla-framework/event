@@ -91,27 +91,6 @@ class Event extends AbstractEvent
     }
 
     /**
-     * Stop the event propagation.
-     *
-     * @return  void
-     *
-     * @since   1.0
-     * @deprecated  3.0  Use stopPropagation instead
-     */
-    public function stop()
-    {
-        trigger_deprecation(
-            'joomla/event',
-            '2.0.0',
-            '%s() is deprecated and will be removed in 3.0, use %s::stopPropagation() instead.',
-            __METHOD__,
-            EventInterface::class
-        );
-
-        $this->stopPropagation();
-    }
-
-    /**
      * Set the value of an event argument.
      *
      * @param   string  $name   The argument name.

@@ -17,217 +17,12 @@ namespace Joomla\Event;
 class Dispatcher implements DispatcherInterface
 {
     /**
-     * An array of registered events indexed by the event names.
-     *
-     * @var    EventInterface[]
-     * @since  1.0
-     * @deprecated  3.0  Default event objects will no longer be supported
-     */
-    protected $events = [];
-
-    /**
      * An array of ListenersPriorityQueue indexed by the event names.
      *
      * @var    ListenersPriorityQueue[]
      * @since  1.0
      */
     protected $listeners = [];
-
-    /**
-     * Set an event to the dispatcher. It will replace any event with the same name.
-     *
-     * @param   EventInterface  $event  The event.
-     *
-     * @return  $this
-     *
-     * @since   1.0
-     * @deprecated  3.0  Default event objects will no longer be supported
-     */
-    public function setEvent(EventInterface $event)
-    {
-        trigger_deprecation(
-            'joomla/event',
-            '2.0.0',
-            '%s() is deprecated and will be removed in 3.0.',
-            __METHOD__
-        );
-
-        $this->events[$event->getName()] = $event;
-
-        return $this;
-    }
-
-    /**
-     * Add an event to this dispatcher, only if it is not existing.
-     *
-     * @param   EventInterface  $event  The event.
-     *
-     * @return  $this
-     *
-     * @since   1.0
-     * @deprecated  3.0  Default event objects will no longer be supported
-     */
-    public function addEvent(EventInterface $event)
-    {
-        trigger_deprecation(
-            'joomla/event',
-            '2.0.0',
-            '%s() is deprecated and will be removed in 3.0.',
-            __METHOD__
-        );
-
-        if (!isset($this->events[$event->getName()])) {
-            $this->events[$event->getName()] = $event;
-        }
-
-        return $this;
-    }
-
-    /**
-     * Tell if the given event has been added to this dispatcher.
-     *
-     * @param   EventInterface|string  $event  The event object or name.
-     *
-     * @return  boolean  True if the listener has the given event, false otherwise.
-     *
-     * @since   1.0
-     * @deprecated  3.0  Default event objects will no longer be supported
-     */
-    public function hasEvent($event)
-    {
-        trigger_deprecation(
-            'joomla/event',
-            '2.0.0',
-            '%s() is deprecated and will be removed in 3.0.',
-            __METHOD__
-        );
-
-        if ($event instanceof EventInterface) {
-            $event = $event->getName();
-        }
-
-        return isset($this->events[$event]);
-    }
-
-    /**
-     * Get the event object identified by the given name.
-     *
-     * @param   string  $name     The event name.
-     * @param   mixed   $default  The default value if the event was not registered.
-     *
-     * @return  EventInterface|mixed  The event of the default value.
-     *
-     * @since   1.0
-     * @deprecated  3.0  Default event objects will no longer be supported
-     */
-    public function getEvent($name, $default = null)
-    {
-        trigger_deprecation(
-            'joomla/event',
-            '2.0.0',
-            '%s() is deprecated and will be removed in 3.0.',
-            __METHOD__
-        );
-
-        if (isset($this->events[$name])) {
-            return $this->events[$name];
-        }
-
-        return $default;
-    }
-
-    /**
-     * Remove an event from this dispatcher. The registered listeners will remain.
-     *
-     * @param   EventInterface|string  $event  The event object or name.
-     *
-     * @return  $this
-     *
-     * @since   1.0
-     * @deprecated  3.0  Default event objects will no longer be supported
-     */
-    public function removeEvent($event)
-    {
-        trigger_deprecation(
-            'joomla/event',
-            '2.0.0',
-            '%s() is deprecated and will be removed in 3.0.',
-            __METHOD__
-        );
-
-        if ($event instanceof EventInterface) {
-            $event = $event->getName();
-        }
-
-        if (isset($this->events[$event])) {
-            unset($this->events[$event]);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Get the registered events.
-     *
-     * @return  EventInterface[]  The registered event.
-     *
-     * @since   1.0
-     * @deprecated  3.0  Default event objects will no longer be supported
-     */
-    public function getEvents()
-    {
-        trigger_deprecation(
-            'joomla/event',
-            '2.0.0',
-            '%s() is deprecated and will be removed in 3.0.',
-            __METHOD__
-        );
-
-        return $this->events;
-    }
-
-    /**
-     * Clear all events.
-     *
-     * @return  EventInterface[]  The old events.
-     *
-     * @since   1.0
-     * @deprecated  3.0  Default event objects will no longer be supported
-     */
-    public function clearEvents()
-    {
-        trigger_deprecation(
-            'joomla/event',
-            '2.0.0',
-            '%s() is deprecated and will be removed in 3.0.',
-            __METHOD__
-        );
-
-        $events       = $this->events;
-        $this->events = [];
-
-        return $events;
-    }
-
-    /**
-     * Count the number of registered event.
-     *
-     * @return  integer  The number of registered events.
-     *
-     * @since   1.0
-     * @deprecated  3.0  Default event objects will no longer be supported
-     */
-    public function countEvents()
-    {
-        trigger_deprecation(
-            'joomla/event',
-            '2.0.0',
-            '%s() is deprecated and will be removed in 3.0.',
-            __METHOD__
-        );
-
-        return \count($this->events);
-    }
 
     /**
      * Attaches a listener to an event
@@ -423,28 +218,17 @@ class Dispatcher implements DispatcherInterface
     /**
      * Dispatches an event to all registered listeners.
      *
-     * @param   string           $name   The name of the event to dispatch.
-     * @param   ?EventInterface  $event  The event to pass to the event handlers/listeners.
-     *                                   If not supplied, an empty EventInterface instance is created.
-     *                                   Note, not passing an event is deprecated and will be required as of 3.0.
+     * @param   string          $name   The name of the event to dispatch.
+     * @param   EventInterface  $event  The event to pass to the event handlers/listeners.
+     *                                  If not supplied, an empty EventInterface instance is created.
+     *                                  Note, not passing an event is deprecated and will be required as of 3.0.
      *
      * @return  EventInterface
      *
      * @since   2.0.0
      */
-    public function dispatch(string $name, ?EventInterface $event = null): EventInterface
+    public function dispatch(string $name, EventInterface $event): EventInterface
     {
-        if (!($event instanceof EventInterface)) {
-            trigger_deprecation(
-                'joomla/event',
-                '2.0.0',
-                'Not passing an event object to %s() is deprecated, as of 3.0 the $event argument will be required.',
-                __METHOD__
-            );
-
-            $event = $this->getDefaultEvent($name);
-        }
-
         if (isset($this->listeners[$event->getName()])) {
             foreach ($this->listeners[$event->getName()] as $listener) {
                 if ($event->isStopped()) {
@@ -456,51 +240,5 @@ class Dispatcher implements DispatcherInterface
         }
 
         return $event;
-    }
-
-    /**
-     * Trigger an event.
-     *
-     * @param   EventInterface|string  $event  The event object or name.
-     *
-     * @return  EventInterface  The event after being passed through all listeners.
-     *
-     * @since   1.0
-     * @deprecated  3.0  Use dispatch() instead.
-     */
-    public function triggerEvent($event)
-    {
-        trigger_deprecation(
-            'joomla/event',
-            '2.0.0',
-            '%s() is deprecated and will be removed in 3.0, use %s::dispatch() instead.',
-            __METHOD__,
-            DispatcherInterface::class
-        );
-
-        if (!($event instanceof EventInterface)) {
-            $event = $this->getDefaultEvent($event);
-        }
-
-        return $this->dispatch($event->getName(), $event);
-    }
-
-    /**
-     * Get an event object for the specified event name
-     *
-     * @param   string  $name  The event name to get an EventInterface object for
-     *
-     * @return  EventInterface
-     *
-     * @since   2.0.0
-     * @deprecated  3.0  Default event objects will no longer be supported
-     */
-    private function getDefaultEvent(string $name): EventInterface
-    {
-        if (isset($this->events[$name])) {
-            return $this->events[$name];
-        }
-
-        return new Event($name);
     }
 }
