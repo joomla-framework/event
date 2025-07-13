@@ -254,7 +254,7 @@ class LazyServiceEventListenerTest extends TestCase
                 return $this->services[$id]($this);
             }
 
-            public function has($id)
+            public function has($id): bool
             {
                 return isset($this->services[$id]);
             }

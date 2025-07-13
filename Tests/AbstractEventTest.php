@@ -8,6 +8,7 @@ namespace Joomla\Event\Tests;
 
 use Joomla\Event\AbstractEvent;
 use Joomla\Event\Event;
+use Joomla\Event\Tests\Stubs\TestAbstractEvent;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -146,7 +147,7 @@ class AbstractEventTest extends TestCase
      */
     private function createEventWithoutArguments(): AbstractEvent
     {
-        return $this->getMockForAbstractClass(AbstractEvent::class, ['test']);
+        return new TestAbstractEvent('test');
     }
 
     /**
@@ -156,19 +157,15 @@ class AbstractEventTest extends TestCase
      */
     private function createEventWithArguments(): AbstractEvent
     {
-        return $this->getMockForAbstractClass(
-            AbstractEvent::class,
+        return new TestAbstractEvent('test',
             [
-                'test',
-                [
-                    'string' => 'bar',
-                    'object' => new \stdClass(),
-                    'array'  => [
+                'string' => 'bar',
+                'object' => new \stdClass(),
+                'array'  => [
+                    'foo'  => 'bar',
+                    'test' => [
                         'foo'  => 'bar',
-                        'test' => [
-                            'foo'  => 'bar',
-                            'test' => 'test',
-                        ],
+                        'test' => 'test',
                     ],
                 ],
             ]
