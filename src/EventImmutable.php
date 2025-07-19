@@ -67,6 +67,7 @@ final class EventImmutable extends AbstractEvent
      * @since   1.0
      * @throws  BadMethodCallException
      */
+    #[\ReturnTypeWillChange]
     public function offsetSet($name, $value)
     {
         throw new BadMethodCallException(
@@ -89,6 +90,7 @@ final class EventImmutable extends AbstractEvent
      *
      * @since   1.0
      */
+    #[\ReturnTypeWillChange]
     public function offsetUnset($name)
     {
         throw new BadMethodCallException(
