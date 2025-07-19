@@ -1,0 +1,9 @@
+parameters:
+	ignoreErrors:
+		-
+			message: """
+				#^Call to deprecated method getDefaultEvent\\(\\) of class Joomla\\\\Event\\\\Dispatcher\\:
+				3\\.0  Default event objects will no longer be supported$#
+			"""
+			count: 1
+			path: src/Dispatcher.php
