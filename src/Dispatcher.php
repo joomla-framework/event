@@ -21,7 +21,7 @@ class Dispatcher implements DispatcherInterface
      *
      * @var    EventInterface[]
      * @since  1.0
-     * @deprecated  3.0  Default event objects will no longer be supported
+     * @deprecated  2.0 will be removed in 5.0 Default event objects will no longer be supported
      */
     protected $events = [];
 
@@ -41,14 +41,14 @@ class Dispatcher implements DispatcherInterface
      * @return  $this
      *
      * @since   1.0
-     * @deprecated  3.0  Default event objects will no longer be supported
+     * @deprecated  2.0 will be removed in 5.0 Default event objects will no longer be supported
      */
     public function setEvent(EventInterface $event)
     {
         trigger_deprecation(
             'joomla/event',
             '2.0.0',
-            '%s() is deprecated and will be removed in 3.0.',
+            '%s() is deprecated and will be removed in 5.0.',
             __METHOD__
         );
 
@@ -65,14 +65,14 @@ class Dispatcher implements DispatcherInterface
      * @return  $this
      *
      * @since   1.0
-     * @deprecated  3.0  Default event objects will no longer be supported
+     * @deprecated  2.0 will be removed in 5.0 Default event objects will no longer be supported
      */
     public function addEvent(EventInterface $event)
     {
         trigger_deprecation(
             'joomla/event',
             '2.0.0',
-            '%s() is deprecated and will be removed in 3.0.',
+            '%s() is deprecated and will be removed in 5.0.',
             __METHOD__
         );
 
@@ -91,14 +91,14 @@ class Dispatcher implements DispatcherInterface
      * @return  boolean  True if the listener has the given event, false otherwise.
      *
      * @since   1.0
-     * @deprecated  3.0  Default event objects will no longer be supported
+     * @deprecated  2.0 will be removed in 5.0 Default event objects will no longer be supported
      */
     public function hasEvent($event)
     {
         trigger_deprecation(
             'joomla/event',
             '2.0.0',
-            '%s() is deprecated and will be removed in 3.0.',
+            '%s() is deprecated and will be removed in 5.0.',
             __METHOD__
         );
 
@@ -118,14 +118,14 @@ class Dispatcher implements DispatcherInterface
      * @return  EventInterface|mixed  The event of the default value.
      *
      * @since   1.0
-     * @deprecated  3.0  Default event objects will no longer be supported
+     * @deprecated  2.0 will be removed in 5.0 Default event objects will no longer be supported
      */
     public function getEvent($name, $default = null)
     {
         trigger_deprecation(
             'joomla/event',
             '2.0.0',
-            '%s() is deprecated and will be removed in 3.0.',
+            '%s() is deprecated and will be removed in 5.0.',
             __METHOD__
         );
 
@@ -144,14 +144,14 @@ class Dispatcher implements DispatcherInterface
      * @return  $this
      *
      * @since   1.0
-     * @deprecated  3.0  Default event objects will no longer be supported
+     * @deprecated  2.0 will be removed in 5.0 Default event objects will no longer be supported
      */
     public function removeEvent($event)
     {
         trigger_deprecation(
             'joomla/event',
             '2.0.0',
-            '%s() is deprecated and will be removed in 3.0.',
+            '%s() is deprecated and will be removed in 5.0.',
             __METHOD__
         );
 
@@ -172,14 +172,14 @@ class Dispatcher implements DispatcherInterface
      * @return  EventInterface[]  The registered event.
      *
      * @since   1.0
-     * @deprecated  3.0  Default event objects will no longer be supported
+     * @deprecated  2.0 will be removed in 5.0 Default event objects will no longer be supported
      */
     public function getEvents()
     {
         trigger_deprecation(
             'joomla/event',
             '2.0.0',
-            '%s() is deprecated and will be removed in 3.0.',
+            '%s() is deprecated and will be removed in 5.0.',
             __METHOD__
         );
 
@@ -192,14 +192,14 @@ class Dispatcher implements DispatcherInterface
      * @return  EventInterface[]  The old events.
      *
      * @since   1.0
-     * @deprecated  3.0  Default event objects will no longer be supported
+     * @deprecated  2.0 will be removed in 5.0 Default event objects will no longer be supported
      */
     public function clearEvents()
     {
         trigger_deprecation(
             'joomla/event',
             '2.0.0',
-            '%s() is deprecated and will be removed in 3.0.',
+            '%s() is deprecated and will be removed in 5.0.',
             __METHOD__
         );
 
@@ -215,14 +215,14 @@ class Dispatcher implements DispatcherInterface
      * @return  integer  The number of registered events.
      *
      * @since   1.0
-     * @deprecated  3.0  Default event objects will no longer be supported
+     * @deprecated  2.0 will be removed in 5.0 Default event objects will no longer be supported
      */
     public function countEvents()
     {
         trigger_deprecation(
             'joomla/event',
             '2.0.0',
-            '%s() is deprecated and will be removed in 3.0.',
+            '%s() is deprecated and will be removed in 5.0.',
             __METHOD__
         );
 
@@ -438,7 +438,7 @@ class Dispatcher implements DispatcherInterface
             trigger_deprecation(
                 'joomla/event',
                 '2.0.0',
-                'Not passing an event object to %s() is deprecated, as of 3.0 the $event argument will be required.',
+                'Not passing an event object to %s() is deprecated, as of 5.0 the $event argument will be required.',
                 __METHOD__
             );
 
@@ -466,14 +466,14 @@ class Dispatcher implements DispatcherInterface
      * @return  EventInterface  The event after being passed through all listeners.
      *
      * @since   1.0
-     * @deprecated  3.0  Use dispatch() instead.
+     * @deprecated  2.0 will be removed in 5.0 Use dispatch() instead.
      */
     public function triggerEvent($event)
     {
         trigger_deprecation(
             'joomla/event',
             '2.0.0',
-            '%s() is deprecated and will be removed in 3.0, use %s::dispatch() instead.',
+            '%s() is deprecated and will be removed in 5.0, use %s::dispatch() instead.',
             __METHOD__,
             DispatcherInterface::class
         );
@@ -493,7 +493,7 @@ class Dispatcher implements DispatcherInterface
      * @return  EventInterface
      *
      * @since   2.0.0
-     * @deprecated  3.0  Default event objects will no longer be supported
+     * @deprecated  2.0 will be removed in 5.0 Default event objects will no longer be supported
      */
     private function getDefaultEvent(string $name): EventInterface
     {
