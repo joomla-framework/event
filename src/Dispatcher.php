@@ -246,6 +246,27 @@ class Dispatcher implements DispatcherInterface
             $this->listeners[$eventName] = new ListenersPriorityQueue();
         }
 
+        // Basic Profiling for Plugins
+        if (JDEBUG) {
+            $classObj = '';
+            $plgName = '';
+
+            // Try getting the reference to the Class
+            $classObj = debug_backtrace()[1]['object'];
+
+            if ($classObj) {
+                // If we have found a reference get the Name
+                $plgName = get_class($classObj);
+            }
+
+            // Wrapping the Callback to get the time it executed
+            $callback = function (...$args) use($callback, $plgName, $eventName) {
+                \Joomla\CMS\Profiler\Profiler::getInstance('Application')->mark('beforeExecutePlugin ' . $plgName.'::'.$eventName);
+                $callback(...$args);
+                \Joomla\CMS\Profiler\Profiler::getInstance('Application')->mark('afterExecutePlugin ' . $plgName.'::'.$eventName);
+            };
+        }
+
         $this->listeners[$eventName]->add($callback, $priority);
 
         return true;
