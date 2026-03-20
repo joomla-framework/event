@@ -8,6 +8,7 @@ namespace Joomla\Event\Tests;
 
 use Joomla\Event\EventInterface;
 use Joomla\Event\LazyServiceEventListener;
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -21,9 +22,8 @@ class LazyServiceEventListenerTest extends TestCase
      * @testdox  The listener can be instantiated without a method name
      *
      * @covers   Joomla\Event\LazyServiceEventListener
-     *
-     * @doesNotPerformAssertions
      */
+    #[DoesNotPerformAssertions]
     public function testListenerCanBeInstantiatedWithoutMethod()
     {
         $serviceId = 'lazy.object';
@@ -96,7 +96,7 @@ class LazyServiceEventListenerTest extends TestCase
             }
         );
 
-        $event = $this->createMock(EventInterface::class);
+        $event = $this->createStub(EventInterface::class);
 
         $listener = new LazyServiceEventListener($container, $serviceId);
         $listener($event);
@@ -135,7 +135,7 @@ class LazyServiceEventListenerTest extends TestCase
             }
         );
 
-        $event = $this->createMock(EventInterface::class);
+        $event = $this->createStub(EventInterface::class);
 
         $listener = new LazyServiceEventListener($container, $serviceId, 'trigger');
         $listener($event);
@@ -155,7 +155,7 @@ class LazyServiceEventListenerTest extends TestCase
 
         $container = $this->buildStubContainer();
 
-        $event = $this->createMock(EventInterface::class);
+        $event = $this->createStub(EventInterface::class);
 
         $listener = new LazyServiceEventListener($container, 'lazy.object');
         $listener($event);
@@ -193,7 +193,7 @@ class LazyServiceEventListenerTest extends TestCase
             }
         );
 
-        $event = $this->createMock(EventInterface::class);
+        $event = $this->createStub(EventInterface::class);
 
         $listener = new LazyServiceEventListener($container, $serviceId);
         $listener($event);
@@ -234,7 +234,7 @@ class LazyServiceEventListenerTest extends TestCase
             }
         );
 
-        $event = $this->createMock(EventInterface::class);
+        $event = $this->createStub(EventInterface::class);
 
         $listener = new LazyServiceEventListener($container, $serviceId, 'doIt');
         $listener($event);
