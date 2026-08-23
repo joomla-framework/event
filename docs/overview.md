@@ -424,3 +424,32 @@ $dispatcher->addListener('some.event', new LazyServiceEventListener($container, 
 // Or, the lazy listener can be used to trigger a specific method on a class
 $dispatcher->addListener('some.event', new LazyServiceEventListener($container, 'lazy.service.listener_with_method_name', 'onSomeEvent'));
 ```
+
+## Things to know before you build on this
+
+**`dispatch()` ignores its first argument when an event object is passed.** The listeners that run
+are those registered for `$event->getName()`, not for the `$name` parameter:
+
+```php
+$dispatcher->dispatch('onBeforeSave', new Event('onAfterSave'));   // runs onAfterSave listeners
+```
+
+Keep the two identical.
+
+**A listener that throws aborts the chain.** There is no error isolation, so one failing listener
+prevents every later listener for that event from running. Catch inside listeners that can fail.
+
+**`LazyServiceEventListener` prefers `__invoke()` over the method you named.** The service is
+checked with `is_callable()` before `$method` is considered, so an invokable service ignores an
+explicitly configured method name. All of its validation also happens at dispatch time, not at
+registration.
+
+**Registering the same subscriber twice runs its listeners twice.** `addListener()` always appends
+and returns `true`; there is no duplicate check.
+
+**`clearListeners('0')` clears everything.** The argument is tested with `if ($event)`, and the
+string `'0'` is falsy.
+
+**`unserialize()` on an event is unrestricted.** `AbstractEvent::unserialize()` calls
+`unserialize()` without `allowed_classes`, so an event restored from a cache or a queue can
+instantiate arbitrary classes. Do not deserialize events from a store anyone else can write to.
