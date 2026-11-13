@@ -310,7 +310,7 @@ class Dispatcher implements DispatcherInterface
      */
     public function hasListener(callable $callback, ?string $eventName = null)
     {
-        if ($eventName) {
+        if ($eventName !== null) {
             if (isset($this->listeners[$eventName])) {
                 return $this->listeners[$eventName]->has($callback);
             }
@@ -347,7 +347,7 @@ class Dispatcher implements DispatcherInterface
      *
      * If an event is specified, the listeners will be cleared only for that event.
      *
-     * @param   string  $event  The event name.
+     * @param   ?string  $event  The event name, or null to clear the listeners of all events.
      *
      * @return  $this
      *
@@ -355,7 +355,7 @@ class Dispatcher implements DispatcherInterface
      */
     public function clearListeners($event = null)
     {
-        if ($event) {
+        if ($event !== null) {
             if (isset($this->listeners[$event])) {
                 unset($this->listeners[$event]);
             }

@@ -48,7 +48,7 @@ interface DispatcherInterface
      *
      * If an event is specified, the listeners will be cleared only for that event.
      *
-     * @param   string  $event  The event name.
+     * @param   ?string  $event  The event name, or null to clear the listeners of all events.
      *
      * @return  $this
      *
