@@ -82,7 +82,7 @@ abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializabl
      */
     public function getArgument($name, $default = null)
     {
-        if (isset($this->arguments[$name])) {
+        if (\array_key_exists($name, $this->arguments)) {
             return $this->arguments[$name];
         }
 
@@ -100,7 +100,7 @@ abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializabl
      */
     public function hasArgument($name)
     {
-        return isset($this->arguments[$name]);
+        return \array_key_exists($name, $this->arguments);
     }
 
     /**

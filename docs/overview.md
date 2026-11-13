@@ -25,6 +25,10 @@ $event->setArgument('foo', new \stdClass);
 $foo = $event->getArgument('foo');
 ```
 
+An argument whose value is `null` exists like any other: `hasArgument()` (and `isset($event['foo'])`) returns `true`,
+`getArgument()` returns `null` rather than the default, `addArgument()` does not overwrite it and `removeArgument()`
+removes it.
+
 Its propagation can be stopped
 
 ```php

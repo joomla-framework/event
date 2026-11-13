@@ -163,6 +163,21 @@ class EventTest extends TestCase
      *
      * @return  Event
      */
+    /**
+     * addArgument() keeps an existing null value and removeArgument() removes a null-valued argument.
+     */
+    public function testNullValuedArgumentIsKeptAndRemoved()
+    {
+        $event = new Event('test', ['foo' => null]);
+
+        $event->addArgument('foo', 'bar');
+        $this->assertNull($event->getArgument('foo', 'default'));
+
+        $this->assertNull($event->removeArgument('foo'));
+        $this->assertFalse($event->hasArgument('foo'));
+        $this->assertSame([], $event->getArguments());
+    }
+
     private function createEventWithoutArguments(): Event
     {
         return new Event('test');

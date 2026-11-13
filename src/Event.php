@@ -30,7 +30,7 @@ class Event extends AbstractEvent
      */
     public function addArgument($name, $value)
     {
-        if (!isset($this->arguments[$name])) {
+        if (!\array_key_exists($name, $this->arguments)) {
             $this->arguments[$name] = $value;
         }
 
@@ -67,7 +67,7 @@ class Event extends AbstractEvent
     {
         $return = null;
 
-        if (isset($this->arguments[$name])) {
+        if (\array_key_exists($name, $this->arguments)) {
             $return = $this->arguments[$name];
             unset($this->arguments[$name]);
         }
