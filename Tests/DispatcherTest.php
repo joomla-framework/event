@@ -715,4 +715,43 @@ class DispatcherTest extends TestCase
         $this->assertFalse($this->instance->hasListener([$listener, 'onSomething']));
         $this->assertFalse($this->instance->hasListener([$listener, 'onAfterSomething']));
     }
+
+    /**
+     * Dispatching an event object under a different name is deprecated; the event's own name decides which
+     * listeners are called.
+     */
+    public function testDispatchWithMismatchedEventNameTriggersDeprecation()
+    {
+        $called = [];
+
+        $this->instance->addListener('onBefore', function () use (&$called) {
+            $called[] = 'onBefore';
+        });
+        $this->instance->addListener('onAfter', function () use (&$called) {
+            $called[] = 'onAfter';
+        });
+
+        $deprecations = [];
+
+        set_error_handler(
+            function (int $errno, string $errstr) use (&$deprecations) {
+                $deprecations[] = $errstr;
+
+                return true;
+            },
+            E_USER_DEPRECATED
+        );
+
+        try {
+            $this->instance->dispatch('onBefore', new Event('onAfter'));
+            $this->instance->dispatch('onAfter', new Event('onAfter'));
+        } finally {
+            restore_error_handler();
+        }
+
+        $this->assertSame(['onAfter', 'onAfter'], $called);
+        $this->assertCount(1, $deprecations);
+        $this->assertStringContainsString('Passing an event named "onAfter"', $deprecations[0]);
+        $this->assertStringContainsString('for the event "onBefore"', $deprecations[0]);
+    }
 }
