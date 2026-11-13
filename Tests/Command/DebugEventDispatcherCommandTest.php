@@ -143,4 +143,40 @@ class DebugEventDispatcherCommandTest extends TestCase
 
         $this->assertStringContainsString('The event "onAfterSomethingElse" does not have any', $screenOutput);
     }
+
+    /**
+     * Anonymous closures are shown as "Closure()" on every PHP version (PHP 8.4 changed closure names to
+     * "{closure:file:line}"), while first-class callables keep their function or method name.
+     */
+    public function testTheCommandFormatsClosures()
+    {
+        $dispatcher = new Dispatcher();
+        $dispatcher->addListener('onClosure', function () {
+        });
+        $dispatcher->addListener('onClosure', static fn () => null);
+        $dispatcher->addListener('onFirstClassCallable', $this->testTheCommandFormatsClosures(...));
+        $dispatcher->addListener('onFirstClassCallable', strlen(...));
+
+        $input  = new ArrayInput(
+            [
+                'command' => 'debug:event-dispatcher',
+            ]
+        );
+        $output = new BufferedOutput();
+
+        $application = new Application($input, $output);
+
+        $command = new DebugEventDispatcherCommand($dispatcher);
+        $command->setApplication($application);
+
+        $this->assertSame(0, $command->execute($input, $output));
+
+        $screenOutput = $output->fetch();
+
+        $this->assertStringContainsString('#1      Closure()', $screenOutput);
+        $this->assertStringContainsString('#2      Closure()', $screenOutput);
+        $this->assertStringNotContainsString('{closure', $screenOutput);
+        $this->assertStringContainsString('::testTheCommandFormatsClosures()', $screenOutput);
+        $this->assertStringContainsString('strlen()', $screenOutput);
+    }
 }
