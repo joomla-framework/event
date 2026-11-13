@@ -416,6 +416,7 @@ and returns `true`; there is no duplicate check.
 **`clearListeners('0')` clears everything.** The argument is tested with `if ($event)`, and the
 string `'0'` is falsy.
 
-**`unserialize()` on an event is unrestricted.** `AbstractEvent::unserialize()` calls
-`unserialize()` without `allowed_classes`, so an event restored from a cache or a queue can
-instantiate arbitrary classes. Do not deserialize events from a store anyone else can write to.
+**Unserializing an event restores its arguments as they were.** Events are serialized with
+`__serialize()`/`__unserialize()`, and the arguments may contain objects of any class, so an event
+restored from a cache or a queue can instantiate arbitrary classes unless you pass `allowed_classes`
+to `unserialize()`. Do not deserialize events from a store anyone else can write to.
