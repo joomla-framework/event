@@ -453,3 +453,5 @@ string `'0'` is falsy.
 **`unserialize()` on an event is unrestricted.** `AbstractEvent::unserialize()` calls
 `unserialize()` without `allowed_classes`, so an event restored from a cache or a queue can
 instantiate arbitrary classes. Do not deserialize events from a store anyone else can write to.
+Data that is not a valid event (not an array, or without a string `name`, an array `arguments` and
+a boolean `stopped`) is rejected with an `UnexpectedValueException`.
