@@ -151,7 +151,7 @@ EOF
         if ($callable instanceof \Closure) {
             $r = new \ReflectionFunction($callable);
 
-            if (strpos($r->name, '{closure}') !== false) {
+            if (str_contains($r->name, '{closure')) {
                 return 'Closure()';
             }
 
