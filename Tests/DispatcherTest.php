@@ -715,4 +715,25 @@ class DispatcherTest extends TestCase
         $this->assertFalse($this->instance->hasListener([$listener, 'onSomething']));
         $this->assertFalse($this->instance->hasListener([$listener, 'onAfterSomething']));
     }
+
+    /**
+     * The event name '0' is not mistaken for "all events" by clearListeners() and hasListener().
+     */
+    public function testFalsyEventNameIsNotTreatedAsAllEvents()
+    {
+        $listener = function () {
+        };
+
+        $this->instance->addListener('onAfter', $listener);
+        $this->instance->addListener('0', function () {
+        });
+
+        $this->assertFalse($this->instance->hasListener($listener, '0'));
+        $this->assertTrue($this->instance->hasListener($listener));
+
+        $this->instance->clearListeners('0');
+
+        $this->assertSame(0, $this->instance->countListeners('0'));
+        $this->assertSame(1, $this->instance->countListeners('onAfter'));
+    }
 }

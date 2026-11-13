@@ -447,8 +447,8 @@ registration.
 **Registering the same subscriber twice runs its listeners twice.** `addListener()` always appends
 and returns `true`; there is no duplicate check.
 
-**`clearListeners('0')` clears everything.** The argument is tested with `if ($event)`, and the
-string `'0'` is falsy.
+**`clearListeners()` and `hasListener()` treat only `null` as "all events".** Any string, including
+`'0'` and `''`, is an event name: `clearListeners('0')` only clears the listeners of the event `0`.
 
 **`unserialize()` on an event is unrestricted.** `AbstractEvent::unserialize()` calls
 `unserialize()` without `allowed_classes`, so an event restored from a cache or a queue can
