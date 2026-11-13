@@ -163,6 +163,19 @@ class EventTest extends TestCase
      *
      * @return  Event
      */
+    /**
+     * The argument names 0 and '' can be set when accessing the event as an array.
+     */
+    public function testOffsetSetWithFalsyName()
+    {
+        $event = $this->createEventWithoutArguments();
+        $event[0]  = 'zero';
+        $event[''] = 'empty';
+
+        $this->assertSame('zero', $event->getArgument(0));
+        $this->assertSame('empty', $event->getArgument(''));
+    }
+
     private function createEventWithoutArguments(): Event
     {
         return new Event('test');

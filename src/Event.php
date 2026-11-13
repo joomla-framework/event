@@ -114,8 +114,8 @@ class Event extends AbstractEvent
     /**
      * Set the value of an event argument.
      *
-     * @param   string  $name   The argument name.
-     * @param   mixed   $value  The argument value.
+     * @param   string|integer|null  $name   The argument name; null when appending (`$event[] = $value`).
+     * @param   mixed                $value  The argument value.
      *
      * @return  void
      *
@@ -124,7 +124,7 @@ class Event extends AbstractEvent
      */
     public function offsetSet($name, $value): void
     {
-        if ($name == null) {
+        if ($name === null) {
             throw new InvalidArgumentException('The argument name cannot be null.');
         }
 
