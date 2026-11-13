@@ -19,6 +19,7 @@
     },
     "suggest": {
         "joomla/console": "If you want to use the DebugEventDispatcherCommand class, please install joomla/console",
+        "psr/container": "If you want to use the LazyServiceEventListener class, please install psr/container",
         "psr/container-implementation": "If you want to use the LazyServiceEventListener class, please install a PSR-11 container"
     },
     "autoload": {
@@ -31,5 +32,6 @@
             "Joomla\\Event\\Tests\\": "Tests/"
         }
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
