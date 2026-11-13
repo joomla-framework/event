@@ -9,6 +9,7 @@ namespace Joomla\Event\Tests;
 use Joomla\Event\AbstractEvent;
 use Joomla\Event\Event;
 use Joomla\Event\Tests\Stubs\TestAbstractEvent;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -110,6 +111,38 @@ class AbstractEventTest extends TestCase
         $event = $this->createEventWithArguments();
 
         $this->assertEquals($event, unserialize(serialize($event)));
+    }
+
+    /**
+     * The legacy Serializable::unserialize() rejects data that is not an array.
+     */
+    public function testUnserializeRejectsNonArrayData()
+    {
+        $this->expectException(\UnexpectedValueException::class);
+
+        $this->createEventWithoutArguments()->unserialize(serialize(false));
+    }
+
+    /**
+     * __unserialize() rejects data with missing or wrongly typed keys.
+     */
+    #[DataProvider('invalidSerializedDataProvider')]
+    public function testUnserializeRejectsInvalidData(array $data)
+    {
+        $this->expectException(\UnexpectedValueException::class);
+
+        $this->createEventWithoutArguments()->__unserialize($data);
+    }
+
+    public static function invalidSerializedDataProvider(): array
+    {
+        return [
+            'empty'            => [[]],
+            'missing stopped'  => [['name' => 'test', 'arguments' => []]],
+            'null name'        => [['name' => null, 'arguments' => [], 'stopped' => false]],
+            'scalar arguments' => [['name' => 'test', 'arguments' => 'foo', 'stopped' => false]],
+            'non-bool stopped' => [['name' => 'test', 'arguments' => [], 'stopped' => 1]],
+        ];
     }
 
     /**

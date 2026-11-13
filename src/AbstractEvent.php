@@ -12,6 +12,7 @@ namespace Joomla\Event;
 use ArrayAccess;
 use Countable;
 use Serializable;
+use UnexpectedValueException;
 
 /**
  * Implementation of EventInterface.
@@ -188,10 +189,17 @@ abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializabl
      * @return  void
      *
      * @since   1.0
+     * @throws  UnexpectedValueException  If the serialized data is not a valid event.
      */
     public function unserialize($serialized)
     {
-        $this->__unserialize(unserialize($serialized));
+        $data = unserialize($serialized);
+
+        if (!\is_array($data)) {
+            throw new UnexpectedValueException('The serialized data is not a valid event.');
+        }
+
+        $this->__unserialize($data);
     }
 
     /**
@@ -202,9 +210,19 @@ abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializabl
      * @return  void
      *
      * @since   2.0.0
+     * @throws  UnexpectedValueException  If the data is not a valid event.
      */
     public function __unserialize(array $data)
     {
+        if (
+            !isset($data['name'], $data['arguments'], $data['stopped'])
+            || !\is_string($data['name'])
+            || !\is_array($data['arguments'])
+            || !\is_bool($data['stopped'])
+        ) {
+            throw new UnexpectedValueException('The serialized data is not a valid event.');
+        }
+
         $this->name      = $data['name'];
         $this->arguments = $data['arguments'];
         $this->stopped   = $data['stopped'];
