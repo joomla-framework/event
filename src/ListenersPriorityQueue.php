@@ -23,7 +23,7 @@ final class ListenersPriorityQueue implements \IteratorAggregate, \Countable
      * @var    array
      * @since  2.0.0
      */
-    private $listeners = [];
+    private array $listeners = [];
 
     /**
      * Add a listener with the given priority only if not already present.
@@ -92,7 +92,7 @@ final class ListenersPriorityQueue implements \IteratorAggregate, \Countable
      *
      * @since   1.0
      */
-    public function getPriority(callable $callback, $default = null)
+    public function getPriority(callable $callback, mixed $default = null): mixed
     {
         foreach ($this->listeners as $priority => $listeners) {
             if (($key = array_search($callback, $listeners, true)) !== false) {
@@ -128,8 +128,7 @@ final class ListenersPriorityQueue implements \IteratorAggregate, \Countable
      *
      * @since   1.0
      */
-    #[\ReturnTypeWillChange]
-    public function getIterator()
+    public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->getAll());
     }
@@ -141,8 +140,7 @@ final class ListenersPriorityQueue implements \IteratorAggregate, \Countable
      *
      * @since   1.0
      */
-    #[\ReturnTypeWillChange]
-    public function count()
+    public function count(): int
     {
         $count = 0;
 

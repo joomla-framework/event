@@ -50,3 +50,36 @@ $event = unserialize($data);
 Events serialized with v4 use the `O:` format of `__serialize()` already and can be unserialized
 with v5. Data in the old `C:` format, written through `Serializable` (by 1.x, or on PHP before 7.4),
 can no longer be restored: it yields an event without name and arguments.
+
+## Native parameter, return and property types
+
+The interfaces and classes now declare native types instead of docblock types, and
+`#[\ReturnTypeWillChange]` is gone. Implementations and subclasses must use compatible signatures.
+
+| Method | v5 signature |
+|---|---|
+| `EventInterface::getArgument()` | `getArgument(string\|int $name, mixed $default = null): mixed` |
+| `EventInterface::getName()` | `getName(): string` |
+| `EventInterface::isStopped()` | `isStopped(): bool` |
+| `AbstractEvent::__construct()`, `EventImmutable::__construct()` | `__construct(string $name, array $arguments = [])` |
+| `AbstractEvent::hasArgument()` | `hasArgument(string\|int $name): bool` |
+| `AbstractEvent::getArguments()` | `getArguments(): array` |
+| `AbstractEvent::count()` | `count(): int` |
+| `AbstractEvent::__serialize()` / `__unserialize()` | `__serialize(): array` / `__unserialize(array $data): void` |
+| `AbstractEvent::offsetExists()` / `offsetGet()` | `offsetExists(mixed $name): bool` / `offsetGet(mixed $name): mixed` |
+| `Event::addArgument()` / `setArgument()` | `(string\|int $name, mixed $value): static` |
+| `Event::removeArgument()` | `removeArgument(string\|int $name): mixed` |
+| `Event::clearArguments()` | `clearArguments(): array` |
+| `Event`/`EventImmutable::offsetSet()` / `offsetUnset()` | `offsetSet(mixed $name, mixed $value): void` / `offsetUnset(mixed $name): void` |
+| `DispatcherInterface::clearListeners()` | `clearListeners(?string $event = null): static` |
+| `DispatcherInterface::countListeners()` | `countListeners(string $event): int` |
+| `DispatcherInterface::getListeners()` | `getListeners(?string $event = null): array` |
+| `DispatcherInterface::hasListener()` | `hasListener(callable $callback, ?string $eventName = null): bool` |
+| `Dispatcher::getListenerPriority()` | `getListenerPriority(string $eventName, callable $callback): ?int` |
+| `ListenersPriorityQueue` (internal) | `getPriority(): mixed`, `getIterator(): ArrayIterator`, `count(): int` |
+
+The event name must now be a string (it is passed to `dispatch(string $name, ...)` anyway).
+`AbstractEvent::$name`, `$arguments` and `$stopped` and `Dispatcher::$listeners` are typed
+properties, so subclasses that redeclare them must use the same types.
+`Dispatcher::getListenerPriority()` now returns `null` explicitly when the event is unknown
+(previously the method ended without a return statement).

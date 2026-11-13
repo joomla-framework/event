@@ -20,14 +20,14 @@ interface EventInterface
     /**
      * Get an event argument value.
      *
-     * @param   string  $name     The argument name.
-     * @param   mixed   $default  The default value if not found.
+     * @param   string|integer  $name     The argument name.
+     * @param   mixed           $default  The default value if not found.
      *
      * @return  mixed  The argument value or the default value.
      *
      * @since   2.0.0
      */
-    public function getArgument($name, $default = null);
+    public function getArgument(string|int $name, mixed $default = null): mixed;
 
     /**
      * Get the event name.
@@ -36,7 +36,7 @@ interface EventInterface
      *
      * @since   1.0
      */
-    public function getName();
+    public function getName(): string;
 
     /**
      * Tell if the event propagation is stopped.
@@ -45,7 +45,7 @@ interface EventInterface
      *
      * @since   1.0
      */
-    public function isStopped();
+    public function isStopped(): bool;
 
     /**
      * Stops the propagation of the event to further event listeners.

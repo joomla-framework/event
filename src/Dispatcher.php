@@ -22,7 +22,7 @@ class Dispatcher implements DispatcherInterface
      * @var    ListenersPriorityQueue[]
      * @since  1.0
      */
-    protected $listeners = [];
+    protected array $listeners = [];
 
     /**
      * Attaches a listener to an event
@@ -52,15 +52,17 @@ class Dispatcher implements DispatcherInterface
      * @param   string    $eventName  The event to listen to.
      * @param   callable  $callback   A callable function
      *
-     * @return  mixed  The listener priority or null if the listener doesn't exist.
+     * @return  ?integer  The listener priority or null if the listener doesn't exist.
      *
      * @since   1.0
      */
-    public function getListenerPriority($eventName, callable $callback)
+    public function getListenerPriority(string $eventName, callable $callback): ?int
     {
         if (isset($this->listeners[$eventName])) {
             return $this->listeners[$eventName]->getPriority($callback);
         }
+
+        return null;
     }
 
     /**
@@ -72,7 +74,7 @@ class Dispatcher implements DispatcherInterface
      *
      * @since   1.0
      */
-    public function getListeners(?string $event = null)
+    public function getListeners(?string $event = null): array
     {
         if ($event !== null) {
             if (isset($this->listeners[$event])) {
@@ -103,7 +105,7 @@ class Dispatcher implements DispatcherInterface
      *
      * @since   1.0
      */
-    public function hasListener(callable $callback, ?string $eventName = null)
+    public function hasListener(callable $callback, ?string $eventName = null): bool
     {
         if ($eventName) {
             if (isset($this->listeners[$eventName])) {
@@ -142,13 +144,13 @@ class Dispatcher implements DispatcherInterface
      *
      * If an event is specified, the listeners will be cleared only for that event.
      *
-     * @param   string  $event  The event name.
+     * @param   ?string  $event  The event name, or null to clear the listeners of all events.
      *
      * @return  $this
      *
      * @since   1.0
      */
-    public function clearListeners($event = null)
+    public function clearListeners(?string $event = null): static
     {
         if ($event) {
             if (isset($this->listeners[$event])) {
@@ -170,7 +172,7 @@ class Dispatcher implements DispatcherInterface
      *
      * @since   1.0
      */
-    public function countListeners($event)
+    public function countListeners(string $event): int
     {
         return isset($this->listeners[$event]) ? \count($this->listeners[$event]) : 0;
     }

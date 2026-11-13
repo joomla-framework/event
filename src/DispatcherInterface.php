@@ -46,13 +46,13 @@ interface DispatcherInterface
      *
      * If an event is specified, the listeners will be cleared only for that event.
      *
-     * @param   string  $event  The event name.
+     * @param   ?string  $event  The event name, or null to clear the listeners of all events.
      *
      * @return  $this
      *
      * @since   2.0.0
      */
-    public function clearListeners($event = null);
+    public function clearListeners(?string $event = null): static;
 
     /**
      * Count the number of registered listeners for the given event.
@@ -63,7 +63,7 @@ interface DispatcherInterface
      *
      * @since   2.0.0
      */
-    public function countListeners($event);
+    public function countListeners(string $event): int;
 
     /**
      * Get the listeners registered to the given event.
@@ -74,7 +74,7 @@ interface DispatcherInterface
      *
      * @since   2.0.0
      */
-    public function getListeners(?string $event = null);
+    public function getListeners(?string $event = null): array;
 
     /**
      * Tell if the given listener has been added.
@@ -88,7 +88,7 @@ interface DispatcherInterface
      *
      * @since   2.0.0
      */
-    public function hasListener(callable $callback, ?string $eventName = null);
+    public function hasListener(callable $callback, ?string $eventName = null): bool;
 
     /**
      * Removes an event listener from the specified event.

@@ -515,4 +515,20 @@ class DispatcherTest extends TestCase
 
         $this->instance->dispatch('onTest');
     }
+
+    /**
+     * getListenerPriority() explicitly returns null for an unknown event or listener.
+     */
+    public function testGetListenerPriorityReturnsNullForUnknownListeners()
+    {
+        $listener = function () {
+        };
+
+        $this->assertNull($this->instance->getListenerPriority('onUnknown', $listener));
+
+        $this->instance->addListener('onTest', function () {
+        });
+
+        $this->assertNull($this->instance->getListenerPriority('onTest', $listener));
+    }
 }

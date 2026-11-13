@@ -28,7 +28,7 @@ class Event extends AbstractEvent
      *
      * @since   1.0
      */
-    public function addArgument($name, $value)
+    public function addArgument(string|int $name, mixed $value): static
     {
         if (!isset($this->arguments[$name])) {
             $this->arguments[$name] = $value;
@@ -47,7 +47,7 @@ class Event extends AbstractEvent
      *
      * @since   1.0
      */
-    public function setArgument($name, $value)
+    public function setArgument(string|int $name, mixed $value): static
     {
         $this->arguments[$name] = $value;
 
@@ -63,7 +63,7 @@ class Event extends AbstractEvent
      *
      * @since   1.0
      */
-    public function removeArgument($name)
+    public function removeArgument(string|int $name): mixed
     {
         $return = null;
 
@@ -82,7 +82,7 @@ class Event extends AbstractEvent
      *
      * @since   1.0
      */
-    public function clearArguments()
+    public function clearArguments(): array
     {
         $arguments       = $this->arguments;
         $this->arguments = [];
@@ -101,7 +101,7 @@ class Event extends AbstractEvent
      * @since   1.0
      * @throws  InvalidArgumentException  If the argument name is null.
      */
-    public function offsetSet($name, $value): void
+    public function offsetSet(mixed $name, mixed $value): void
     {
         if ($name == null) {
             throw new InvalidArgumentException('The argument name cannot be null.');
@@ -119,7 +119,7 @@ class Event extends AbstractEvent
      *
      * @since   1.0
      */
-    public function offsetUnset($name): void
+    public function offsetUnset(mixed $name): void
     {
         $this->removeArgument($name);
     }
