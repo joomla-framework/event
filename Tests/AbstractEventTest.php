@@ -145,6 +145,19 @@ class AbstractEventTest extends TestCase
      *
      * @return  AbstractEvent|MockObject
      */
+    /**
+     * An argument with a null value exists and is returned as null.
+     */
+    public function testNullValuedArgumentExists()
+    {
+        $event = new Event('test', ['foo' => null]);
+
+        $this->assertTrue($event->hasArgument('foo'));
+        $this->assertTrue(isset($event['foo']));
+        $this->assertNull($event->getArgument('foo', 'default'));
+        $this->assertSame('default', $event->getArgument('bar', 'default'));
+    }
+
     private function createEventWithoutArguments(): AbstractEvent
     {
         return new TestAbstractEvent('test');
