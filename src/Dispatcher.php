@@ -427,6 +427,8 @@ class Dispatcher implements DispatcherInterface
      * @param   ?EventInterface  $event  The event to pass to the event handlers/listeners.
      *                                   If not supplied, an empty EventInterface instance is created.
      *                                   Note, not passing an event is deprecated and will be required as of 3.0.
+     *                                   The listeners registered for the event object's name are called. Passing an
+     *                                   event whose name differs from $name is deprecated.
      *
      * @return  EventInterface
      *
@@ -443,6 +445,17 @@ class Dispatcher implements DispatcherInterface
             );
 
             $event = $this->getDefaultEvent($name);
+        } elseif ($event->getName() !== $name) {
+            trigger_deprecation(
+                'joomla/event',
+                '__DEPLOY_VERSION__',
+                'Passing an event named "%s" to %s() for the event "%s" is deprecated and will not be supported in 5.0.'
+                . ' The listeners for "%s" are called.',
+                $event->getName(),
+                __METHOD__,
+                $name,
+                $event->getName()
+            );
         }
 
         if (isset($this->listeners[$event->getName()])) {

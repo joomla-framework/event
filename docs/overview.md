@@ -434,7 +434,8 @@ are those registered for `$event->getName()`, not for the `$name` parameter:
 $dispatcher->dispatch('onBeforeSave', new Event('onAfterSave'));   // runs onAfterSave listeners
 ```
 
-Keep the two identical.
+Keep the two identical. Passing an event whose name differs from `$name` triggers a deprecation
+notice and will not be supported in 5.0.
 
 **A listener that throws aborts the chain.** There is no error isolation, so one failing listener
 prevents every later listener for that event from running. Catch inside listeners that can fail.
