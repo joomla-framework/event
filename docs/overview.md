@@ -425,6 +425,9 @@ $dispatcher->addListener('some.event', new LazyServiceEventListener($container, 
 $dispatcher->addListener('some.event', new LazyServiceEventListener($container, 'lazy.service.listener_with_method_name', 'onSomeEvent'));
 ```
 
+When a method name is given, that method is called even if the service also has an `__invoke()` method. `__invoke()` is
+only used when no method name is given.
+
 ## Things to know before you build on this
 
 **`dispatch()` ignores its first argument when an event object is passed.** The listeners that run
@@ -439,10 +442,8 @@ Keep the two identical.
 **A listener that throws aborts the chain.** There is no error isolation, so one failing listener
 prevents every later listener for that event from running. Catch inside listeners that can fail.
 
-**`LazyServiceEventListener` prefers `__invoke()` over the method you named.** The service is
-checked with `is_callable()` before `$method` is considered, so an invokable service ignores an
-explicitly configured method name. All of its validation also happens at dispatch time, not at
-registration.
+**`LazyServiceEventListener` validates at dispatch time, not at registration.** A missing service,
+a missing method or a service that is not invokable only shows up when the event is dispatched.
 
 **Registering the same subscriber twice runs its listeners twice.** `addListener()` always appends
 and returns `true`; there is no duplicate check.

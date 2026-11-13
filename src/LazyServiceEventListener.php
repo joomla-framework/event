@@ -47,7 +47,7 @@ final class LazyServiceEventListener
      *
      * @param   ContainerInterface  $container  The service container to load the service from when it shall be executed
      * @param   string              $serviceId  The ID of the service from the container to be used
-     * @param   string              $method     The method from the service to be called if necessary. If left empty, the service must be a callable;
+     * @param   string              $method     The method from the service to be called. If left empty, the service must be a callable;
      *                                          (i.e. have an `__invoke()` method on a class)
      *
      * @since   2.0.0
@@ -93,14 +93,14 @@ final class LazyServiceEventListener
 
         $service = $this->container->get($this->serviceId);
 
-        // If the service is callable on its own, just execute it
-        if (\is_callable($service)) {
-            \call_user_func($service, $event);
-
-            return;
-        }
-
+        // Without a method name, the service must be callable on its own
         if (empty($this->method)) {
+            if (\is_callable($service)) {
+                \call_user_func($service, $event);
+
+                return;
+            }
+
             throw new \InvalidArgumentException(
                 sprintf(
                     'The $method argument is required when creating a "%s" to call a method from the "%s" service.',

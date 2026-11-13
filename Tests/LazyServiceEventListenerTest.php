@@ -144,6 +144,43 @@ class LazyServiceEventListenerTest extends TestCase
     }
 
     /**
+     * An explicitly configured method is called even if the service is invokable.
+     */
+    public function testListenerPrefersTheNamedMethodOverAnInvocableClass()
+    {
+        $serviceId = 'lazy.object';
+
+        $service = new class () {
+            public $called = [];
+
+            public function __invoke(): void
+            {
+                $this->called[] = '__invoke';
+            }
+
+            public function trigger(): void
+            {
+                $this->called[] = 'trigger';
+            }
+        };
+
+        $container = $this->buildStubContainer();
+        $container->set(
+            $serviceId,
+            static function () use ($service) {
+                return $service;
+            }
+        );
+
+        $event = $this->createStub(EventInterface::class);
+
+        (new LazyServiceEventListener($container, $serviceId, 'trigger'))($event);
+        (new LazyServiceEventListener($container, $serviceId))($event);
+
+        $this->assertSame(['trigger', '__invoke'], $service->called);
+    }
+
+    /**
      * @testdox  The listener cannot forward a call to an unknown service
      *
      * @covers   Joomla\Event\LazyServiceEventListener
