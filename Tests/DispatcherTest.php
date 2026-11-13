@@ -715,4 +715,37 @@ class DispatcherTest extends TestCase
         $this->assertFalse($this->instance->hasListener([$listener, 'onSomething']));
         $this->assertFalse($this->instance->hasListener([$listener, 'onAfterSomething']));
     }
+
+    /**
+     * dispatch() iterates over the listeners registered when it started: listeners removed during dispatch still run,
+     * listeners added during dispatch do not.
+     */
+    public function testDispatchUsesTheListenersRegisteredWhenItStarted()
+    {
+        $called = [];
+
+        $second = function () use (&$called) {
+            $called[] = 'second';
+        };
+        $added  = function () use (&$called) {
+            $called[] = 'added';
+        };
+
+        $this->instance->addListener(
+            'onSomething',
+            function () use (&$called, $second, $added) {
+                $called[] = 'first';
+                $this->instance->removeListener('onSomething', $second);
+                $this->instance->addListener('onSomething', $added);
+            },
+            Priority::HIGH
+        );
+        $this->instance->addListener('onSomething', $second);
+
+        $this->instance->dispatch('onSomething', new Event('onSomething'));
+
+        $this->assertSame(['first', 'second'], $called);
+        $this->assertFalse($this->instance->hasListener($second, 'onSomething'));
+        $this->assertTrue($this->instance->hasListener($added, 'onSomething'));
+    }
 }

@@ -436,6 +436,11 @@ $dispatcher->dispatch('onBeforeSave', new Event('onAfterSave'));   // runs onAft
 
 Keep the two identical.
 
+**`dispatch()` works on a snapshot of the listeners.** The listeners for an event are collected when
+`dispatch()` starts. A listener that removes a later listener during dispatch does not stop it from
+running for the current event, and a listener added during dispatch only runs from the next dispatch
+on.
+
 **A listener that throws aborts the chain.** There is no error isolation, so one failing listener
 prevents every later listener for that event from running. Catch inside listeners that can fail.
 
