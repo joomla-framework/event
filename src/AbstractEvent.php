@@ -11,14 +11,13 @@ namespace Joomla\Event;
 
 use ArrayAccess;
 use Countable;
-use Serializable;
 
 /**
  * Implementation of EventInterface.
  *
  * @since  1.0
  */
-abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializable, Countable
+abstract class AbstractEvent implements EventInterface, ArrayAccess, Countable
 {
     /**
      * The event name.
@@ -155,18 +154,6 @@ abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializabl
     /**
      * Serialize the event.
      *
-     * @return  string  The serialized event.
-     *
-     * @since   1.0
-     */
-    public function serialize()
-    {
-        return serialize($this->__serialize());
-    }
-
-    /**
-     * Serialize the event.
-     *
      * @return  array  The data to be serialized
      *
      * @since   2.0.0
@@ -178,20 +165,6 @@ abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializabl
             'arguments' => $this->arguments,
             'stopped'   => $this->stopped,
         ];
-    }
-
-    /**
-     * Unserialize the event.
-     *
-     * @param   string  $serialized  The serialized event.
-     *
-     * @return  void
-     *
-     * @since   1.0
-     */
-    public function unserialize($serialized)
-    {
-        $this->__unserialize(unserialize($serialized));
     }
 
     /**
