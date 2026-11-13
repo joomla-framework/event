@@ -19,16 +19,14 @@ interface DispatcherInterface
     /**
      * Dispatches an event to all registered listeners.
      *
-     * @param   string           $name   The name of the event to dispatch.
-     * @param   ?EventInterface  $event  The event to pass to the event handlers/listeners.
-     *                                   If not supplied, an empty EventInterface instance is created.
-     *                                   Note, not passing an event is deprecated and will be required as of 3.0.
+     * @param   string          $name   The name of the event to dispatch.
+     * @param   EventInterface  $event  The event to pass to the event handlers/listeners.
      *
      * @return  EventInterface
      *
      * @since   2.0.0
      */
-    public function dispatch(string $name, ?EventInterface $event = null): EventInterface;
+    public function dispatch(string $name, EventInterface $event): EventInterface;
 
     /**
      * Attaches a listener to an event
@@ -48,13 +46,13 @@ interface DispatcherInterface
      *
      * If an event is specified, the listeners will be cleared only for that event.
      *
-     * @param   string  $event  The event name.
+     * @param   ?string  $event  The event name, or null to clear the listeners of all events.
      *
      * @return  $this
      *
      * @since   2.0.0
      */
-    public function clearListeners($event = null);
+    public function clearListeners(?string $event = null): static;
 
     /**
      * Count the number of registered listeners for the given event.
@@ -65,7 +63,7 @@ interface DispatcherInterface
      *
      * @since   2.0.0
      */
-    public function countListeners($event);
+    public function countListeners(string $event): int;
 
     /**
      * Get the listeners registered to the given event.
@@ -76,7 +74,7 @@ interface DispatcherInterface
      *
      * @since   2.0.0
      */
-    public function getListeners(?string $event = null);
+    public function getListeners(?string $event = null): array;
 
     /**
      * Tell if the given listener has been added.
@@ -90,7 +88,7 @@ interface DispatcherInterface
      *
      * @since   2.0.0
      */
-    public function hasListener(callable $callback, ?string $eventName = null);
+    public function hasListener(callable $callback, ?string $eventName = null): bool;
 
     /**
      * Removes an event listener from the specified event.

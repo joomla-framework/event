@@ -31,7 +31,7 @@ final class EventImmutable extends AbstractEvent
      *
      * @var  boolean
      */
-    private $constructed = false;
+    private bool $constructed = false;
 
     /**
      * Constructor.
@@ -43,7 +43,7 @@ final class EventImmutable extends AbstractEvent
      *
      * @since   1.0
      */
-    public function __construct($name, array $arguments = [])
+    public function __construct(string $name, array $arguments = [])
     {
         if ($this->constructed) {
             throw new BadMethodCallException(
@@ -67,8 +67,7 @@ final class EventImmutable extends AbstractEvent
      * @since   1.0
      * @throws  BadMethodCallException
      */
-    #[\ReturnTypeWillChange]
-    public function offsetSet($name, $value)
+    public function offsetSet(mixed $name, mixed $value): void
     {
         throw new BadMethodCallException(
             sprintf(
@@ -90,8 +89,7 @@ final class EventImmutable extends AbstractEvent
      *
      * @since   1.0
      */
-    #[\ReturnTypeWillChange]
-    public function offsetUnset($name)
+    public function offsetUnset(mixed $name): void
     {
         throw new BadMethodCallException(
             sprintf(

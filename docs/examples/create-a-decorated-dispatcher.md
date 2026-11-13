@@ -84,7 +84,7 @@ final class DebugDispatcher implements DispatcherInterface
 	 *
 	 * @return  EventInterface  The event after being passed through all listeners.
 	 */
-	public function dispatch(string $name, ?EventInterface $event = null): EventInterface
+	public function dispatch(string $name, EventInterface $event): EventInterface
 	{
 		/** @var \DebugBar\DataCollector\TimeDataCollector $collector */
 		$collector = $this->debugBar['time'];
@@ -114,7 +114,7 @@ final class DebugDispatcher implements DispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function clearListeners($event = null)
+	public function clearListeners(?string $event = null): static
 	{
 		$this->dispatcher->clearListeners($event);
 
@@ -130,7 +130,7 @@ final class DebugDispatcher implements DispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function countListeners($event)
+	public function countListeners(string $event): int
 	{
 		return $this->dispatcher->countListeners($event);
 	}
@@ -142,7 +142,7 @@ final class DebugDispatcher implements DispatcherInterface
 	 *
 	 * @return  callable[]  An array of registered listeners sorted according to their priorities.
 	 */
-	public function getListeners(?string $event = null)
+	public function getListeners(?string $event = null): array
 	{
 		return $this->dispatcher->getListeners($event);
 	}
@@ -157,7 +157,7 @@ final class DebugDispatcher implements DispatcherInterface
 	 *
 	 * @return  boolean  True if the listener is registered, false otherwise.
 	 */
-	public function hasListener(callable $callback, ?string $eventName = null)
+	public function hasListener(callable $callback, ?string $eventName = null): bool
 	{
 		return $this->dispatcher->hasListener($callback, $eventName);
 	}

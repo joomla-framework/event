@@ -113,6 +113,19 @@ class AbstractEventTest extends TestCase
     }
 
     /**
+     * Events are serialized with __serialize()/__unserialize() only; the deprecated Serializable interface is gone.
+     */
+    public function testEventDoesNotImplementSerializable()
+    {
+        $event = $this->createEventWithArguments();
+
+        $this->assertNotInstanceOf(\Serializable::class, $event);
+        $this->assertFalse(method_exists($event, 'serialize'));
+        $this->assertFalse(method_exists($event, 'unserialize'));
+        $this->assertStringStartsWith('O:', serialize($event));
+    }
+
+    /**
      * @testdox  The event arguments can be checked for presence when accessing the event as an array
      *
      * @covers   Joomla\Event\AbstractEvent

@@ -11,14 +11,13 @@ namespace Joomla\Event;
 
 use ArrayAccess;
 use Countable;
-use Serializable;
 
 /**
  * Implementation of EventInterface.
  *
  * @since  1.0
  */
-abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializable, Countable
+abstract class AbstractEvent implements EventInterface, ArrayAccess, Countable
 {
     /**
      * The event name.
@@ -26,7 +25,7 @@ abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializabl
      * @var    string
      * @since  1.0
      */
-    protected $name;
+    protected string $name;
 
     /**
      * The event arguments.
@@ -34,7 +33,7 @@ abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializabl
      * @var    array
      * @since  1.0
      */
-    protected $arguments;
+    protected array $arguments;
 
     /**
      * A flag to see if the event propagation is stopped.
@@ -42,7 +41,7 @@ abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializabl
      * @var    boolean
      * @since  1.0
      */
-    protected $stopped = false;
+    protected bool $stopped = false;
 
     /**
      * Constructor.
@@ -52,7 +51,7 @@ abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializabl
      *
      * @since   1.0
      */
-    public function __construct($name, array $arguments = [])
+    public function __construct(string $name, array $arguments = [])
     {
         $this->name      = $name;
         $this->arguments = $arguments;
@@ -65,7 +64,7 @@ abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializabl
      *
      * @since   1.0
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -80,7 +79,7 @@ abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializabl
      *
      * @since   1.0
      */
-    public function getArgument($name, $default = null)
+    public function getArgument(string|int $name, mixed $default = null): mixed
     {
         if (isset($this->arguments[$name])) {
             return $this->arguments[$name];
@@ -98,7 +97,7 @@ abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializabl
      *
      * @since   1.0
      */
-    public function hasArgument($name)
+    public function hasArgument(string|int $name): bool
     {
         return isset($this->arguments[$name]);
     }
@@ -110,7 +109,7 @@ abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializabl
      *
      * @since   1.0
      */
-    public function getArguments()
+    public function getArguments(): array
     {
         return $this->arguments;
     }
@@ -122,7 +121,7 @@ abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializabl
      *
      * @since   1.0
      */
-    public function isStopped()
+    public function isStopped(): bool
     {
         return $this->stopped === true;
     }
@@ -146,22 +145,9 @@ abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializabl
      *
      * @since   1.0
      */
-    #[\ReturnTypeWillChange]
-    public function count()
+    public function count(): int
     {
         return \count($this->arguments);
-    }
-
-    /**
-     * Serialize the event.
-     *
-     * @return  string  The serialized event.
-     *
-     * @since   1.0
-     */
-    public function serialize()
-    {
-        return serialize($this->__serialize());
     }
 
     /**
@@ -171,7 +157,7 @@ abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializabl
      *
      * @since   2.0.0
      */
-    public function __serialize()
+    public function __serialize(): array
     {
         return [
             'name'      => $this->name,
@@ -183,27 +169,13 @@ abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializabl
     /**
      * Unserialize the event.
      *
-     * @param   string  $serialized  The serialized event.
-     *
-     * @return  void
-     *
-     * @since   1.0
-     */
-    public function unserialize($serialized)
-    {
-        $this->__unserialize(unserialize($serialized));
-    }
-
-    /**
-     * Unserialize the event.
-     *
      * @param   array  $data  The serialized event.
      *
      * @return  void
      *
      * @since   2.0.0
      */
-    public function __unserialize(array $data)
+    public function __unserialize(array $data): void
     {
         $this->name      = $data['name'];
         $this->arguments = $data['arguments'];
@@ -219,8 +191,7 @@ abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializabl
      *
      * @since   1.0
      */
-    #[\ReturnTypeWillChange]
-    public function offsetExists($name)
+    public function offsetExists(mixed $name): bool
     {
         return $this->hasArgument($name);
     }
@@ -234,8 +205,7 @@ abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializabl
      *
      * @since   1.0
      */
-    #[\ReturnTypeWillChange]
-    public function offsetGet($name)
+    public function offsetGet(mixed $name): mixed
     {
         return $this->getArgument($name);
     }

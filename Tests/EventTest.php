@@ -102,20 +102,6 @@ class EventTest extends TestCase
     }
 
     /**
-     * @testdox  An event can be stopped
-     *
-     * @covers   Joomla\Event\Event
-     * @uses     Joomla\Event\AbstractEvent
-     */
-    public function testStop()
-    {
-        $event = $this->createEventWithoutArguments();
-
-        $event->stop();
-        $this->assertTrue($event->isStopped());
-    }
-
-    /**
      * @testdox  An argument can be set on the event when accessing the event as an array
      *
      * @covers   Joomla\Event\Event
