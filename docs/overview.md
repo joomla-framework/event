@@ -246,45 +246,10 @@ $dispatcher->addSubscriber(new ContentSubscriber);
 $dispatcher->removeSubscriber(new ContentSubscriber);
 ```
 
-#### Registering Custom Events
-
-** NOTE: This functionality is deprecated and will be removed in 3.0 **
-
-You can register Events to the Dispatcher, if you need custom default event objects.
-
-```php
-<?php
-namespace App;
-
-use Joomla\Event\Dispatcher;
-use Joomla\Event\Event;
-
-// Creating an event with a "foo" argument.
-$event = new Event('onBeforeContentSave');
-$event->setArgument('foo', 'bar');
-
-// Registering the event to the Dispatcher.
-$dispatcher = new Dispatcher;
-$dispatcher->addEvent($event);
-```
-
-By default, an `Event` object is created with no arguments, when triggering the Event.
-
 #### Dispatching Events
 
-Once you registered your listeners (and eventually events to the Dispatcher), you can dispatch the events.
-
-The listeners will be called in a queue according to their priority for that Event.
-
-```php
-<?php
-// Triggering the onAfterSomething Event.
-$dispatcher->dispatch('onAfterSomething');
-```
-
-If you registered an Event object having the `onAfterSomething` name, then it will be passed to all listeners instead of the default one.
-
-You can also pass a custom Event when triggering it
+Once you registered your listeners, you can dispatch the events. `dispatch()` requires an event object whose name
+matches the event name; the listeners will be called in a queue according to their priority for that Event.
 
 ```php
 <?php
@@ -337,6 +302,7 @@ namespace App;
 
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
+use Joomla\Event\Event;
 
 class ContentModel implements DispatcherAwareInterface
 {
@@ -347,11 +313,11 @@ class ContentModel implements DispatcherAwareInterface
 
 	public function save()
 	{
-		$this->dispatcher->dispatch(self::ON_BEFORE_SAVE_EVENT);
+		$this->dispatcher->dispatch(self::ON_BEFORE_SAVE_EVENT, new Event(self::ON_BEFORE_SAVE_EVENT));
 
 		// Perform the saving.
 
-		$this->dispatcher->dispatch(self::ON_AFTER_SAVE_EVENT);
+		$this->dispatcher->dispatch(self::ON_AFTER_SAVE_EVENT, new Event(self::ON_AFTER_SAVE_EVENT));
 	}
 }
 ```
