@@ -55,6 +55,10 @@ An event subscriber can listen to one or more Events. A subscriber is any PHP cl
 
 The subscriber listens to events as configured by the `getSubscribedEvents()` method.
 
+`getSubscribedEvents()` is static because it can be called without an instance of the subscriber, for example by an application
+that registers subscribers lazily or caches the map of listeners. It must not depend on runtime state and must always return the same
+mapping. Put conditional logic (configuration, the current user, the request, …) into the methods handling the events instead.
+
 ```php
 <?php
 namespace App;

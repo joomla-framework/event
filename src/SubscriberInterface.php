@@ -19,6 +19,11 @@ interface SubscriberInterface
     /**
      * Returns an array of events this subscriber will listen to.
      *
+     * The method is static because it can be called without an instance of the subscriber, for example by an application
+     * that registers subscribers lazily or caches the map of listeners. It must therefore not depend on runtime state and
+     * must always return the same mapping. All logic depending on runtime state must be put into the individual
+     * methods handling the events.
+     *
      * The array keys are event names and the value can be:
      *
      *  - The method name to call (priority defaults to 0)
