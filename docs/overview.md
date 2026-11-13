@@ -248,7 +248,7 @@ $dispatcher->removeSubscriber(new ContentSubscriber);
 
 #### Registering Custom Events
 
-** NOTE: This functionality is deprecated and will be removed in 3.0 **
+** NOTE: This functionality is deprecated and will be removed in 5.0. Create the event object yourself and pass it to `dispatch()` instead (see below). **
 
 You can register Events to the Dispatcher, if you need custom default event objects.
 
@@ -272,19 +272,8 @@ By default, an `Event` object is created with no arguments, when triggering the 
 
 #### Dispatching Events
 
-Once you registered your listeners (and eventually events to the Dispatcher), you can dispatch the events.
-
-The listeners will be called in a queue according to their priority for that Event.
-
-```php
-<?php
-// Triggering the onAfterSomething Event.
-$dispatcher->dispatch('onAfterSomething');
-```
-
-If you registered an Event object having the `onAfterSomething` name, then it will be passed to all listeners instead of the default one.
-
-You can also pass a custom Event when triggering it
+Once you registered your listeners, you can dispatch the events. Always pass an event object whose name matches the
+event name; the listeners will be called in a queue according to their priority for that Event.
 
 ```php
 <?php
@@ -302,6 +291,11 @@ $dispatcher = new Dispatcher;
 // Triggering the onAfterSomething Event.
 $dispatcher->dispatch('onAfterSomething', $event);
 ```
+
+Calling `dispatch()` without an event object is deprecated and will be removed in 5.0. The dispatcher then creates an
+empty `Event` (or uses an Event object registered with the deprecated `addEvent()`/`setEvent()`). The deprecated
+`Dispatcher::triggerEvent()` is replaced by `dispatch()` and `Event::stop()` by `stopPropagation()`; both will be
+removed in 5.0 as well.
 
 ### Stopping the Propagation
 
@@ -337,6 +331,7 @@ namespace App;
 
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
+use Joomla\Event\Event;
 
 class ContentModel implements DispatcherAwareInterface
 {
@@ -347,11 +342,11 @@ class ContentModel implements DispatcherAwareInterface
 
 	public function save()
 	{
-		$this->dispatcher->dispatch(self::ON_BEFORE_SAVE_EVENT);
+		$this->dispatcher->dispatch(self::ON_BEFORE_SAVE_EVENT, new Event(self::ON_BEFORE_SAVE_EVENT));
 
 		// Perform the saving.
 
-		$this->dispatcher->dispatch(self::ON_AFTER_SAVE_EVENT);
+		$this->dispatcher->dispatch(self::ON_AFTER_SAVE_EVENT, new Event(self::ON_AFTER_SAVE_EVENT));
 	}
 }
 ```
